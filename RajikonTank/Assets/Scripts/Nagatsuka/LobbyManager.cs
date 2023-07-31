@@ -5,7 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+<<<<<<< HEAD
 using ConstList;
+=======
+//using ConstList;
+>>>>>>> main
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -49,7 +53,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             Buttons.Add(ButtonRoot.gameObject.transform.GetChild(i).gameObject);
         }
+<<<<<<< HEAD
         GetComponent<SelectButton>().AddButton(Buttons);
+=======
+        //GetComponent<SelectButton>().AddButton(Buttons);
+>>>>>>> main
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -106,7 +114,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             yield return null;
         }
+<<<<<<< HEAD
         SceneManager.LoadScene(SceanNames.STARTTITLE.ToString());
+=======
+        //SceneManager.LoadScene(SceanNames.STARTTITLE.ToString());
+>>>>>>> main
     }
 
     public void ItemInfbuttonPush()
@@ -124,7 +136,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         //BGMManager.Instance.SetBGM(BGMid.TITLE);
 
+<<<<<<< HEAD
         PhotonNetwork.LocalPlayer.SetGameStatus((int)GAMESTATUS.NONE);
+=======
+        //PhotonNetwork.LocalPlayer.SetGameStatus((int)GAMESTATUS.NONE);
+>>>>>>> main
     }
 
     // Update is called once per frame
@@ -132,12 +148,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (isItemInf)
         {
+<<<<<<< HEAD
             GetComponent<SelectButton>().enabled = false;
+=======
+            //GetComponent<SelectButton>().enabled = false;
+>>>>>>> main
             ItemPanel.SetActive(true);
             if (Input.anyKeyDown)
             {
                 isItemInf = false;
+<<<<<<< HEAD
                 GetComponent<SelectButton>().enabled = true;
+=======
+                //GetComponent<SelectButton>().enabled = true;
+>>>>>>> main
                 ItemPanel.SetActive(false);
             }
         }
