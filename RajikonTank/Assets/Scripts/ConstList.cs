@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace ConstList
 {
     public enum KeyList
     {
         NONE,
         A,
-        B,
-        C,
         D,
+        S,
+        W,
+        UPARROW,
+        RIGHTARROW,
+        LEFTARROW,
+        DOWNARROW,
+        SPACE,
     }
 }

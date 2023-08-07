@@ -6,13 +6,16 @@ using ConstList;
 public class Tank : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
-    // Start is called before the first frame update
+    [SerializeField] GameObject Target;    // “®‚©‚·‘ÎÛ.
+    [SerializeField] float MoveSpeed;      // ˆÚ“®‚·‚é‘¬‚³.
+    [SerializeField] float RotationSpeed;  // ‰ñ“]‚·‚é‘¬‚³.
+    private float RotationAngle;           // —İÏ‰ñ“]Šp“x
+
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveInput(PlayerInput.KeyInput());
@@ -26,17 +29,31 @@ public class Tank : MonoBehaviour
 
     private void Move(KeyList keylist)
     {
+        Debug.Log(keylist);
+
+        var rotation = RotationSpeed * Time.deltaTime;
+
         switch (keylist)
         {
+
             case KeyList.A:
-                Debug.Log("A");
+                RotationAngle -= rotation;
                 break;
-            case KeyList.B:
-                Debug.Log("B");
+            case KeyList.D:
+                RotationAngle += rotation;
                 break;
-            case KeyList.C:
-                Debug.Log("C");
+            case KeyList.S:
+                Target.transform.position -= Target.transform.forward * MoveSpeed / 1.5f * Time.deltaTime;
+                break;
+            case KeyList.W:
+                Target.transform.position += Target.transform.forward * MoveSpeed * Time.deltaTime;
+                break;
+            default:
+
                 break;
         }
+
+        // —İÏ‰ñ“]Šp“x‚ğ‚à‚Æ‚É‰ñ“]‚³‚¹‚é
+        Target.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
     }
 }
