@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Nagatsuka/LOBBY.unity
+    guid: bc306e0a1e6d1834d95e1c00c13317de
+  - enabled: 1
+    path: Assets/Scenes/Nagatsuka/WaitRoom.unity
+    guid: a480dd2ee518cfa45b20820165f19200
   m_configObjects: {}

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
-//using ConstList;
+using ConstList;
+
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -16,11 +17,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [SerializeField, Tooltip("1ルームの参加人数")] int MaxPlayer;
     [SerializeField, Tooltip("参加ボタンリスト")] CanvasGroup ButtonRoot;
-    [SerializeField, Tooltip("アイテム説明パネル")] GameObject ItemPanel;
+    [SerializeField, Tooltip("モード選択パネル")] GameObject ModeSelectPanel;
     //ロビー参加済みか
     private bool isInLobby;
-    //アイテム資料説明中
-    private bool isItemInf;
 
     private List<RoomInfo> RoomInfos;
 
@@ -47,9 +46,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         List<GameObject> Buttons = new List<GameObject>();
         for(int i=0;i< ButtonRoot.gameObject.transform.childCount;  i++)
         {
-            Buttons.Add(ButtonRoot.gameObject.transform.GetChild(i).gameObject);
+            Buttons.Add(ButtonRoot.gameObject.transform.GetChild(i).gameObject);//ここでボタンの要素を追加している.
         }
-        //GetComponent<SelectButton>().AddButton(Buttons);
+
+        GetComponent<SelectButton>().AddButton(Buttons);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -64,26 +64,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             var button = ButtonRoot.transform.GetChild(int.Parse(room.Name));
             button.transform.GetChild(0).GetComponent<Text>().text = RoomHead+room.Name+RoomMidle + room.PlayerCount + "/" + room.MaxPlayers 
                                                                      + "\n"+ (room.IsOpen ? RoomOK : RoomNotOK);
+
+            //入室できるルームのみボタンを押せるようにする.
             if (room.IsOpen)
             {
-                button.GetComponent<Button>().interactable = true;
+                button.GetComponent<Button>().interactable = true;//ボタン押下可能状態に.
             }
             else
             {
-                button.GetComponent<Button>().interactable = false;
+                button.GetComponent<Button>().interactable = false;//ボタン押下不可状態に.
             }
         }
     }
 
     /// <summary>
-    /// ボタンを押したら呼べるようにする
+    /// ルームのボタンを押したら呼べるようにする
     /// </summary>
     public void JoinRoom(int RoomNm)
     {
-        ButtonRoot.interactable = false;
-        ConectServer.RoomProperties.RoomName = RoomNm.ToString();
-        ConectServer.RoomProperties.MaxPlayer = MaxPlayer;
-        SceneManager.LoadScene("WaitRoom");
+        ButtonRoot.interactable = false;                          //他のルームのボタンを押下不可にする.
+        ConectServer.RoomProperties.RoomName = RoomNm.ToString(); //入室するルームの名前を設定.
+        ConectServer.RoomProperties.MaxPlayer = MaxPlayer;        //ルームに参加できる人数の設定.
+        SceneManager.LoadScene("WaitRoom");                       //ゲーム待機シーンに移動.
     }
 
     public void SoloMode()
@@ -95,51 +97,53 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void TitleBack()
     {
-        StartCoroutine(WaitDisConect());
-        
+        StartCoroutine(WaitDisConect()); 
     }
 
     IEnumerator WaitDisConect()
     {
-        PhotonNetwork.Disconnect();
-        while (PhotonNetwork.IsConnected)
+        PhotonNetwork.Disconnect();      //Photonのサーバーから切断.
+        while (PhotonNetwork.IsConnected)//接続していたら切断するまでループする.
         {
             yield return null;
         }
-        //SceneManager.LoadScene(SceanNames.STARTTITLE.ToString());
+        SceneManager.LoadScene(SceanNames.STARTTITLE.ToString());
+
     }
 
-    public void ItemInfbuttonPush()
-    {
-        isItemInf = true;
-    }
-
+    #region Unityイベント(Start・Update)
     // Start is called before the first frame update
     void Start()
     {
         isInLobby = false;
-        isItemInf = false;
         //参加処理中かロビー参加前は押せなくする
         ButtonRoot.interactable = false;
 
         //BGMManager.Instance.SetBGM(BGMid.TITLE);
 
-        //PhotonNetwork.LocalPlayer.SetGameStatus((int)GAMESTATUS.NONE);
+        PhotonNetwork.LocalPlayer.SetGameStatus((int)GAMESTATUS.NONE);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isItemInf)
-        {
-            //GetComponent<SelectButton>().enabled = false;
-            ItemPanel.SetActive(true);
-            if (Input.anyKeyDown)
-            {
-                isItemInf = false;
-                //GetComponent<SelectButton>().enabled = true;
-                ItemPanel.SetActive(false);
-            }
-        }
+    }
+    #endregion
+
+    /// <summary>
+    /// 複数人でプレイするボタンを押した際にパネルを表示する関数.
+    /// </summary>
+    public void PushMultiButton()
+    {
+        ModeSelectPanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// 人数選択画面に戻るボタンを押したときに呼び出す関数.
+    /// </summary>
+    public void PushModeBackButton()
+    {
+        ModeSelectPanel.SetActive(true);
     }
 }
