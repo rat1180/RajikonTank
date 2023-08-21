@@ -16,13 +16,42 @@ public class WaitRoomManager : MonoBehaviourPunCallbacks
 {
     [SerializeField, Tooltip("情報を表示するメッセージ")] Text MessageText;
     [SerializeField, Tooltip("開始ボタン")] Button SceanMoveButton;
-
+    [SerializeField, Tooltip("ルーム名を表示するテキスト")] Text RoomNameText;
     //マスターかどうか
     private bool isMaster;
     //ルーム内で接続できているか
     private bool isInRoom;
     //スタートしたかどうか
     private bool isStart;
+
+    //ルームのカスタムプロパティを設定する為の宣言.
+    ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+
+    #region Unityイベント(Start・Update)
+    // Start is called before the first frame update
+    void Start()
+    {
+        //PhotonNetwork.ConnectUsingSettings();
+        isMaster = false;
+        isInRoom = false;
+        isStart = false;
+        TryRoomJoin();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        RoomNameText.text = "RoomName:" + ConectServer.RoomProperties.RoomName;
+        if (isInRoom)
+        {
+            RoomStatusUpDate();
+            if (Input.GetKeyDown(KeyCode.Space) && SceanMoveButton.IsInteractable())
+            {
+                MoveGameScean();
+            }
+        }
+    }
+    #endregion
 
     /// <summary>
     /// 現在のメンバーでゲームシーンに移動する
@@ -43,16 +72,17 @@ public class WaitRoomManager : MonoBehaviourPunCallbacks
     /// </summary>
     void TryRoomJoin()
     {
+        Debug.Log("RoomName:"+ConectServer.RoomProperties.RoomName);
         //オフライン以外の時に接続
         if(ConectServer.RoomProperties.RoomName != "Offline")
         {
+            
             //タイトルで確立した情報で接続
             PhotonNetwork.JoinOrCreateRoom(ConectServer.RoomProperties.RoomName, new RoomOptions(), TypedLobby.Default);
         }
         else
         {
             StartCoroutine(WaitDisconect());
-            
         }
         
     }
@@ -87,6 +117,13 @@ public class WaitRoomManager : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("OnJoin");
+
+        //カスタムプロパティの設定(GAMESTATUS).
+        GAMESTATUS status = GAMESTATUS.NONE;
+
+        customProperties["GameStatus"] = status;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+        customProperties.Clear();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -101,8 +138,8 @@ public class WaitRoomManager : MonoBehaviourPunCallbacks
     /// </summary>
     void RoomStatusUpDate()
     {
-
-        if(PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        //RoomNameText.text = ConectServer.RoomProperties.RoomName.ToString();
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
@@ -129,26 +166,5 @@ public class WaitRoomManager : MonoBehaviourPunCallbacks
             //メンバリストを表示
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        isMaster = false;
-        isInRoom = false;
-        isStart = false;
-        TryRoomJoin();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isInRoom)
-        {
-            RoomStatusUpDate();
-            if (Input.GetKeyDown(KeyCode.Space) && SceanMoveButton.IsInteractable())
-            {
-                MoveGameScean();
-            }
-        }
-    }
+    
 }
