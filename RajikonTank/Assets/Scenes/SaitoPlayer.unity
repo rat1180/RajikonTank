@@ -458,8 +458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54bd3c7b48ab19f4fb95a64db4192004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tank: {fileID: 603615161}
-  BulletSpeed: 100
+  Tank: {fileID: 767769879}
+  BulletSpeed: 5
   MaxReflect: 0
   CntReflect: 0
 --- !u!1 &767769879
