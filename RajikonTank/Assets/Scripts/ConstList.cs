@@ -60,8 +60,12 @@ namespace ConstList
             for (int i = 0; i < bulletnm; i++)
             {
                 var obj = Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation,parentobject.transform);
-                Debug.LogError("’e‚Ì¶¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½");
-                if (obj == null) return false;
+
+                if (obj == null)
+                {
+                    Debug.LogError("’e‚Ì¶¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½");
+                    return false;
+                }
             }
             return true;
         }
