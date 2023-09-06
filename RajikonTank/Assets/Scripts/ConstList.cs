@@ -21,6 +21,7 @@ namespace ConstList
     //弾を生成する関数を持つstaticクラス
     public static class BulletGenerateClass
     {
+        //生成用フォルダへのパス
         const string GenerateFolderName = "";
 
         /// <summary>
@@ -53,19 +54,26 @@ namespace ConstList
         /// <param name="bulletname"></param>
         /// <param name="bulletnm"></param>
         /// <returns></returns>
-        public static bool BulletInstantiate(GameObject parentobject,string bulletname,int bulletnm)
+        public static bool BulletInstantiate(GameObject tank,GameObject parentobject,string bulletname,int bulletnm)
         {
+            //生成対象を探索
             var prefabobj = GetResorceObject(GenerateFolderName + bulletname);
 
+            //生成数まで繰り返す
             for (int i = 0; i < bulletnm; i++)
             {
+                //弾を親オブジェクト基準で生成
                 var obj = Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation,parentobject.transform);
 
+                //エラーチェック
                 if (obj == null)
                 {
                     Debug.LogError("弾の生成に失敗しました");
                     return false;
                 }
+
+                //弾にタンクをセット
+                //obj.GetComponent<Bullet>().SetTank(tank);
             }
             return true;
         }
