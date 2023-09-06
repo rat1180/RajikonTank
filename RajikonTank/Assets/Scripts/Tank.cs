@@ -10,6 +10,7 @@ public class Tank : MonoBehaviour
     [SerializeField] float MoveSpeed;      // ˆÚ“®‚·‚é‘¬‚³.
     [SerializeField] float RotationSpeed;  // ‰ñ“]‚·‚é‘¬‚³.
     private float RotationAngle;           // —İÏ‰ñ“]Šp“x
+    [SerializeField]GameObject Bullet;
 
     void Start()
     {
@@ -47,6 +48,9 @@ public class Tank : MonoBehaviour
                 break;
             case KeyList.W:
                 Target.transform.position += Target.transform.forward * MoveSpeed * Time.deltaTime;
+                break;
+            case KeyList.SPACE:
+                BulletGenerateClass.BulletInstantiate(Bullet, "Bullet", 3);
                 break;
             default:
 

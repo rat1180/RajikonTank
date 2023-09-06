@@ -51,7 +51,7 @@ public class PlayerInput : MonoBehaviour
         {
             sendkey = KeyList.DOWNARROW;
         }
-        else if (Input.GetKey(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             sendkey = KeyList.SPACE;
         }
