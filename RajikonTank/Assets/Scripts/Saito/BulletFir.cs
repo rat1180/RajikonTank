@@ -23,7 +23,7 @@ public class BulletFir : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         
         CntReflect = 0;
-        BulletActive(false);
+        BulletActive(true);
         BulletMove();
     }
 

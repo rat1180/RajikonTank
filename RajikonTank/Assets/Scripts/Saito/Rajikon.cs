@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
 
-public class Tank : MonoBehaviour
+public class Rajikon : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
     [SerializeField] GameObject Target;    // ìÆÇ©Ç∑ëŒè€.
@@ -24,13 +24,13 @@ public class Tank : MonoBehaviour
 
     public void MoveInput(KeyList inputkey)
     {
-        Debug.Log(inputkey);
+        // Debug.Log(inputkey);
         Move(PlayerInput.KeyInput());
     }
 
     private void Move(KeyList keylist)
     {
-        Debug.Log(keylist);
+       // Debug.Log(keylist);
 
         var rotation = RotationSpeed * Time.deltaTime;
 
