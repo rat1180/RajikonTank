@@ -14,7 +14,8 @@ public enum EnemyAiState // 行動パターン
     MOVE,
     TURN,
     ATTACK,
-    AVOID
+    AVOID,
+    DEATH,
 }
 
 public class StateBaseAI : MonoBehaviour
@@ -99,6 +100,10 @@ public class StateBaseAI : MonoBehaviour
                     Debug.Log("敵射撃");
                     break;
                 case EnemyAiState.AVOID:
+                    break;
+                case EnemyAiState.DEATH:
+                    break;
+                default:
                     break;
             }
 
