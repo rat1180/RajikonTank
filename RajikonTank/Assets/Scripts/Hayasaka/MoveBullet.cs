@@ -27,12 +27,10 @@ public class MoveBullet : MonoBehaviour
     {
         Rb.velocity = new Vector3(0,Speed,0);
     }
-    void Reflect(GameObject WallObj)
+    void Reflect(Vector3 WallObj)
     {
-        // 法線ベクトル
-        var inNormal = WallObj.transform.up;
         // 反射ベクトル（速度）
-        var result = Vector3.Reflect(Direction, inNormal);
+        var result = Vector3.Reflect(Direction,WallObj);
 
         // バウンド後の速度をボールに反映
         Rb.velocity = result;
@@ -43,7 +41,7 @@ public class MoveBullet : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")    // 天井に直撃、死亡
         {
-            var WallObj = other.gameObject;
+            var WallObj = other.contacts[0].normal;
             Flg = true;
             Reflect(WallObj);
         }
