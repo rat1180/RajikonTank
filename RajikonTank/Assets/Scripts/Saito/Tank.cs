@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
+    [SerializeField] GameObject Rajikon;
     string HitObjTag;
 
     void Start()
@@ -30,7 +31,7 @@ public class Tank : MonoBehaviour
         {
             case "Bullet":
 
-                gameObject.SetActive(false);
+                Rajikon.gameObject.SetActive(false);
                 break;
             case "Tank":
 
