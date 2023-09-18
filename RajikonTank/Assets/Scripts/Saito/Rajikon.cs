@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
 
-public class Tank : MonoBehaviour
+public class Rajikon : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
     [SerializeField] GameObject Target;    // ìÆÇ©Ç∑ëŒè€.
     [SerializeField] float MoveSpeed;      // à⁄ìÆÇ∑ÇÈë¨Ç≥.
     [SerializeField] float RotationSpeed;  // âÒì]Ç∑ÇÈë¨Ç≥.
     private float RotationAngle;           // ó›êœâÒì]äpìx
+    [SerializeField]GameObject Bullet;
 
     void Start()
     {
@@ -23,13 +24,13 @@ public class Tank : MonoBehaviour
 
     public void MoveInput(KeyList inputkey)
     {
-        Debug.Log(inputkey);
+        // Debug.Log(inputkey);
         Move(PlayerInput.KeyInput());
     }
 
     private void Move(KeyList keylist)
     {
-        Debug.Log(keylist);
+       // Debug.Log(keylist);
 
         var rotation = RotationSpeed * Time.deltaTime;
 
@@ -47,6 +48,9 @@ public class Tank : MonoBehaviour
                 break;
             case KeyList.W:
                 Target.transform.position += Target.transform.forward * MoveSpeed * Time.deltaTime;
+                break;
+            case KeyList.SPACE:
+                BulletGenerateClass.BulletInstantiate(Bullet, "Bullet", 3);
                 break;
             default:
 

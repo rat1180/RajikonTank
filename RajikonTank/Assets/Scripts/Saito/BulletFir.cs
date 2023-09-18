@@ -21,8 +21,9 @@ public class BulletFir : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
         CntReflect = 0;
-        BulletActive(false);
+        BulletActive(true);
         BulletMove();
     }
 
@@ -51,6 +52,6 @@ public class BulletFir : MonoBehaviour
     /// </summary>
     private void BulletMove()
     {
-        rb.velocity = Tank.transform.forward * BulletSpeed * Time.deltaTime;
+        rb.velocity = transform.forward * BulletSpeed * Time.deltaTime;
     }
 }
