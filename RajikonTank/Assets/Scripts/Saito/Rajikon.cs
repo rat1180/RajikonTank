@@ -50,7 +50,7 @@ public class Rajikon : MonoBehaviour
                 Target.transform.position += Target.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
             case KeyList.SPACE:
-                BulletGenerateClass.BulletInstantiate(Bullet, "Bullet", 3);
+                BulletGenerateClass.BulletInstantiate(gameObject,Bullet, "Bullet", 3);
                 break;
             default:
 

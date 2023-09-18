@@ -7,6 +7,9 @@ public class Bullet : MonoBehaviour
     const int MAXBULLET = 5;
     bool CreateFlg;
     [SerializeField]GameObject[] Bullets;
+
+    //Rigidbody[] BulletRb;
+    //float Speed = 5.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,7 @@ public class Bullet : MonoBehaviour
         for (int i = 0; i < MAXBULLET; i++)
         {
             Bullets[i] = (GameObject)Resources.Load("TestBullet");
+            //BulletRb[i] = Bullets[i].transform.GetComponent<Rigidbody>();
 
             Instantiate(Bullets[i], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
 
@@ -37,4 +41,12 @@ public class Bullet : MonoBehaviour
         }
         return CreateFlg;
     }
+    //void Moving()
+    //{
+    //    BulletRb[1].velocity = new Vector3(0, Speed, 0);
+    //}
+    //void Reflect()
+    //{
+
+    //}
 }
