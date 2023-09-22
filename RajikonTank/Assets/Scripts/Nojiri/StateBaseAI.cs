@@ -126,8 +126,8 @@ public class StateBaseAI : MonoBehaviour
     /// </summary>
     private void AiMainRoutine()
     {
-        RaycastHit hit;
-        bool attackFlg;
+        RaycastHit hit; // 衝突したオブジェクト情報
+        bool attackFlg; // 攻撃判定フラグ
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
         if (Physics.Raycast(enemyPos, playerPos, out hit))
@@ -138,7 +138,7 @@ public class StateBaseAI : MonoBehaviour
             {
                 attackFlg = TurretDirection();
                 if(attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
-                else aiState = EnemyAiState.TURN;
+                else aiState = EnemyAiState.TURN;            // 旋回
             }
             else
             {
@@ -156,7 +156,7 @@ public class StateBaseAI : MonoBehaviour
     IEnumerator AiTimer()
     {
         timerFlg = true;
-        yield return new WaitForSeconds(0.1f); // 0.2秒ごとに実行
+        yield return new WaitForSeconds(0.1f); // 0.1秒ごとに実行
 
         timerFlg = false;
     }
@@ -172,8 +172,6 @@ public class StateBaseAI : MonoBehaviour
     {
         GameObject grandChild = transform.GetChild(0).GetChild(1).gameObject;  // 孫オブジェクトを取得
         RaycastHit turretHit;   // レイに衝突したオブジェクト情報
-
-        Debug.Log(grandChild);
 
         // 旋回
         //Vector3 aim = playerPos - enemyPos;       // 対象への相対ベクトル取得
