@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public class TeamInfo {
         TeamID ID;
         public bool isActive;//生存状態.
+        public List<Tank> tankList;
         public int memberNum;//チームの生存人数をカウント.
 
         #region コンストラクタ・デストラクタ
@@ -56,6 +57,13 @@ public class GameManager : MonoBehaviour
             ID = iD;
         }
         ~TeamInfo(){}
+        #endregion
+
+        #region Tankのリストを操作する関数.
+        void PushTank(Tank tank)
+        {
+            tankList.Add(tank);
+        }
         #endregion
 
         /// <summary>
