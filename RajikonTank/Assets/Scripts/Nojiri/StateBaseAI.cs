@@ -170,16 +170,18 @@ public class StateBaseAI : MonoBehaviour
     /// </summary>
     private bool TurretDirection()
     {
-        GameObject child = transform.Find("LAV25/LAV25_Turret").gameObject;  // 子オブジェクトの子オブジェクトを取得
-        RaycastHit turretHit;                     // レイに衝突したオブジェクト情報
+        GameObject grandChild = transform.GetChild(0).GetChild(1).gameObject;  // 孫オブジェクトを取得
+        RaycastHit turretHit;   // レイに衝突したオブジェクト情報
 
-        // 旋回 後で消す
+        Debug.Log(grandChild);
+
+        // 旋回
         //Vector3 aim = playerPos - enemyPos;       // 対象への相対ベクトル取得
         //var look = Quaternion.LookRotation(aim);  // 対象の方向に向くメソッド
         //child.transform.rotation = look;  // Playerの方向を向く
 
         // 砲台の前方にRayを発射
-        if (Physics.SphereCast(enemyPos, 0.5f, child.transform.forward, out turretHit))
+        if (Physics.SphereCast(enemyPos, 0.5f, grandChild.transform.forward, out turretHit))
         {
             GameObject turretHitObj = turretHit.collider.gameObject;
 
