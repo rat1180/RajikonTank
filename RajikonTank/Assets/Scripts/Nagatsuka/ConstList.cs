@@ -14,6 +14,7 @@ namespace ConstList
         NONE,         //ゲームシーン外、もしくはセットされていない
         READY,        //ゲーム開始前
         INGAME,       //ゲーム中
+        ENDGAME,
         ENDGAME_WIN,  //ゲーム勝利
         ENDGAME_LOSE, //ゲーム敗北
         COUNT         //この列挙体の数
