@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     public bool DebugFlg;
     public Text teamNameList;
     [SerializeField] GameObject EndGamePanel;
-    public bool chackflg;
+    public TeamID createID1;
+    public TeamID createID2;
+    public TeamID createID3;
     TeamID WinId;
     #endregion
     GameObject modeManager;
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
         {
             isActive = true;
             ID = iD;
+            AddMember();
         }
         ~TeamInfo(){}
         #endregion
@@ -114,6 +117,11 @@ public class GameManager : MonoBehaviour
         {
             return isActive;
         }
+
+        public int ReturnActiveMember()
+        {
+            return memberNum;
+        }
         #endregion
     }
 
@@ -129,10 +137,12 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        
-        teamInfo.Add(new TeamInfo(TeamID.player));
-        teamInfo.Add(new TeamInfo(TeamID.player2));
-        teamInfo.Add(new TeamInfo(TeamID.CPU));
+        teamInfo.Add(new TeamInfo(createID1));
+        teamInfo.Add(new TeamInfo(createID2));
+        teamInfo.Add(new TeamInfo(createID3));
+        //CheckDuplicationID(createID1);
+        //CheckDuplicationID(createID2);
+        //CheckDuplicationID(createID3);
         NowGameState = GAMESTATUS.INGAME;
     }
 
@@ -208,13 +218,32 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// TeamListに追加する際にIDの重複がないか確認.
+    /// </summary>
+    void CheckDuplicationID(TeamID teamID)
+    {
+        for(int i = 0; i < teamInfo.Count; i++)
+        {
+            if (teamInfo[i].ReturnID() == teamID)//追加するIDが同じ場合、メンバーを追加する
+            {
+                teamInfo[i].AddMember();
+            }
+            else
+            {
+                teamInfo.Add(new TeamInfo(teamID));
+            }
+        }
+        
+    }
+
+    /// <summary>
     /// DebugFlgがTrueの時にインスペクター上,Debug.Logで数値を確認できる
     /// </summary>
     private void CheckDebug()
     {
-        teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActive() + "\n" +
-                            teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActive() + "\n" +
-                            teamInfo[2].ReturnID().ToString() + ":" + teamInfo[2].ReturnActive();
+        teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
+                            teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActiveMember() + ":" + teamInfo[1].ReturnActive() + "\n" +
+                            teamInfo[2].ReturnID().ToString() + ":" + teamInfo[2].ReturnActiveMember() + ":" + teamInfo[2].ReturnActive();
 
         //Debug.Log(teamInfo[0].ReturnID());
         //Debug.Log("チーム数" + teamInfo.Count);
@@ -224,15 +253,15 @@ public class GameManager : MonoBehaviour
     #region デバック用関数
     public void TestDeathplayer()
     {
-        teamInfo[0].Death();
+        teamInfo[0].MemberDeath();
     }
     public void TestDeathPlayer2()
     {
-        teamInfo[1].Death();
+        teamInfo[1].MemberDeath();
     }
     public void TestDeathCPU()
     {
-        teamInfo[2].Death();
+        teamInfo[2].MemberDeath();
     }
     #endregion
 }
