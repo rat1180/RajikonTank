@@ -7,7 +7,9 @@ public class MoveBullet : MonoBehaviour
     Vector3 Direction;
     Rigidbody Rb;
     float Speed = 5.0f;
+    int ReflectCount = 0;
     bool Flg = false;
+    const int FalseCount = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,13 +39,37 @@ public class MoveBullet : MonoBehaviour
 
         Direction = Rb.velocity;
     }
-    void OnCollisionEnter(Collision other)   // êGÇÍÇƒÇ¢ÇÈéûÇÃÇ‚Ç¬
+    void TankDestroy(GameObject TankObj)
     {
-        if (other.gameObject.tag == "Wall")    // ìVà‰Ç…íºåÇÅAéÄñS
+        Destroy(TankObj);
+    }
+    void BulletDestroy()
+    {
+        this.gameObject.SetActive(false);
+        ReflectCount = 0;
+        Flg = false;
+    }
+    void OnCollisionEnter(Collision other)  
+    {
+        if (other.gameObject.tag == "Wall")
         {
             var WallObj = other.contacts[0].normal;
             Flg = true;
-            Reflect(WallObj);
+            ReflectCount++;
+            if (ReflectCount == FalseCount)
+            {
+                BulletDestroy();
+            }
+            else
+            {
+                Reflect(WallObj);
+            }
+        }
+        if (other.gameObject.tag == "Tank")
+        {
+            BulletDestroy();
+            var TankObj = other.gameObject;
+            TankDestroy(TankObj);
         }
     }
 }
