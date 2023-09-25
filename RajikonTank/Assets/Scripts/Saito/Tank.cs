@@ -30,7 +30,6 @@ public class Tank : MonoBehaviour
         switch (HitObjTag)
         {
             case "Bullet":
-
                 Rajikon.gameObject.SetActive(false);
                 break;
             case "Tank":
