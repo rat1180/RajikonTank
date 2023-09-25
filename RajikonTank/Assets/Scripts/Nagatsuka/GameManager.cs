@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     /// TeamInfoクラスに入れるID一覧.
     /// </summary>
     public enum TeamID { 
-        player1,
+        player,
         player2,
         player3,
         player4,
@@ -29,10 +29,11 @@ public class GameManager : MonoBehaviour
     #region デバック確認用一覧
     [Header("デバッグ確認フラグ")]
     public bool DebugFlg;
-    public List<TeamInfo> TestteamInfo = new List<TeamInfo>();
+    public Text teamNameList;
+    [SerializeField] GameObject EndGamePanel;
     public bool chackflg;
+    TeamID WinId;
     #endregion
-
     GameObject modeManager;
 
     #region 各チーム(陣営)のクラス(TeamInfo).
@@ -42,7 +43,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public class TeamInfo {
         TeamID ID;
-        public bool isActive;//生存状態.
+        bool isActive;//生存状態.
+        public List<Tank> tankList;
         public int memberNum;//チームの生存人数をカウント.
 
         #region コンストラクタ・デストラクタ
@@ -58,6 +60,24 @@ public class GameManager : MonoBehaviour
         ~TeamInfo(){}
         #endregion
 
+        #region Tankのリストを操作する関数.
+        void PushTank(Tank tank)
+        {
+            tankList.Add(tank);
+        }
+
+        /// <summary>
+        /// プレイヤーのタンクを格納したリストで使用
+        /// ID番号を引数に非アクティブにするタンクを指定
+        /// </summary>
+        public void NotActiveTank(int iD)
+        {
+            //タンクを非アクティブにする.
+            //tankList[iD].
+        }
+
+        #endregion
+
         /// <summary>
         /// 死亡した場合呼び出す関数.
         /// </summary>
@@ -65,7 +85,9 @@ public class GameManager : MonoBehaviour
         {
             isActive = false;
         }
-
+        /// <summary>
+        /// 単純なint型で数を管理、0になったら死亡関数を呼び出す.
+        /// </summary>
         public void MemberDeath()
         {
             memberNum--;
@@ -88,6 +110,10 @@ public class GameManager : MonoBehaviour
         {
             return ID;
         }
+        public bool ReturnActive()
+        {
+            return isActive;
+        }
         #endregion
     }
 
@@ -103,8 +129,11 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        TestteamInfo.Add(new TeamInfo(TeamID.player1));
-        //TestteamInfo[0].Death();
+        
+        teamInfo.Add(new TeamInfo(TeamID.player));
+        teamInfo.Add(new TeamInfo(TeamID.player2));
+        teamInfo.Add(new TeamInfo(TeamID.CPU));
+        NowGameState = GAMESTATUS.INGAME;
     }
 
     private void Update()
@@ -117,6 +146,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GAMESTATUS.INGAME:
                 InGameRoop();
+                break;
+            case GAMESTATUS.ENDGAME:
+                EndGameRoop();
                 break;
             default:
                 Debug.Log("エラー:予期せぬゲームモード");
@@ -140,7 +172,39 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InGameRoop()
     {
+        CheckActive();
+    }
 
+    /// <summary>
+    /// EndGameの時に動かす関数.
+    /// </summary>
+    private void EndGameRoop()
+    {
+        EndGamePanel.SetActive(true);
+        //勝利したチームのIDを表示.
+        EndGamePanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
+    }
+
+    /// <summary>
+    /// Tankを格納しているリストのアクティブ状態を参照.
+    /// 残っている陣営が1つのみならゲームを終了する
+    /// </summary>
+    void CheckActive()
+    {
+        int activeNum = 0;
+        for(int i=0;i< teamInfo.Count; i++)
+        {
+            if (teamInfo[i].ReturnActive())
+            {
+                activeNum++;
+                WinId = teamInfo[i].ReturnID();
+            }
+        }
+        if (activeNum == 1)
+        {
+            NowGameState = GAMESTATUS.ENDGAME;
+        }
+        Debug.Log("アクティブ数" + activeNum);
     }
 
     /// <summary>
@@ -148,7 +212,27 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CheckDebug()
     {
-        chackflg = TestteamInfo[0].isActive;
-        Debug.Log(TestteamInfo[0].ReturnID());
+        teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActive() + "\n" +
+                            teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActive() + "\n" +
+                            teamInfo[2].ReturnID().ToString() + ":" + teamInfo[2].ReturnActive();
+
+        //Debug.Log(teamInfo[0].ReturnID());
+        //Debug.Log("チーム数" + teamInfo.Count);
     }
+
+
+    #region デバック用関数
+    public void TestDeathplayer()
+    {
+        teamInfo[0].Death();
+    }
+    public void TestDeathPlayer2()
+    {
+        teamInfo[1].Death();
+    }
+    public void TestDeathCPU()
+    {
+        teamInfo[2].Death();
+    }
+    #endregion
 }
