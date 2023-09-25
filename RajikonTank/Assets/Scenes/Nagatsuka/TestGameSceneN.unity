@@ -1624,7 +1624,9 @@ MonoBehaviour:
   DebugFlg: 1
   teamNameList: {fileID: 1321874319}
   EndGamePanel: {fileID: 1753872702}
-  chackflg: 0
+  createID1: 0
+  createID2: 1
+  createID3: 4
 --- !u!4 &1941683679
 Transform:
   m_ObjectHideFlags: 0
