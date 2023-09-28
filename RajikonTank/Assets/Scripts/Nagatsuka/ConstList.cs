@@ -21,6 +21,18 @@ namespace ConstList
     }
 
     /// <summary>
+    /// チームID一覧列挙体.
+    /// </summary>
+    public enum TeamID
+    {
+        player,
+        player2,
+        player3,
+        player4,
+        CPU
+    }
+
+    /// <summary>
     /// ゲームの進行具合を表す列挙体
     /// </summary>
     enum GAMEFAZES
