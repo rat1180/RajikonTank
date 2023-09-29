@@ -1,39 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum EnemyName // 敵種類
-{
-    NORMAL,              // 通常敵
-    REFLECT              // 反射敵
-}
-
-public enum EnemyAiState // 行動パターン
-{
-    WAIT,                // 待機
-    MOVE,                // 移動
-    TURN,                // 旋回
-    ATTACK,              // 攻撃
-    AVOID,               // 回避
-    DEATH,               // 死亡
-}
+using ConstList;
 
 public class StateBaseAI : MonoBehaviour
 {
-    public EnemyName aiName = EnemyName.NORMAL;      //敵属性の設定
-    public EnemyAiState aiState = EnemyAiState.WAIT; //敵の攻撃遷移
+    public EnemyName aiName = EnemyName.NORMAL;  //敵属性の設定
+    [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の攻撃遷移
 
-    [SerializeField] public Transform player;// プレイヤーの位置取得
-    private Vector3 enemyPos;   // 敵(自分)の位置取得
-    private Vector3 playerPos;  // プレイヤーの位置取得
+    private GameObject player;     // プレイヤー取得
+    private GameObject grandChild; // 孫オブジェクト取得
+    private Vector3 enemyPos;      // 敵(自分)の位置取得
+    private Vector3 playerPos;     // プレイヤーの位置取得
+    private bool isInit  = false;  // 初期化状態確認
+    private bool isTimer = false;  // タイマーフラグ
+    private const int shotNum = 1; // 発射数
 
-    private bool initFlg = true;
-    private bool timerFlg = false;
+
+    public enum EnemyName // 敵種類
+    {
+        NORMAL,              // 通常敵
+        REFLECT              // 反射敵
+    }
+
+    public enum EnemyAiState // 行動パターン
+    {
+        WAIT,                // 待機
+        MOVE,                // 移動
+        TURN,                // 旋回
+        ATTACK,              // 攻撃
+        AVOID,               // 回避
+        DEATH,               // 死亡
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        // (仮)
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -42,44 +46,55 @@ public class StateBaseAI : MonoBehaviour
         UpdateAI();
     }
 
-    #region 初期ループ
-    /// <summary>
-    /// 初期化処理
-    /// </summary>
-    void InitAI()
-    {
-        enemyPos = transform.position;
-        playerPos = player.position;
-
-        if (initFlg == false)
-        {
-            return;
-        }
-
-        Debug.Log("初期化実行");
-        initFlg = false;
-    }
-    #endregion
-
     #region AI遷移ループ
     /// <summary>
     /// 敵の種類によって行動遷移を変更
     /// </summary>
-    void UpdateAI()
+    private void UpdateAI()
     {
         InitAI();
 
         switch (aiName)
         {
-            case EnemyName.NORMAL:  // 通常敵
+            case EnemyName.NORMAL:
                 Normal();
                 break;
-            case EnemyName.REFLECT: // 反射敵
-                //Move2();
+            case EnemyName.REFLECT:
+                //Reflect();
                 break;
             default:
                 break;
         }
+    }
+    #endregion
+
+    #region 初期化処理
+    /// <summary>
+    /// 初期化実行
+    /// チームID、敵生成
+    /// </summary>
+    private void InitAI()
+    {
+        enemyPos = transform.position;
+        playerPos = player.transform.position;
+
+        if (isInit == true)
+        {
+            return;
+        }
+
+        AddTeam(); // チーム追加
+
+        Debug.Log("初期化実行");
+        isInit = true;
+    }
+
+    /// <summary>
+    /// チームID送信
+    /// </summary>
+    public void AddTeam()
+    {
+        // CPUのチームIDを送ってチームに追加
     }
     #endregion
 
@@ -89,9 +104,9 @@ public class StateBaseAI : MonoBehaviour
     /// </summary>
     private void Normal()
     {
-        if(timerFlg == false)
+        if(isTimer == false)
         {
-            AiMainRoutine();
+            NormalAiRoutine();
 
             switch (aiState)
             {
@@ -103,19 +118,22 @@ public class StateBaseAI : MonoBehaviour
                     break;
                 case EnemyAiState.TURN:
                     Debug.Log("旋回");
+                    Turn();
                     break;
                 case EnemyAiState.ATTACK:
                     Debug.Log("射撃");
+                    Attack();
                     break;
                 case EnemyAiState.AVOID:
+                    Debug.Log("回避");
                     break;
                 case EnemyAiState.DEATH:
+                    Debug.Log("死亡");
+                    Destroy(gameObject);
                     break;
                 default:
                     break;
             }
-
-            StartCoroutine("AiTimer");
         }
     }
 
@@ -124,9 +142,9 @@ public class StateBaseAI : MonoBehaviour
     /// Playerの場合　：攻撃
     /// それ以外の場合：移動or旋回
     /// </summary>
-    private void AiMainRoutine()
+    private void NormalAiRoutine()
     {
-        RaycastHit hit; // 衝突したオブジェクト情報
+        RaycastHit hit; // Rayが衝突したオブジェクト情報
         bool attackFlg; // 攻撃判定フラグ
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
@@ -150,19 +168,10 @@ public class StateBaseAI : MonoBehaviour
             aiState = EnemyAiState.WAIT;   // 待機
             Debug.LogError("Rayが当たりませんでした。");
         }
+
+        StartCoroutine("AiTimer");
     }
 
-    // 毎フレーム処理による負荷の軽減用タイマー
-    IEnumerator AiTimer()
-    {
-        timerFlg = true;
-        yield return new WaitForSeconds(0.1f); // 0.1秒ごとに実行
-
-        timerFlg = false;
-    }
-    #endregion
-
-    #region 攻撃判定
     /// <summary>
     /// 砲台の向きを参照し、攻撃判定を返す
     /// Playerに向いているとき：ture
@@ -170,13 +179,11 @@ public class StateBaseAI : MonoBehaviour
     /// </summary>
     private bool TurretDirection()
     {
-        GameObject grandChild = transform.GetChild(0).GetChild(1).gameObject;  // 孫オブジェクトを取得
+        grandChild = transform.Find("LAV25/LAV25_Turret").gameObject;  // LAV25_Turret取得
+        //grandChild = transform.GetChild(0).GetChild(1).gameObject;     // 順番から取得
         RaycastHit turretHit;   // レイに衝突したオブジェクト情報
 
-        // 旋回
-        //Vector3 aim = playerPos - enemyPos;       // 対象への相対ベクトル取得
-        //var look = Quaternion.LookRotation(aim);  // 対象の方向に向くメソッド
-        //child.transform.rotation = look;  // Playerの方向を向く
+        if (grandChild == null) return false;
 
         // 砲台の前方にRayを発射
         if (Physics.SphereCast(enemyPos, 0.5f, grandChild.transform.forward, out turretHit))
@@ -196,6 +203,41 @@ public class StateBaseAI : MonoBehaviour
             }
         }
         return false;
+    }
+    #endregion
+
+    // 毎フレーム処理による負荷の軽減用タイマー
+    IEnumerator AiTimer()
+    {
+        isTimer = true;
+        yield return new WaitForSeconds(1); // 1秒ごとに実行
+
+        isTimer = false;
+    }
+
+    #region 行動遷移ごとのメソッド
+    private void Attack()
+    {
+        GameObject shotObj = grandChild.transform.GetChild(0).gameObject;  // ShotPosition取得
+        bool isInstans = BulletGenerateClass.BulletInstantiate(gameObject, shotObj, "Bullet", shotNum); // 弾生成
+        if (isInstans) Debug.LogError("弾が生成されませんでした");
+    }
+
+    private void Turn()
+    {
+        // 旋回
+        //Vector3 aim = playerPos - enemyPos;       // 対象への相対ベクトル取得
+        //var look = Quaternion.LookRotation(aim);  // 対象の方向に向くメソッド
+        //grandChild.transform.rotation = look;     // Playerの方向を向く
+    }
+
+    /// <summary>
+    /// 死亡実行メソッド
+    /// Deathにすることでこの敵機体が消滅する
+    /// </summary>
+    public void Death()
+    {
+        aiState = EnemyAiState.DEATH;
     }
     #endregion
 
