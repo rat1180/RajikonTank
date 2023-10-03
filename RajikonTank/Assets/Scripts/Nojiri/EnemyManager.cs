@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ConstList;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class EnemyManager : MonoBehaviour
             Debug.Log("¶¬");
             SpawnEnemy(enemyObj);
         }
+
+        //TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_TEST); // ƒ^ƒ“ƒN¶¬’u‚«Š·‚¦—\’è
     }
 
     private void SpawnEnemy(GameObject enemy)
