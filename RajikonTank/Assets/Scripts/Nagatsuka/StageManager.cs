@@ -31,6 +31,7 @@ public class StageManager : MonoBehaviour
         switch (teamID) {
             case TeamID.player:
                 Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
+                //Instantiate(tanks[PLAYER_NUM], new Vector3(-1.76f,0f,0f), Quaternion.identity);
                 break;
             case TeamID.CPU:
                 Instantiate(tanks[CPU_NUM], position, Quaternion.identity);
