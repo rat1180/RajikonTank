@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
 {
+    //Transform Transform;
+
+    //Vector3 PrevPosition;
+
     Vector3 Direction;
     Rigidbody Rb;
     float Speed = 5.0f;
@@ -13,6 +17,10 @@ public class MoveBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Transform = transform;
+
+        //PrevPosition = Transform.position;
+
         Rb = this.transform.GetComponent<Rigidbody>();
     }
 
@@ -38,6 +46,12 @@ public class MoveBullet : MonoBehaviour
         Rb.velocity = result;
 
         Direction = Rb.velocity;
+
+        // 進行方向（移動量ベクトル）に向くようなクォータニオンを取得
+        var rotation = Quaternion.LookRotation(WallObj.normalized,transform.position + result);
+
+        // オブジェクトの回転に反映
+        transform.rotation = rotation;
     }
     void TankDestroy(GameObject TankObj)
     {
