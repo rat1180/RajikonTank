@@ -360,6 +360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rajikon: {fileID: 767769879}
+--- !u!1 &751630369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7321212567925012725, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+  m_PrefabInstance: {fileID: 7322654455143081831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767769879
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &767769881
 Transform:
   m_ObjectHideFlags: 0
@@ -408,6 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 1555266130}
   Target: {fileID: 603615161}
+  TargetName: 
   MoveSpeed: 5
   RotationSpeed: 70
   Bullet: {fileID: 1337770586}
@@ -1056,12 +1062,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7321212567925012725, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: m_Name
-      value: TankBase
+      value: Rajikon
       objectReference: {fileID: 0}
     - target: {fileID: 7322654454979356146, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: Rajikon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 751630369}
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: PlayerInput
       value: 
@@ -1069,6 +1075,6 @@ PrefabInstance:
     - target: {fileID: 7322654455951455839, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: Target
       value: 
-      objectReference: {fileID: 7245203260631108900}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}

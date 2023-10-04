@@ -7,10 +7,24 @@ public class Rajikon : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
     [SerializeField] GameObject Target;    // “®‚©‚·‘ÎÛ.
+    [SerializeField] string TargetName;
     [SerializeField] float MoveSpeed;      // ˆÚ“®‚·‚é‘¬‚³.
     [SerializeField] float RotationSpeed;  // ‰ñ“]‚·‚é‘¬‚³.
     private float RotationAngle;           // —İÏ‰ñ“]Šp“x
     [SerializeField]GameObject Bullet;
+
+    /// <summary>
+    /// ‰Šú‰»—pŠÖ”.
+    /// </summary>
+    /// <param name="movespeed"></param>
+    /// <param name="rotationspeed"></param>
+    /// <param name="rotationangle"></param>
+    public void InitTank(float movespeed, float rotationspeed, float rotationangle)
+    {
+        MoveSpeed = movespeed;
+        RotationSpeed = rotationspeed;
+        RotationAngle = rotationangle;
+    }
 
     void Start()
     {
