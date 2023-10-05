@@ -67,11 +67,6 @@ public class MoveBullet : MonoBehaviour
         // オブジェクトの回転に反映
         BulletHead.transform.rotation = rotation;
     }
-   
-    void TankDestroy(GameObject TankObj)
-    {
-        Destroy(TankObj);
-    }
     //弾の削除
     void BulletDestroy()
     {
@@ -99,7 +94,6 @@ public class MoveBullet : MonoBehaviour
         {
             var TankObj = other.gameObject;
             BulletDestroy();
-            TankDestroy(TankObj);
         }
     }
 }
