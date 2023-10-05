@@ -24,7 +24,8 @@ namespace ConstList
         TANK_TEST,
         TANK_NORMAL_RED,
         TANK_NORMAL,
-        Rajikon
+        TankBase,
+        Enemy_Normal
     }
 
     /// <summary>
@@ -145,6 +146,11 @@ namespace ConstList
 
             //タンクを生成
             var obj = Object.Instantiate(prefabobj);
+
+            //ターゲットオブジェクトを生成
+            var target = new GameObject();
+            target.name = "targetobject";
+            obj.GetComponent<Rajikon>().SetTargetObject(target);
 
             if(obj == null)
             {

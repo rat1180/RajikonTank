@@ -17,6 +17,8 @@ public class StateBaseAI : TankEventHandler
     private bool isTimer = false;  // タイマーフラグ
     private const int shotNum = 1; // 発射数
 
+    private Rajikon rajikon;
+    private CPUInput input;
 
     public enum EnemyName // 敵種類
     {
@@ -84,6 +86,10 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
+        rajikon = gameObject.GetComponent<Rajikon>();
+        input = gameObject.GetComponent<CPUInput>();
+        rajikon.SetPlayerInput(input);
+
         AddTeam(); // チーム追加
 
         Debug.Log("初期化実行");
@@ -109,6 +115,7 @@ public class StateBaseAI : TankEventHandler
         {
             NormalAiRoutine();
 
+            input.sendtarget = playerPos;
             switch (aiState)
             {
                 case EnemyAiState.WAIT:
@@ -124,7 +131,7 @@ public class StateBaseAI : TankEventHandler
                     break;
                 case EnemyAiState.ATTACK:
                     Debug.Log("射撃");
-                    Attack();
+                    //Attack();
                     break;
                 case EnemyAiState.AVOID:
                     Debug.Log("回避");
