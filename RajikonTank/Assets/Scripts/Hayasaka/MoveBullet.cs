@@ -17,6 +17,8 @@ public class MoveBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BulletDestroy();
+
         //Transform = transform;
 
         //PrevPosition = Transform.position;
@@ -70,7 +72,7 @@ public class MoveBullet : MonoBehaviour
     //íeÇÃçÌèú
     void BulletDestroy()
     {
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
         ReflectCount = 0;
         Flg = false;
     }

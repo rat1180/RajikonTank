@@ -7,6 +7,11 @@ public class Tank : MonoBehaviour
     [SerializeField] GameObject Rajikon;
     string HitObjTag;
 
+    private void OnDisable()
+    {
+        
+    }
+
     void Start()
     {
         
