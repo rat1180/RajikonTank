@@ -12,4 +12,13 @@ public class CPUInput : PlayerInput
     {
         return moveveckey;
     }
+
+    /// <summary>
+    /// ƒ^ƒ“ƒN‚ª‘_‚¤À•W
+    /// </summary>
+    /// <returns></returns>
+    public override Vector3 TargetPosition()
+    {
+        return sendtarget;
+    }
 }
