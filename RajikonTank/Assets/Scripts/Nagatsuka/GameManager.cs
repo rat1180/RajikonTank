@@ -11,8 +11,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    #region 定数宣言
+
+    //InGameCanvas使用定数.
+    const int OPERATION_IMAGE = 0;
+    const int ENEMY_NUM = 1;
+    const int REST_BULLETS_IMAGE = 2;
+    #endregion
+
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
+
+    [Header("InGame時のキャンバス")]
+    [SerializeField] GameObject InGameCanvas;
 
     #region デバック確認用一覧
     [Header("デバッグ確認フラグ")]
@@ -22,6 +33,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject EndGamePanel;
     TeamID WinId;
     #endregion
+
+    private int CPU_IDnum;//CPUがリストの何番目なのかを確認.
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
@@ -131,6 +144,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        CPU_IDnum = 0;
     }
     private void Start()
     {
@@ -201,6 +215,7 @@ public class GameManager : MonoBehaviour
         if (teamInfo.Count == 0)//リストがない状態ならループせずに追加して戻る.
         {
             teamInfo.Add(new TeamInfo(teamID,tank));
+            //if (teamID == TeamID.CPU) CPU_IDnum=;
             return;
         }
         else
@@ -285,6 +300,18 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log("アクティブ数" + activeNum);
     }
+
+    /// <summary>
+    /// InGameCanvasの値を変更する関数
+    /// 敵の残機数・残弾数を変更する.
+    /// </summary>
+    private void ChangeInGameCanvs()
+    {
+        //InGameCanvas.transform.GetChild(ENEMY_NUM).gameObject.GetComponent<Text>().text =
+        //                                "CPUの数" + teamInfo[].ReturnActiveMember();
+        //InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite=
+    }
+
 
     #region リスト初期化・削除関数
     public void PushInitListButton()
