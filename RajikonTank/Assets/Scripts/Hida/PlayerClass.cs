@@ -101,7 +101,7 @@ public class PlayerClass : TankEventHandler
     private GameObject TankSpawn()
     {
         //タンクの生成
-        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.Rajikon);
+        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.TankBase);
 
         //タンクの初期化
         tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);

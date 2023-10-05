@@ -148,4 +148,9 @@ public class Rajikon : MonoBehaviour
     {
         Target.transform.position = PlayerInput.TargetPosition();
     }
+
+    public void SetTargetObject(GameObject target)
+    {
+        Target = target;
+    }
 }

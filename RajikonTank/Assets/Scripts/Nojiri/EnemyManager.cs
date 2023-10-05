@@ -43,7 +43,7 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject enemyChildObj;
 
-        enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_NORMAL); // タンク生成
+        enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.Enemy_Normal); // タンク生成
         enemyChildObj.transform.parent = this.transform;    // 生成した敵を子オブジェクトに追加
         enemyChildObj.transform.position = GetPosition();   // 初期位置に設定
 
