@@ -25,12 +25,38 @@ namespace ConstList
         TANK_NORMAL_RED
     }
 
+    /// <summary>
+    /// チームID一覧列挙体.
+    /// </summary>
+    public enum TeamID
+    {
+        player,
+        player2,
+        player3,
+        player4,
+        CPU
+    }
+
+    /// <summary>
+    /// ゲームの現在の状態を表す列挙体
+    /// </summary>
+    public enum GAMESTATUS
+    {
+        NONE,         //ゲームシーン外、もしくはセットされていない
+        READY,        //ゲーム開始前
+        INGAME,       //ゲーム中
+        ENDGAME,
+        ENDGAME_WIN,  //ゲーム勝利
+        ENDGAME_LOSE, //ゲーム敗北
+        COUNT         //この列挙体の数
+    }
+
     //オブジェクト名と生成用フォルダを指定することで
     //そのフォルダからプレファブを検索する
     public static class FolderObjectFinder
     {
         //生成用フォルダへのパス
-        const string DefalutGenerateFolderName = "";
+        const string DefalutGenerateFolderName = "Prefabs/";
 
         /// <summary>
         /// 生成用フォルダからオブジェクトを探し、返す。
@@ -42,6 +68,8 @@ namespace ConstList
         public static GameObject GetResorceObject(string objectname)
         {
             var obj = (GameObject)Resources.Load(DefalutGenerateFolderName+objectname);
+
+            Debug.Log(DefalutGenerateFolderName + objectname);
 
             if (obj != null) return obj;
             else
@@ -57,7 +85,7 @@ namespace ConstList
     public static class BulletGenerateClass
     {
         //Bullet用生成フォルダへのパス
-        const string GenerateFolderName = "";
+        const string GenerateFolderName = "Bullets/";
 
         /// <summary>
         /// 弾を生成する
@@ -100,7 +128,7 @@ namespace ConstList
     public static class TankGenerateClass
     {
         //Tank用フォルダへのパス
-        const string GenerateFolderName = "";
+        const string GenerateFolderName = "Tanks/";
 
         /// <summary>
         /// タンクを生成する

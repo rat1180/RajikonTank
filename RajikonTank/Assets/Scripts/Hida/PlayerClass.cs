@@ -6,13 +6,13 @@ using ConstList;
 public class PlayerClass : MonoBehaviour
 {
     
-    [SerializeField,Tooltip("このクラスが所持しているタンク"),Header("デバッグ用表示")] private GameObject PossessionTank;
+    [SerializeField,Tooltip("このクラスが所持しているタンク"),Header("デバッグ用表示")] private Rajikon PossessionTank;
 
     [SerializeField,Tooltip("操作を受付するか")] private bool isControl;
 
-    [SerializeField, Tooltip("ゲームマネージャーのインスタンス")] private GameObject GameManagerInstance;
+    [SerializeField, Tooltip("ゲームマネージャーのインスタンス")] private GameManager GameManagerInstance;
 
-    [SerializeField, Tooltip("所属しているチームID")] private int TeamID;
+    [SerializeField, Tooltip("所属しているチームID")] private TeamID TeamID;
 
     [SerializeField, Tooltip("このプレイヤーのスポーンポイント")] private Vector3 SpawnPoint;
 
@@ -22,8 +22,7 @@ public class PlayerClass : MonoBehaviour
         //プレイヤーの初期化
         InitPlayer();
 
-        //テスト
-        PopTank();
+        
     }
 
     // Update is called once per frame
@@ -42,19 +41,25 @@ public class PlayerClass : MonoBehaviour
     private void InitPlayer()
     {
         //マネージャーの取得
-        //GameManagerInstance = ;
+        GameManagerInstance = GameManager.instance;
+
+        //テスト
+        GameManager.instance.PushTeamList(TeamID);
 
         //操作権限の初期化
         isControl = false;
 
+        //テスト
+        PopTank();
+
         //エラー確認
-        if(PossessionTank == null)
+        if (PossessionTank == null)
         {
-            Debug.LogWarning("タンクが生成されていません");
+            Debug.LogWarning("初期化時にタンクが生成されていません");
         }
 
         //チームへ追加
-        //GameManagerInstance.AddTeam();
+        GameManagerInstance.PushTank(TeamID, PossessionTank);
         
     }
 
@@ -131,7 +136,7 @@ public class PlayerClass : MonoBehaviour
         }
 
         //所持しているタンクに代入
-        PossessionTank = TankSpawn();
+        PossessionTank = TankSpawn().GetComponent<Rajikon>();
 
         if(PossessionTank == null)
         {
@@ -157,7 +162,7 @@ public class PlayerClass : MonoBehaviour
         }
 
         //所持しているタンクに代入
-        PossessionTank = TankSpawn();
+        PossessionTank = TankSpawn().GetComponent<Rajikon>();
 
         if (PossessionTank == null)
         {
