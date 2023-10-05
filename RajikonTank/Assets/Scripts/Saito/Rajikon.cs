@@ -19,16 +19,21 @@ public class Rajikon : MonoBehaviour
     /// <param name="movespeed"></param>
     /// <param name="rotationspeed"></param>
     /// <param name="rotationangle"></param>
-    public void InitTank(float movespeed, float rotationspeed, float rotationangle)
+    public void InitRajikon(float movespeed, float rotationspeed, float rotationangle)
     {
         MoveSpeed = movespeed;
         RotationSpeed = rotationspeed;
         RotationAngle = rotationangle;
     }
 
+    private void InitBullet()
+    {
+        BulletGenerateClass.BulletInstantiate(gameObject, gameObject, "RealBullet", 5);
+    }
+
     void Start()
     {
-
+        InitBullet();
     }
 
     void Update()
