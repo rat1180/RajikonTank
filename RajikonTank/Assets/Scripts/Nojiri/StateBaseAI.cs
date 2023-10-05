@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
+using TankClassInfomations;
 
-public class StateBaseAI : MonoBehaviour
+public class StateBaseAI : TankEventHandler
 {
     public EnemyName aiName = EnemyName.NORMAL;  //敵属性の設定
-    [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の攻撃遷移
+    [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の初期遷移
 
     private GameObject player;     // プレイヤー取得
     private GameObject grandChild; // 孫オブジェクト取得
@@ -214,7 +215,7 @@ public class StateBaseAI : MonoBehaviour
     IEnumerator AiTimer()
     {
         isTimer = true;
-        yield return new WaitForSeconds(1); // 1秒ごとに実行
+        yield return new WaitForSeconds(0.5f); // 0.5秒ごとに実行
 
         isTimer = false;
     }
@@ -236,12 +237,14 @@ public class StateBaseAI : MonoBehaviour
     }
 
     /// <summary>
-    /// 死亡実行メソッド
-    /// Deathにすることでこの敵機体が消滅する
+    /// bulletに当たった時に呼ばれる死亡実行メソッド
+    /// 
     /// </summary>
-    public void Death()
+    public override void TankHit()
     {
-        aiState = EnemyAiState.DEATH;
+        base.TankHit();
+
+        aiState = EnemyAiState.DEATH; // 死亡遷移に移行、敵消滅
     }
     #endregion
 
