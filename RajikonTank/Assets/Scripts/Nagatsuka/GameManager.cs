@@ -22,25 +22,26 @@ public class GameManager : MonoBehaviour
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
 
-    [Header("InGame時のキャンバス")]
-    [SerializeField] GameObject InGameCanvas;
+    [Header("InGame時のキャンバス関連")]
+    [SerializeField] GameObject InGameCanvas;//InGame中に表示しているキャンバス(UI).
+    public int RestBullets;                  //残弾数.
 
     [Header("使用画像")]
-    [SerializeField] Sprite[] BulletsImage;
+    [SerializeField] Sprite[] BulletsImage;  //残弾数表示画像.
 
     #region デバック確認用一覧
     [Header("デバッグ確認フラグ")]
-    public bool DebugFlg;
-    [SerializeField] GameObject DebugPanel;
-    public Text teamNameList;
-    public int RestBullets;//残弾数.
-    [SerializeField] GameObject EndGamePanel;
-    TeamID WinId;
+    public bool DebugFlg;                  //ONOFFでデバックの表示を切り換える.
+    [SerializeField] GameObject DebugPanel;//デバック情報をまとめたパネル.
+    public Text teamNameList;              //チームのID・数・生存状態を表示用.
+    TeamID WinId;                          //勝者のID.    
     #endregion
 
-    private int player_IDnum;//Playerがリストの何番目なのかを確認.
-    private int CPU_IDnum;//CPUがリストの何番目なのかを確認.
+    [SerializeField] GameObject EndGamePanel;//ゲーム終了時に表示するパネル.
 
+    private int player_IDnum;//Playerがリストの何番目なのかを確認.
+    private int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
+    
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
