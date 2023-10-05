@@ -646,6 +646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8572637675443855728}
   - component: {fileID: 8572637675443589869}
+  - component: {fileID: 8101397174530343973}
   m_Layer: 0
   m_Name: CPU
   m_TagString: Untagged
@@ -682,6 +683,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+--- !u!114 &8101397174530343973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572637675443589868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9bbb2355b9bf843961ae1cecb32553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
+  Target: {fileID: 0}
+  MoveSpeed: 0
+  RotationSpeed: 0
+  Bullet: {fileID: 0}
 --- !u!1 &8572637675443612844
 GameObject:
   m_ObjectHideFlags: 0
