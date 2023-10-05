@@ -38,8 +38,8 @@ public class Turret : MonoBehaviour
     /// <summary>
     /// ターゲットの更新.
     /// </summary>
-    public void TargetUpdate(GameObject target)
+    public void TargetUpdate(Vector3 target)
     {
-        Target = target;
+        Target.transform.position = target;
     }
 }
