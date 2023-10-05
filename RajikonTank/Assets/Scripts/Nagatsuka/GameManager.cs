@@ -30,27 +30,30 @@ public class GameManager : MonoBehaviour
     public class TeamInfo {
         TeamID ID;
         bool isActive;//生存状態.
-        public List<Tank> tankList;
+        public List<Rajikon> tankList;
         public int memberNum;//チームの生存人数をカウント.
 
         #region コンストラクタ・デストラクタ
         public TeamInfo()
         {
             isActive = true;
+            tankList = new List<Rajikon>();
         }
         public TeamInfo(TeamID iD)
         {
             isActive = true;
             ID = iD;
+            tankList = new List<Rajikon>();
             AddMember();
         }
         ~TeamInfo(){}
         #endregion
 
         #region Tankのリストを操作する関数.
-        public void PushTank(Tank tank)
+        public void PushTank(Rajikon tank)
         {
             tankList.Add(tank);
+            memberNum++;
         }
 
         /// <summary>
@@ -180,7 +183,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Player・CPUを生成した際にIDを参照、一致したらそのチームリストにTankを入れる.
     /// </summary>
-    public void PushTank(TeamID teamID,Tank tank)
+    public void PushTank(TeamID teamID,Rajikon tank)
     {
         for(int i = 0; i < teamInfo.Count; i++)
         {

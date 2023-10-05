@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
         
     }
 
-    public KeyList KeyInput()
+    public virtual KeyList KeyInput()
     {
         if (Input.GetKey(KeyCode.A))
         {

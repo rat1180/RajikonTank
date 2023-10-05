@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace ConstList
+namespace ConstList_old
 {
 
     /// <summary>
