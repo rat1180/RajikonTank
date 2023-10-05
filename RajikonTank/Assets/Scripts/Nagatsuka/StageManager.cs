@@ -22,7 +22,6 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < ChindCnt; i++)
         {
             teamID = SpawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;
-            Debug.Log(SpawnPoints.transform.GetChild(i).gameObject.transform.position.x);
             CreateTank(teamID, SpawnPoints.transform.GetChild(i).gameObject.transform.position);
         }
     }

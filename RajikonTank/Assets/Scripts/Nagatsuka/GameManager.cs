@@ -11,16 +11,36 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    #region 定数宣言
+    //InGameCanvas使用定数.
+    const int OPERATION_IMAGE = 0;
+    const int ENEMY_NUM_GROUP = 1;
+    const int ENEMY_NUM = 0;
+    const int REST_BULLETS_IMAGE = 2;
+    #endregion
+
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
+
+    [Header("InGame時のキャンバス")]
+    [SerializeField] GameObject InGameCanvas;
+
+    [Header("使用画像")]
+    [SerializeField] Sprite[] BulletsImage;
 
     #region デバック確認用一覧
     [Header("デバッグ確認フラグ")]
     public bool DebugFlg;
+    [SerializeField] GameObject DebugPanel;
     public Text teamNameList;
+    public int RestBullets;//残弾数.
     [SerializeField] GameObject EndGamePanel;
     TeamID WinId;
     #endregion
+
+    private int player_IDnum;//Playerがリストの何番目なのかを確認.
+    private int CPU_IDnum;//CPUがリストの何番目なのかを確認.
+
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
@@ -44,6 +64,14 @@ public class GameManager : MonoBehaviour
             isActive = true;
             ID = iD;
             tankList = new List<Rajikon>();
+            AddMember();
+        }
+        public TeamInfo(TeamID iD,Rajikon rajikon)
+        {
+            isActive = true;
+            ID = iD;
+            tankList = new List<Rajikon>();
+            tankList.Add(rajikon);
             AddMember();
         }
         ~TeamInfo(){}
@@ -122,6 +150,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        CPU_IDnum = 0;
+        player_IDnum = 0;
     }
     private void Start()
     {
@@ -148,6 +178,10 @@ public class GameManager : MonoBehaviour
         }
 
         if (DebugFlg) CheckDebug();
+        else
+        {
+            DebugPanel.SetActive(false);
+        }
     }
     #endregion
 
@@ -165,7 +199,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InGameRoop()
     {
-        //CheckActive();
+        CheckActive();
+        ChangeInGameCanvs();
     }
 
     /// <summary>
@@ -179,19 +214,48 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region 外部から呼び出す関数(Listに追加する関数).
+    #region 外部から呼び出す関数(Listに追加する・死亡関数).
     /// <summary>
     /// Player・CPUを生成した際にIDを参照、一致したらそのチームリストにTankを入れる.
     /// </summary>
     public void PushTank(TeamID teamID,Rajikon tank)
     {
-        for(int i = 0; i < teamInfo.Count; i++)
+        int cnt = 0;
+        if (teamInfo.Count == 0)//リストがない状態ならループせずに追加して戻る.
         {
-            if (teamInfo[i].ReturnID() == teamID)//IDが一致したらTankをPushする.
-            {
-                teamInfo[i].PushTank(tank);
-            }
+            teamInfo.Add(new TeamInfo(teamID,tank));
+            if (teamID == TeamID.CPU) CPU_IDnum = 0;
+            if (teamID == TeamID.player) player_IDnum = 0;
+            return;
         }
+        else
+        {
+            for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+            {
+                if (teamInfo[i].ReturnID() == teamID)//追加するIDが同じ場合、メンバーを追加する
+                {
+                    //teamInfo[i].AddMember();
+                    teamInfo[i].PushTank(tank);
+                    Debug.Log("メンバー追加完了");
+                    return;//メンバー追加した時点で関数を抜ける.
+                }
+                cnt++;
+            }
+            //ループを抜けた=重複はないので新たに追加する.
+            teamInfo.Add(new TeamInfo(teamID,tank));
+            if (teamID == TeamID.CPU) CPU_IDnum = cnt;
+            if (teamID == TeamID.player) player_IDnum = cnt;
+            Debug.Log("リスト追加完了");
+            return;
+        }
+
+        //for(int i = 0; i < teamInfo.Count; i++)
+        //{
+        //    if (teamInfo[i].ReturnID() == teamID)//IDが一致したらTankをPushする.
+        //    {
+        //        teamInfo[i].PushTank(tank);
+        //    }
+        //}
     }
 
     /// <summary>
@@ -225,6 +289,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// タンクが死亡した際に呼び出す関数.
+    /// </summary>
+    public void DeathTank(TeamID teamID)
+    {
+        for(int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+            {
+            if (teamInfo[i].ReturnID() == teamID)//IDが同じ場合、メンバーを減少(死亡)する.
+            {
+                teamInfo[i].MemberDeath();
+                Debug.Log("メンバー死亡完了");
+                return;//メンバー追加した時点で関数を抜ける.
+            }
+
+        }
+    }
+
     #endregion
 
     /// <summary>
@@ -249,6 +330,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("アクティブ数" + activeNum);
     }
 
+    /// <summary>
+    /// InGameCanvasの値を変更する関数
+    /// 敵の残機数・残弾数を変更する.
+    /// </summary>
+    private void ChangeInGameCanvs()
+    {
+        InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
+            transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
+                                        ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
+        InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
+            BulletsImage[RestBullets];
+    }
+
+
     #region リスト初期化・削除関数
     public void PushInitListButton()
     {
@@ -263,6 +358,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CheckDebug()
     {
+        DebugPanel.SetActive(true);
         teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
                             teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActiveMember() + ":" + teamInfo[1].ReturnActive() + "\n";
     }

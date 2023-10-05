@@ -420,14 +420,14 @@ MonoBehaviour:
   MoveSpeed: 5
   RotationSpeed: 70
   TurretSpeed: 0
+  Num: 0
+  MaxBulletNum: 0
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}
   BulletList: {fileID: 0}
   MoveBullet: {fileID: 0}
   Target: {fileID: 603615161}
-  Num: 0
-  MaxBulletNum: 0
 --- !u!1 &833246810
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +865,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eaa111fa55969442a59221a85885b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateSpeed: 0
+  Target: {fileID: 0}
 --- !u!1 &1337770586
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,6 +958,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e43b9ff7e5e7543856bbf93bbbfba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sendkey: 0
+  sendtarget: {x: 0, y: 0, z: 0}
 --- !u!4 &1555266131
 Transform:
   m_ObjectHideFlags: 0
@@ -971,40 +975,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1388574806074116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7321627626239640675, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
-  m_PrefabInstance: {fileID: 7322654455143081831}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &4630222845867585
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388574806074116}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &4630222845867586
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388574806074116}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.5214863, z: 1.2667592}
-  m_Center: {x: 0, y: 0.7526992, z: 0.13337901}
 --- !u!4 &7245203260631108898
 Transform:
   m_ObjectHideFlags: 0

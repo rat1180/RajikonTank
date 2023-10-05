@@ -33,6 +33,11 @@ public class Rajikon : MonoBehaviour
         RotationAngle = rotationangle;
     }
 
+    public void SetPlayerInput(PlayerInput input)
+    {
+        PlayerInput = input;
+    }
+
     private void InitBullet()
     {
         BulletGenerateClass.BulletInstantiate(gameObject, BulletList.gameObject, "RealBullet", MaxBulletNum);
@@ -58,6 +63,7 @@ public class Rajikon : MonoBehaviour
     {
         MoveInput(PlayerInput.KeyInput());
         LookTarget();
+        TargetUpdate();
     }
 
     public void MoveInput(KeyList inputkey)
@@ -138,8 +144,8 @@ public class Rajikon : MonoBehaviour
     /// <summary>
     /// ターゲットの更新.
     /// </summary>
-    public void TargetUpdate(Vector3 target)
+    public void TargetUpdate()
     {
-        Target.transform.position = target;
+        Target.transform.position = PlayerInput.TargetPosition();
     }
 }
