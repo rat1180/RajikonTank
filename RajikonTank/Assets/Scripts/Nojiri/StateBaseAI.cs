@@ -115,6 +115,7 @@ public class StateBaseAI : MonoBehaviour
                     break;
                 case EnemyAiState.MOVE:
                     Debug.Log("移動");
+                    VectorCalc();
                     break;
                 case EnemyAiState.TURN:
                     Debug.Log("旋回");
@@ -148,15 +149,18 @@ public class StateBaseAI : MonoBehaviour
         bool attackFlg; // 攻撃判定フラグ
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, playerPos, out hit))
+        //if (Physics.Raycast(enemyPos, playerPos, out hit))
+        if (Physics.Raycast(transform.position, player.transform.position, out hit, 20))
         {
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
             if (hitObj.tag == "Player")
             {
                 attackFlg = TurretDirection();
-                if(attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
-                else aiState = EnemyAiState.TURN;            // 旋回
+                //if(attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
+                //else aiState = EnemyAiState.TURN;            // 旋回
+
+                aiState = EnemyAiState.MOVE;   // テスト用
             }
             else
             {
@@ -259,6 +263,7 @@ public class StateBaseAI : MonoBehaviour
             // -180～180で返るため、0～360に変換
             Radian += 360;
         }
+        Debug.Log(Radian);
 
         // 360度を8分割し、四捨五入する(0～8)
         int Division = Mathf.RoundToInt(Radian / 45.0f);
@@ -267,25 +272,38 @@ public class StateBaseAI : MonoBehaviour
         if (Division == 8) Division = 0;
 
         // Vector2に変換して取得
-        Vector2 Direction = Conversion(Division);
+        //Vector2 Direction = Conversion(Division);
+        Vector3 Direction = Conversion(Division);
 
         // Vector2変換後の結果表示
         Debug.Log("角度： " + Direction);
+
+        transform.position += Direction;
     }
 
     // ベクトル変換メソッド
-    Vector2 Conversion(int index)
+    Vector3 Conversion(int index)
     {
         switch (index)
         {
-            case 0: return new Vector2(0, 1);   // 0度
-            case 1: return new Vector2(1, 1);   // 45度
-            case 2: return new Vector2(1, 0);   // 90度
-            case 3: return new Vector2(1, -1);  // 135度
-            case 4: return new Vector2(0, -1);  // 180度
-            case 5: return new Vector2(-1, -1); // 225度
-            case 6: return new Vector2(-1, 0);  // 270度
-            case 7: return new Vector2(-1, 1);  // 315度
+            //case 0: return new Vector2(0, 1);   // 0度
+            //case 1: return new Vector2(1, 1);   // 45度
+            //case 2: return new Vector2(1, 0);   // 90度
+            //case 3: return new Vector2(1, -1);  // 135度
+            //case 4: return new Vector2(0, -1);  // 180度
+            //case 5: return new Vector2(-1, -1); // 225度
+            //case 6: return new Vector2(-1, 0);  // 270度
+            //case 7: return new Vector2(-1, 1);  // 315度
+            //default: return Vector2.zero;
+
+            case 0: return new Vector3(-1, 0,  0);   // 0度
+            case 1: return new Vector3(-1, 0, -1);   // 45度
+            case 2: return new Vector3( 0, 0, -1);   // 90度
+            case 3: return new Vector3( 1, 0, -1);  // 135度
+            case 4: return new Vector3( 1, 0,  0);  // 180度
+            case 5: return new Vector3( 1, 0,  1); // 225度
+            case 6: return new Vector3( 0, 0,  1);  // 270度
+            case 7: return new Vector3(-1, 0,  1);  // 315度
             default: return Vector2.zero;
         }
     }

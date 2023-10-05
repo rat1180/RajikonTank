@@ -40,14 +40,13 @@ public class EnemyManager : MonoBehaviour
         GameObject enemyObj = null;
 
         enemyObj = (GameObject)Resources.Load("NormalTank");   // NormalEnemy取得
+        //enemyObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_TEST); // タンク生成置き換え予定
 
         if (enemyObj != null)
         {
             Debug.Log("生成");
             SpawnEnemy(enemyObj);
         }
-
-        //TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_TEST); // タンク生成置き換え予定
     }
 
     private void SpawnEnemy(GameObject enemy)
