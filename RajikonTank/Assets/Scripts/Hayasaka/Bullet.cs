@@ -8,8 +8,6 @@ public class Bullet : MonoBehaviour
     bool CreateFlg;
     [SerializeField]GameObject[] Bullets;
 
-    //Rigidbody[] BulletRb;
-    //float Speed = 5.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,12 +39,5 @@ public class Bullet : MonoBehaviour
         }
         return CreateFlg;
     }
-    //void Moving()
-    //{
-    //    BulletRb[1].velocity = new Vector3(0, Speed, 0);
-    //}
-    //void Reflect()
-    //{
-
-    //}
+    
 }

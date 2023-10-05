@@ -4,30 +4,21 @@ using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
 {
-    //Transform Transform;
-
-    //Vector3 PrevPosition;
-
-    Vector3 Direction;
-    Rigidbody Rb;
-    float Speed = 5.0f;
-    int ReflectCount = 0;
-    bool Flg = false;
     const int FalseCount = 2;
+    int   ReflectCount = 0;
+    float Speed = 5.0f;
+    bool  Flg = false;
 
-    public GameObject Target;
-    
+    public GameObject BulletHead;
+
+    Rigidbody Rb;
+    Vector3 Direction;
+    Vector3 TestStartPos;
     Vector3 TestTarget;
     // Start is called before the first frame update
     void Start()
     {
-        //Transform = transform;
-
-        //PrevPosition = Transform.position;
-
-        Rb = this.transform.GetComponent<Rigidbody>();
-        TestTarget = new Vector3(10,5, 0);
-        Rotation(TestTarget);
+        InitBullet();
     }
 
     // Update is called once per frame
@@ -39,16 +30,27 @@ public class MoveBullet : MonoBehaviour
         }
         Direction = Rb.velocity;
     }
+    void InitBullet()
+    {
+        Rb = this.transform.GetComponent<Rigidbody>();
+        TestTarget = new Vector3(10, 0, 0);
+        TestStartPos = new Vector3(1, 0, 0);
+        StartRotation(TestTarget, TestStartPos);
+    }
+    //直進させる
     void Moving()
     {
-        Rb.velocity = Target.transform.forward * Speed;
+        Rb.velocity = BulletHead.transform.forward * Speed;
     }
-    void Rotation(Vector3 TargetPos)
+    //送られた方向に向く,スタート位置に配置される
+    void StartRotation(Vector3 TargetPos,Vector3 StartPos)
     {
-        // オブジェクトが目標オブジェクトの位置を向くようにする
         Quaternion rotation = Quaternion.LookRotation(TargetPos);
-        Target.transform.rotation = rotation;
+        BulletHead.transform.rotation = rotation;
+
+        this.transform.position = StartPos;
     }
+    //反射させる関数
     void Reflect(Vector3 WallObj)
     {
         // 反射ベクトル（速度）
@@ -63,15 +65,12 @@ public class MoveBullet : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(result);
 
         // オブジェクトの回転に反映
-        Target.transform.rotation = rotation;
+        BulletHead.transform.rotation = rotation;
     }
-    void TankDestroy(GameObject TankObj)
-    {
-        Destroy(TankObj);
-    }
+    //弾の削除
     void BulletDestroy()
     {
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
         ReflectCount = 0;
         Flg = false;
     }
@@ -93,9 +92,8 @@ public class MoveBullet : MonoBehaviour
         }
         if (other.gameObject.tag == "Tank")
         {
-            BulletDestroy();
             var TankObj = other.gameObject;
-            TankDestroy(TankObj);
+            BulletDestroy();
         }
     }
 }
