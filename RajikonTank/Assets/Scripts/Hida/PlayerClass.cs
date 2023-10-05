@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
+using TankClassInfomations;
 
-public class PlayerClass : MonoBehaviour
+public class PlayerClass : TankEventHandler
 {
     
     [SerializeField,Tooltip("このクラスが所持しているタンク"),Header("デバッグ用表示")] private Rajikon PossessionTank;
@@ -116,6 +117,20 @@ public class PlayerClass : MonoBehaviour
     private void TankMove(Vector3 input)
     {
         //タンクに反映
+    }
+
+    /// <summary>
+    /// タンクのヒット時にイベントハンドラー経由で呼ばれる
+    /// </summary>
+    public override void TankHit()
+    {
+        base.TankHit();
+
+        //ゲームマネージャーにヒットしたことを通知
+        //GameManagerInstance
+
+        //操作を停止
+        isControl = false;
     }
 
     #endregion
