@@ -22,7 +22,8 @@ namespace ConstList
     {
         NONE,
         TANK_TEST,
-        TANK_NORMAL_RED
+        TANK_NORMAL_RED,
+        TANK_NORMAL
     }
 
     /// <summary>

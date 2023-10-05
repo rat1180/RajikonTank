@@ -152,8 +152,6 @@ public class StateBaseAI : MonoBehaviour
         //if (Physics.Raycast(enemyPos, playerPos, out hit))
         if (Physics.Raycast(enemyPos, playerPos, out hit))
         {
-            Debug.Log(player.transform.position + "：" + playerPos);
-
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
             if (hitObj.tag == "Player")
@@ -265,7 +263,6 @@ public class StateBaseAI : MonoBehaviour
             // -180～180で返るため、0～360に変換
             Radian += 360;
         }
-        Debug.Log(Radian);
 
         // 360度を8分割し、四捨五入する(0～8)
         int Division = Mathf.RoundToInt(Radian / 45.0f);
@@ -275,7 +272,7 @@ public class StateBaseAI : MonoBehaviour
 
         // Vector2に変換して取得
         //Vector2 Direction = Conversion(Division);
-        Vector3 Direction = Conversion(Division);
+        Vector3 Direction = Conversion(Division); // テスト
 
         //transform.position += Direction; // Player追従テスト
     }
@@ -296,6 +293,7 @@ public class StateBaseAI : MonoBehaviour
             //case 7: return new Vector2(-1,  1);  // 315度
             //default: return Vector2.zero;
 
+            // テスト
             case 0: return new Vector3(-1, 0,  0);   // 0度
             case 1: return new Vector3(-1, 0, -1);   // 45度
             case 2: return new Vector3( 0, 0, -1);   // 90度

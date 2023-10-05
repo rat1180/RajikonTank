@@ -28,34 +28,9 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        EnemyGenerate();
+        SpawnNormalEnemy();
 
         isGenerate = false;
-    }
-
-    // 敵生成
-    private void EnemyGenerate()
-    {
-        // (仮作成)
-        GameObject enemyObj = null;
-
-        enemyObj = (GameObject)Resources.Load("NormalTank");   // NormalEnemy取得
-        //enemyObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_TEST); // タンク生成置き換え予定
-
-        if (enemyObj != null)
-        {
-            Debug.Log("生成");
-            SpawnEnemy(enemyObj);
-        }
-    }
-
-    private void SpawnEnemy(GameObject enemy)
-    {
-        GameObject enemyChildObj;
-        Vector3 spawnPos = GetPosition(); // 初期位置を取得
-
-        enemyChildObj = Instantiate(enemy, spawnPos, Quaternion.identity);  // 敵生成
-        enemyChildObj.transform.parent = this.transform;   // 生成した敵を子オブジェクトに追加
     }
     #endregion
 
@@ -66,23 +41,19 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject enemyChildObj;
 
-        Vector3 spawnPos = GetPosition(); // 初期位置を取得
-        GameObject enemyObj = (GameObject)Resources.Load("NormalTank");       // NormalEnemy取得
-
-        enemyChildObj = Instantiate(enemyObj, spawnPos, Quaternion.identity);  // 敵生成
-        enemyChildObj.transform.parent = this.transform;  // 生成した敵を子オブジェクトに追加
+        enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_NORMAL); // タンク生成
+        enemyChildObj.transform.parent = this.transform;    // 生成した敵を子オブジェクトに追加
+        enemyChildObj.transform.position = GetPosition();   // 初期位置に設定
     }
 
     // 反射敵生成
     //public void SpawnReflectEnemy()
     //{
-    //    GameObject enemyChildObj;
+    //GameObject enemyChildObj;
+    //Vector3 spawnPos = GetPosition(); // 初期位置を取得
 
-    //    Vector3 spawnPos = GetPosition(); // 初期位置を取得
-    //    GameObject enemyObj = (GameObject)Resources.Load("ReflectEnemy");      // ReflectEnemy取得
-
-    //    enemyChildObj = Instantiate(enemyObj, spawnPos, Quaternion.identity);
-    //    enemyChildObj.transform.parent = this.transform;
+    //enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_REFLECT); // タンク生成
+    //    enemyChildObj.transform.parent = this.transform;   // 生成した敵を子オブジェクトに追加
     //}
     #endregion
 
