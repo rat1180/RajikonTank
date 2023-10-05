@@ -150,8 +150,10 @@ public class StateBaseAI : MonoBehaviour
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
         //if (Physics.Raycast(enemyPos, playerPos, out hit))
-        if (Physics.Raycast(transform.position, player.transform.position, out hit, 20))
+        if (Physics.Raycast(enemyPos, playerPos, out hit))
         {
+            Debug.Log(player.transform.position + "：" + playerPos);
+
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
             if (hitObj.tag == "Player")
@@ -275,10 +277,7 @@ public class StateBaseAI : MonoBehaviour
         //Vector2 Direction = Conversion(Division);
         Vector3 Direction = Conversion(Division);
 
-        // Vector2変換後の結果表示
-        Debug.Log("角度： " + Direction);
-
-        transform.position += Direction;
+        //transform.position += Direction; // Player追従テスト
     }
 
     // ベクトル変換メソッド
@@ -286,14 +285,15 @@ public class StateBaseAI : MonoBehaviour
     {
         switch (index)
         {
-            //case 0: return new Vector2(0, 1);   // 0度
-            //case 1: return new Vector2(1, 1);   // 45度
-            //case 2: return new Vector2(1, 0);   // 90度
-            //case 3: return new Vector2(1, -1);  // 135度
-            //case 4: return new Vector2(0, -1);  // 180度
-            //case 5: return new Vector2(-1, -1); // 225度
-            //case 6: return new Vector2(-1, 0);  // 270度
-            //case 7: return new Vector2(-1, 1);  // 315度
+            // 左回り
+            //case 0: return new Vector2(-1,  0);  // 0度
+            //case 1: return new Vector2(-1, -1);  // 45度
+            //case 2: return new Vector2( 0, -1);  // 90度
+            //case 3: return new Vector2( 1, -1);  // 135度
+            //case 4: return new Vector2( 1,  0);  // 180度
+            //case 5: return new Vector2( 1,  1);  // 225度
+            //case 6: return new Vector2( 0,  1);  // 270度
+            //case 7: return new Vector2(-1,  1);  // 315度
             //default: return Vector2.zero;
 
             case 0: return new Vector3(-1, 0,  0);   // 0度
