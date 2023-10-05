@@ -50,5 +50,6 @@ public class StageManager : MonoBehaviour
                 GameManager.instance.PushTank(teamID, tank.GetComponent<Rajikon>());  //ƒ`[ƒ€ID‘—M
                 break;
         }
+       // GameManager.instance.testOBJ = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject;
     }
 }
