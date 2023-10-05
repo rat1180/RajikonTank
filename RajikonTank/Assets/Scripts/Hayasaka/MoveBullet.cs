@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
-{
-    //Transform Transform;
-
-    //Vector3 PrevPosition;
-
+{ 
     Vector3 Direction;
     Rigidbody Rb;
     float Speed = 5.0f;
@@ -15,7 +11,7 @@ public class MoveBullet : MonoBehaviour
     bool Flg = false;
     const int FalseCount = 2;
 
-    public GameObject Target;
+    public GameObject BulletHead;
     
     Vector3 TestTarget;
     // Start is called before the first frame update
@@ -39,16 +35,18 @@ public class MoveBullet : MonoBehaviour
         }
         Direction = Rb.velocity;
     }
+    //直進させる
     void Moving()
     {
-        Rb.velocity = Target.transform.forward * Speed;
+        Rb.velocity = BulletHead.transform.forward * Speed;
     }
+    //送られた方向に向く
     void Rotation(Vector3 TargetPos)
     {
-        // オブジェクトが目標オブジェクトの位置を向くようにする
         Quaternion rotation = Quaternion.LookRotation(TargetPos);
-        Target.transform.rotation = rotation;
+        BulletHead.transform.rotation = rotation;
     }
+    //反射させる関数
     void Reflect(Vector3 WallObj)
     {
         // 反射ベクトル（速度）
@@ -63,12 +61,13 @@ public class MoveBullet : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(result);
 
         // オブジェクトの回転に反映
-        Target.transform.rotation = rotation;
+        BulletHead.transform.rotation = rotation;
     }
     void TankDestroy(GameObject TankObj)
     {
         Destroy(TankObj);
     }
+    //弾の削除
     void BulletDestroy()
     {
         //this.gameObject.SetActive(false);
