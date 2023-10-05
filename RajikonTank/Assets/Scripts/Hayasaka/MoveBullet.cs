@@ -42,8 +42,8 @@ public class MoveBullet : MonoBehaviour
     {
         Rb.velocity = BulletHead.transform.forward * Speed;
     }
-    //送られた方向に向く,スタート位置に配置される
-    void StartRotation(Vector3 TargetPos,Vector3 StartPos)
+    //送られた方向に向く
+    public void StartRotation(Vector3 TargetPos,Vector3 StartPos)
     {
         Quaternion rotation = Quaternion.LookRotation(TargetPos);
         BulletHead.transform.rotation = rotation;
@@ -92,7 +92,6 @@ public class MoveBullet : MonoBehaviour
         }
         if (other.gameObject.tag == "Tank")
         {
-            var TankObj = other.gameObject;
             BulletDestroy();
         }
     }

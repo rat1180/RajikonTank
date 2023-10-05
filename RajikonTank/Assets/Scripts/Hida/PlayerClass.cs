@@ -101,10 +101,10 @@ public class PlayerClass : TankEventHandler
     private GameObject TankSpawn()
     {
         //タンクの生成
-        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_TEST);
+        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.Rajikon);
 
         //タンクの初期化
-
+        tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);
 
         //タンクの初期位置を設定
         tank.transform.position = SpawnPoint;
@@ -129,6 +129,8 @@ public class PlayerClass : TankEventHandler
         {
             //操作を取得
             InputControler();
+
+            //PossessionTank.Tar
         }
     }
 

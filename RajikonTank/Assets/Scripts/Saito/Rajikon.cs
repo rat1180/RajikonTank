@@ -11,7 +11,12 @@ public class Rajikon : MonoBehaviour
     [SerializeField] float MoveSpeed;      // à⁄ìÆÇ∑ÇÈë¨Ç≥.
     [SerializeField] float RotationSpeed;  // âÒì]Ç∑ÇÈë¨Ç≥.
     private float RotationAngle;           // ó›êœâÒì]äpìx
-    [SerializeField]GameObject Bullet;
+    [SerializeField] GameObject Tank;
+    [SerializeField] GameObject Turret;
+    [SerializeField] GameObject ShotPos;
+    [SerializeField] MoveBullet MoveBullet;
+
+    [SerializeField] int num;
 
     /// <summary>
     /// èâä˙âªópä÷êî.
@@ -19,16 +24,36 @@ public class Rajikon : MonoBehaviour
     /// <param name="movespeed"></param>
     /// <param name="rotationspeed"></param>
     /// <param name="rotationangle"></param>
-    public void InitTank(float movespeed, float rotationspeed, float rotationangle)
+    public void InitRajikon(float movespeed, float rotationspeed, float rotationangle)
     {
         MoveSpeed = movespeed;
         RotationSpeed = rotationspeed;
         RotationAngle = rotationangle;
     }
 
+    public void SetPlayerInput(PlayerInput input)
+    {
+        PlayerInput = input;
+    }
+
+    private void InitBullet()
+    {
+        BulletGenerateClass.BulletInstantiate(gameObject, gameObject, "RealBullet", 1);
+
+        for (int num = 0; num < transform.childCount; num++)
+        {
+            MoveBullet = transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
+            MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+        }
+    }
+
     void Start()
     {
-
+        
+        Tank = transform.GetChild(0).gameObject;
+        Turret = Tank.transform.GetChild(1).gameObject;
+        ShotPos = Turret.transform.GetChild(0).gameObject;
+        InitBullet();
     }
 
     void Update()
@@ -64,7 +89,20 @@ public class Rajikon : MonoBehaviour
                 Target.transform.position += Target.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
             case KeyList.SPACE:
-                BulletGenerateClass.BulletInstantiate(gameObject,Bullet, "Bullet", 3);
+                if (num < transform.childCount)
+                {
+                    MoveBullet = transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
+                    MoveBullet.gameObject.SetActive(true);
+                    MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+                    num++;
+                    Debug.Log(num);
+                    if(num >= transform.childCount)
+                    {
+                        num = 2;
+                    }
+                }
+               
+
                 break;
             default:
 
