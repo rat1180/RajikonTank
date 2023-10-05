@@ -244,11 +244,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 0}
-  Target: {fileID: 7321627626239640675}
-  TargetName: 
   MoveSpeed: 5
   RotationSpeed: 70
-  Bullet: {fileID: 0}
+  TurretSpeed: 0
+  Num: 0
+  MaxBulletNum: 0
+  Tank: {fileID: 0}
+  Turret: {fileID: 0}
+  ShotPos: {fileID: 0}
+  BulletList: {fileID: 0}
+  MoveBullet: {fileID: 0}
+  Target: {fileID: 7321627626239640675}
 --- !u!1 &7321274887167534503
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +482,6 @@ GameObject:
   - component: {fileID: 7318648821597473683}
   - component: {fileID: 7343179875938959313}
   - component: {fileID: 7335369337366115353}
-  - component: {fileID: 7322654455951455839}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -550,17 +555,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7322654455951455839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7321936761711110891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eaa111fa55969442a59221a85885b84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RotateSpeed: 5
-  Target: {fileID: 0}
