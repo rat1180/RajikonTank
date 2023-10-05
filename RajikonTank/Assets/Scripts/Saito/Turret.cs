@@ -17,13 +17,29 @@ public class Turret : MonoBehaviour
     /// </summary>
     void LookTarget()
     {
-        Vector3 DirectionTarget = Target.transform.position - transform.position;
+        if (Target == null)
+        {
+            Debug.Log("‘_‚¤‘ÎÛ‚ª‚ ‚è‚Ü‚¹‚ñ");
+        }
+        else if (Target != null)
+        {
+            Vector3 DirectionTarget = Target.transform.position - transform.position;
 
-        Quaternion TargetRotate = Quaternion.LookRotation(DirectionTarget, Vector3.up);
+            Quaternion TargetRotate = Quaternion.LookRotation(DirectionTarget, Vector3.up);
 
-        // X²‚ÆZ²‚Ì‰ñ“]‚ğŒÅ’è‚·‚é.
-        TargetRotate.eulerAngles = new Vector3(0, TargetRotate.eulerAngles.y, 0);
+            // X²‚ÆZ²‚Ì‰ñ“]‚ğŒÅ’è‚·‚é.
+            TargetRotate.eulerAngles = new Vector3(0, TargetRotate.eulerAngles.y, 0);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotate, RotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, TargetRotate, RotateSpeed * Time.deltaTime);
+
+        }
+    }
+
+    /// <summary>
+    /// ƒ^[ƒQƒbƒg‚ÌXV.
+    /// </summary>
+    public void TargetUpdate(GameObject target)
+    {
+        Target = target;
     }
 }

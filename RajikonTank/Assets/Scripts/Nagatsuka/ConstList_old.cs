@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace ConstList
+namespace ConstList_old
 {
 
     /// <summary>
@@ -18,6 +18,18 @@ namespace ConstList
         ENDGAME_WIN,  //ƒQ[ƒ€Ÿ—˜
         ENDGAME_LOSE, //ƒQ[ƒ€”s–k
         COUNT         //‚±‚Ì—ñ‹“‘Ì‚Ì”
+    }
+
+    /// <summary>
+    /// ƒ`[ƒ€IDˆê———ñ‹“‘Ì.
+    /// </summary>
+    public enum TeamID
+    {
+        player,
+        player2,
+        player3,
+        player4,
+        CPU
     }
 
     /// <summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using ConstList;
+using ConstList_old;
 
 /*
 マッチング中に待機するロビー内の管理マネージャー

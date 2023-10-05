@@ -18,21 +18,58 @@ namespace ConstList
         SPACE,
     }
 
-    //弾を生成する関数を持つstaticクラス
-    public static class BulletGenerateClass
+    public enum TankPrefabNames
+    {
+        NONE,
+        TANK_TEST,
+        TANK_NORMAL_RED
+    }
+
+    /// <summary>
+    /// チームID一覧列挙体.
+    /// </summary>
+    public enum TeamID
+    {
+        player,
+        player2,
+        player3,
+        player4,
+        CPU
+    }
+
+    /// <summary>
+    /// ゲームの現在の状態を表す列挙体
+    /// </summary>
+    public enum GAMESTATUS
+    {
+        NONE,         //ゲームシーン外、もしくはセットされていない
+        READY,        //ゲーム開始前
+        INGAME,       //ゲーム中
+        ENDGAME,
+        ENDGAME_WIN,  //ゲーム勝利
+        ENDGAME_LOSE, //ゲーム敗北
+        COUNT         //この列挙体の数
+    }
+
+    //オブジェクト名と生成用フォルダを指定することで
+    //そのフォルダからプレファブを検索する
+    public static class FolderObjectFinder
     {
         //生成用フォルダへのパス
-        const string GenerateFolderName = "";
+        const string DefalutGenerateFolderName = "Prefabs/";
 
         /// <summary>
         /// 生成用フォルダからオブジェクトを探し、返す。
         /// もし見つからなければ空のゲームオブジェクトを返す
+        /// デフォルトの生成フォルダが指定されているので、デフォルトからの相対参照で名前を入れる
         /// </summary>
         /// <param name="objectname"></param>
         /// <returns></returns>
         public static GameObject GetResorceObject(string objectname)
         {
-            var obj = (GameObject)Resources.Load(objectname);
+            var obj = (GameObject)Resources.Load(DefalutGenerateFolderName+objectname);
+
+            Debug.Log(DefalutGenerateFolderName + objectname);
 
             if (obj != null) return obj;
             else
@@ -42,10 +79,18 @@ namespace ConstList
                 return new GameObject();
             }
         }
+    }
+
+    //弾を生成する関数を持つstaticクラス
+    public static class BulletGenerateClass
+    {
+        //Bullet用生成フォルダへのパス
+        const string GenerateFolderName = "Bullets/";
 
         /// <summary>
         /// 弾を生成する
-        /// 引数：parentobject　生成した弾の、親にしたいオブジェクト
+        /// 引数：tank          この弾の持ち主として設定するタンク
+        ///       parentobject　生成した弾の、親にしたいオブジェクト
         /// 　　　bulletname　　生成する弾の名前
         /// 　　　bulletnm　　　弾の数
         /// 戻り値：弾が正常に生成されればtrueが返る
@@ -57,7 +102,7 @@ namespace ConstList
         public static bool BulletInstantiate(GameObject tank,GameObject parentobject,string bulletname,int bulletnm)
         {
             //生成対象を探索
-            var prefabobj = GetResorceObject(GenerateFolderName + bulletname);
+            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + bulletname);
 
             //生成数まで繰り返す
             for (int i = 0; i < bulletnm; i++)
@@ -78,5 +123,34 @@ namespace ConstList
             return true;
         }
 
+    }
+
+    public static class TankGenerateClass
+    {
+        //Tank用フォルダへのパス
+        const string GenerateFolderName = "Tanks/";
+
+        /// <summary>
+        /// タンクを生成する
+        /// タンクの種類をTankPrefabNamesの中から選んで引数に入れること
+        /// </summary>
+        /// <param name="tankname"></param>
+        /// <returns></returns>
+        public static GameObject TankInstantiate(TankPrefabNames tankname)
+        {
+            //生成対象を探索
+            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + tankname);
+
+            //タンクを生成
+            var obj = Object.Instantiate(prefabobj);
+
+            if(obj == null)
+            {
+                Debug.LogError("タンクの生成に失敗しました");
+                return new GameObject();
+            }
+
+            return obj;
+        }
     }
 }
