@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
             Bullets[i] = (GameObject)Resources.Load("TestBullet");
             //BulletRb[i] = Bullets[i].transform.GetComponent<Rigidbody>();
 
-            Instantiate(Bullets[i], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
+            //Instantiate(Bullets[i], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
 
             if (Bullets.Length == MAXBULLET)
             {
