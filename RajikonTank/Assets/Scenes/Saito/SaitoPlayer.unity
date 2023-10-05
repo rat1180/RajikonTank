@@ -420,14 +420,14 @@ MonoBehaviour:
   MoveSpeed: 5
   RotationSpeed: 70
   TurretSpeed: 0
+  Num: 0
+  MaxBulletNum: 0
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}
   BulletList: {fileID: 0}
   MoveBullet: {fileID: 0}
   Target: {fileID: 603615161}
-  Num: 0
-  MaxBulletNum: 0
 --- !u!1 &833246810
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,71 +973,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &6051192064353648459
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.046501942
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.903632
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049957059259143725, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6051192063542750835, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 7245203260631108900}
-    - target: {fileID: 6051192063799300063, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: PlayerInput
-      value: 
-      objectReference: {fileID: 1555266130}
-    - target: {fileID: 6052627324329894105, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
-      propertyPath: m_Name
-      value: Rajikon
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c4a71bf05c5031b429612b37ecf85dbb, type: 3}
 --- !u!4 &7245203260631108898
 Transform:
   m_ObjectHideFlags: 0
