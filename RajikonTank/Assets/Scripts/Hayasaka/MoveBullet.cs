@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveBullet : MonoBehaviour
 { 
     Vector3 Direction;
+    Vector3 TestStartPos;
     Rigidbody Rb;
     float Speed = 5.0f;
     int ReflectCount = 0;
@@ -17,13 +18,10 @@ public class MoveBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Transform = transform;
-
-        //PrevPosition = Transform.position;
-
         Rb = this.transform.GetComponent<Rigidbody>();
         TestTarget = new Vector3(10,5, 0);
-        Rotation(TestTarget);
+        TestStartPos = new Vector3(1, 0, 0);
+        StartRotation(TestTarget,TestStartPos);
     }
 
     // Update is called once per frame
@@ -41,10 +39,12 @@ public class MoveBullet : MonoBehaviour
         Rb.velocity = BulletHead.transform.forward * Speed;
     }
     //送られた方向に向く
-    void Rotation(Vector3 TargetPos)
+    void StartRotation(Vector3 TargetPos,Vector3 StartPos)
     {
         Quaternion rotation = Quaternion.LookRotation(TargetPos);
         BulletHead.transform.rotation = rotation;
+
+        this.transform.position = StartPos;
     }
     //反射させる関数
     void Reflect(Vector3 WallObj)
@@ -63,6 +63,7 @@ public class MoveBullet : MonoBehaviour
         // オブジェクトの回転に反映
         BulletHead.transform.rotation = rotation;
     }
+   
     void TankDestroy(GameObject TankObj)
     {
         Destroy(TankObj);
@@ -70,7 +71,7 @@ public class MoveBullet : MonoBehaviour
     //弾の削除
     void BulletDestroy()
     {
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
         ReflectCount = 0;
         Flg = false;
     }
