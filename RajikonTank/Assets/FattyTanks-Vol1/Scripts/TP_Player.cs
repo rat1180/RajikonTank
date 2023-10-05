@@ -188,7 +188,7 @@ public class TP_Player : MonoBehaviour {
 
     private void Move()
     {
-        // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
+        // Create a vector in the direction the tank is facing with a magnitude based on the cpuInput, speed and the time between frames.
         //Vector3 movement = transform.forward * m_MovementInputValue * moveSpeed * Time.deltaTime;
         Vector3 movement = transform.right * m_MovementInputValue * moveSpeed * Time.deltaTime;
 
@@ -198,7 +198,7 @@ public class TP_Player : MonoBehaviour {
 
     private void Turn()
     {
-        // Determine the number of degrees to be turned based on the input, speed and time between frames.
+        // Determine the number of degrees to be turned based on the cpuInput, speed and time between frames.
         float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
 
         // Make this into a rotation in the y axis.
