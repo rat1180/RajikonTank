@@ -5,6 +5,8 @@ using ConstList;
 
 public class EnemyManager : MonoBehaviour
 {
+    Rajikon rajikon;
+
     private bool isGenerate = true;   // 生成フラグ
 
     // Start is called before the first frame update
@@ -44,6 +46,8 @@ public class EnemyManager : MonoBehaviour
         enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_NORMAL); // タンク生成
         enemyChildObj.transform.parent = this.transform;    // 生成した敵を子オブジェクトに追加
         enemyChildObj.transform.position = GetPosition();   // 初期位置に設定
+
+        GameManager.instance.PushTank(TeamID.CPU, rajikon); // チームID送信
     }
 
     // 反射敵生成
