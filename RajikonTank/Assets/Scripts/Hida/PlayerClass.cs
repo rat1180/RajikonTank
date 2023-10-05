@@ -129,8 +129,6 @@ public class PlayerClass : TankEventHandler
         {
             //‘€ì‚ğæ“¾
             InputControler();
-
-            //PossessionTank.Tar
         }
     }
 
