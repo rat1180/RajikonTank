@@ -5,7 +5,8 @@ using ConstList;
 
 public class PlayerInput : MonoBehaviour
 {
-    KeyList sendkey;  // 押されたキーの情報を送る変数.
+    public KeyList sendkey;  // 押されたキーの情報を送る変数.
+    public Vector3 sendtarget;   // 狙っている場所を送る変数
 
     void Start()
     {
@@ -17,6 +18,19 @@ public class PlayerInput : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// タンクが狙う座標
+    /// </summary>
+    /// <returns></returns>
+    public virtual Vector3 TargetPosition()
+    {
+        return sendtarget;
+    }
+
+    /// <summary>
+    /// 入力された方向キー
+    /// </summary>
+    /// <returns></returns>
     public virtual KeyList KeyInput()
     {
         if (Input.GetKey(KeyCode.A))

@@ -4,9 +4,18 @@ using UnityEngine;
 using ConstList;
 using TankClassInfomations;
 
+/// <summary>
+/// ユーザー一人に割り当てられるプレイヤークラス
+/// タンクで行う操作とゲームマネージャーとの橋渡しを行うイメージ
+/// このオブジェクトにはPlayerInputクラスが割り当てられ、タンクはそれを参照して移動等を行うため、
+/// 移動そのものはこのクラスでは行わない
+/// </summary>
 public class PlayerClass : TankEventHandler
 {
-    
+
+    #region 変数
+    [SerializeField, Tooltip("ユーザーが操作するためのInputClass")] private PlayerInput PlayerInputScript;
+
     [SerializeField,Tooltip("このクラスが所持しているタンク"),Header("デバッグ用表示")] private Rajikon PossessionTank;
 
     [SerializeField,Tooltip("操作を受付するか")] private bool isControl;
@@ -16,13 +25,14 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("所属しているチームID")] private TeamID TeamID;
 
     [SerializeField, Tooltip("このプレイヤーのスポーンポイント")] private Vector3 SpawnPoint;
+    #endregion
 
+    #region Unityイベント
     // Start is called before the first frame update
     void Start()
     {
         //プレイヤーの初期化
         InitPlayer();
-
         
     }
 
@@ -32,6 +42,7 @@ public class PlayerClass : TankEventHandler
         //タンクをアップデートする
         UpdateTank();
     }
+    #endregion
 
     #region 初期化・生成関数
 
@@ -50,6 +61,9 @@ public class PlayerClass : TankEventHandler
         //操作権限の初期化
         isControl = false;
 
+        //キー入力取得用スクリプト確認・追加
+        SetPlayerInputScript();
+
         //テスト
         PopTank();
 
@@ -61,9 +75,29 @@ public class PlayerClass : TankEventHandler
 
         //チームへ追加
         GameManagerInstance.PushTank(TeamID, PossessionTank);
+
+        isControl = true;
         
     }
 
+    /// <summary>
+    /// PlayerInputがセットされているかを確認し、
+    /// されていなければセットする
+    /// </summary>
+    private void SetPlayerInputScript()
+    {
+        //セットされているか確認
+        if(PlayerInputScript == null)
+        {
+            //持っていればそれを、いなければ追加してセット
+            PlayerInputScript = gameObject.AddComponent<PlayerInput>();
+        }
+    }
+
+    /// <summary>
+    /// タンクを生成する
+    /// </summary>
+    /// <returns></returns>
     private GameObject TankSpawn()
     {
         //タンクの生成
@@ -86,19 +120,15 @@ public class PlayerClass : TankEventHandler
     #region タンクに関する処理
 
     /// <summary>
-    /// タンクの移動を行う関数
+    /// タンクへの操作の反映を行う関数
     /// isControlによって操作を受付するかどうかを決定する
     /// </summary>
     private void UpdateTank()
     {
-        //内容は齋藤さんのをパクリ予定
         if (isControl)
         {
             //操作を取得
             InputControler();
-
-            //操作を反映
-            TankMove(new Vector3());
         }
     }
 
@@ -108,15 +138,20 @@ public class PlayerClass : TankEventHandler
     /// </summary>
     private void InputControler()
     {
-        //内容は齋藤さんのをパクリ
+        //マウスの先をPlayerInputに反映する
+        PlayerInputScript.sendtarget = GetMousePos();
     }
 
     /// <summary>
-    /// 取得した操作を所有しているタンクに反映する
+    /// マウス座標を取得する
     /// </summary>
-    private void TankMove(Vector3 input)
+    /// <returns></returns>
+    private Vector3 GetMousePos()
     {
-        //タンクに反映
+        Vector3 mousepos = Input.mousePosition;
+        mousepos.z = 10;
+        mousepos = Camera.main.ScreenToWorldPoint(mousepos);
+        return mousepos;
     }
 
     /// <summary>
@@ -130,7 +165,7 @@ public class PlayerClass : TankEventHandler
         //GameManagerInstance
 
         //操作を停止
-        isControl = false;
+        SetisControl(false);
     }
 
     #endregion
