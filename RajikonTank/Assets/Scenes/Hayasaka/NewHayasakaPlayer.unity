@@ -1234,11 +1234,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 1555266130}
-  Target: {fileID: 603615161}
-  TargetName: 
   MoveSpeed: 3
   RotationSpeed: 90
-  Bullet: {fileID: 0}
+  TurretSpeed: 0
+  Num: 0
+  MaxBulletNum: 0
+  Tank: {fileID: 0}
+  Turret: {fileID: 0}
+  ShotPos: {fileID: 0}
+  BulletList: {fileID: 0}
+  MoveBullet: {fileID: 0}
+  Target: {fileID: 603615161}
 --- !u!4 &767769881
 Transform:
   m_ObjectHideFlags: 0
@@ -1268,6 +1274,7 @@ GameObject:
   - component: {fileID: 833246813}
   - component: {fileID: 833246812}
   - component: {fileID: 833246811}
+  - component: {fileID: 833246815}
   m_Layer: 0
   m_Name: Stage1
   m_TagString: Untagged
@@ -1361,6 +1368,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &833246815
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833246810}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &840411010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,6 +2032,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e43b9ff7e5e7543856bbf93bbbfba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sendkey: 0
+  sendtarget: {x: 0, y: 0, z: 0}
 --- !u!4 &1555266131
 Transform:
   m_ObjectHideFlags: 0
@@ -2230,6 +2255,7 @@ GameObject:
   - component: {fileID: 1864984678}
   - component: {fileID: 1864984677}
   - component: {fileID: 1864984676}
+  - component: {fileID: 1864984680}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Untagged
@@ -2323,3 +2349,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1864984680
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864984675}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

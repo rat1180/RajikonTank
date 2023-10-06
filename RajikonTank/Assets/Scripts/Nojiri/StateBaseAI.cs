@@ -9,6 +9,8 @@ public class StateBaseAI : TankEventHandler
     public EnemyName aiName = EnemyName.NORMAL;  //敵属性の設定
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の初期遷移
 
+    private Rajikon rajikon;       // Rajikonクラス取得
+    private CPUInput cpuInput;     // CPUInputクラス取得
     private GameObject player;     // プレイヤー取得
     private GameObject grandChild; // 孫オブジェクト取得
     private Vector3 enemyPos;      // 敵(自分)の位置取得
@@ -16,9 +18,6 @@ public class StateBaseAI : TankEventHandler
     private bool isInit  = false;  // 初期化状態確認
     private bool isTimer = false;  // タイマーフラグ
     private const int shotNum = 1; // 発射数
-
-    private Rajikon rajikon;
-    private CPUInput input;
 
     public enum EnemyName // 敵種類
     {
@@ -78,7 +77,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void InitAI()
     {
-        enemyPos = transform.position;
+        enemyPos  = transform.position;
         playerPos = player.transform.position;
 
         if (isInit == true)
@@ -86,9 +85,10 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
+        // PlayerInputクラス取得
         rajikon = gameObject.GetComponent<Rajikon>();
-        input = gameObject.GetComponent<CPUInput>();
-        rajikon.SetPlayerInput(input);
+        cpuInput = gameObject.GetComponent<CPUInput>();
+        rajikon.SetPlayerInput(cpuInput);
 
         AddTeam(); // チーム追加
 
@@ -102,6 +102,7 @@ public class StateBaseAI : TankEventHandler
     public void AddTeam()
     {
         // CPUのチームIDを送ってチームに追加
+        GameManager.instance.PushTank(TeamID.CPU, rajikon); // チームID送信
     }
     #endregion
 
@@ -115,7 +116,6 @@ public class StateBaseAI : TankEventHandler
         {
             NormalAiRoutine();
 
-            input.sendtarget = playerPos;
             switch (aiState)
             {
                 case EnemyAiState.WAIT:
@@ -165,10 +165,10 @@ public class StateBaseAI : TankEventHandler
             if (hitObj.tag == "Player")
             {
                 attackFlg = TurretDirection();
-                //if(attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
-                //else aiState = EnemyAiState.TURN;            // 旋回
+                if (attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
+                else aiState = EnemyAiState.TURN;             // 旋回
 
-                aiState = EnemyAiState.MOVE;   // テスト用
+                //aiState = EnemyAiState.MOVE;   // テスト用
             }
             else
             {
@@ -228,6 +228,7 @@ public class StateBaseAI : TankEventHandler
     }
 
     #region 行動遷移ごとのメソッド
+    // 攻撃用メソッド
     private void Attack()
     {
         GameObject shotObj = grandChild.transform.GetChild(0).gameObject;  // ShotPosition取得
@@ -235,17 +236,15 @@ public class StateBaseAI : TankEventHandler
         if (isInstans) Debug.LogError("弾が生成されませんでした");
     }
 
+    // 旋回用メソッド
     private void Turn()
     {
-        // 旋回
-        //Vector3 aim = playerPos - enemyPos;       // 対象への相対ベクトル取得
-        //var look = Quaternion.LookRotation(aim);  // 対象の方向に向くメソッド
-        //grandChild.transform.rotation = look;     // Playerの方向を向く
+        cpuInput.sendtarget = playerPos; // Playerの方向を向く
     }
 
     /// <summary>
-    /// bulletに当たった時に呼ばれる死亡実行メソッド
-    /// 
+    /// 死亡用メソッド
+    /// bulletに当たった時に死亡遷移に移行
     /// </summary>
     public override void TankHit()
     {

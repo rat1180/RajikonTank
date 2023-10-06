@@ -6,19 +6,21 @@ using ConstList;
 public class Rajikon : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
-    [SerializeField] float MoveSpeed;      // ˆÚ“®‚·‚é‘¬‚³.
-    [SerializeField] float RotationSpeed;  // ‰ñ“]‚·‚é‘¬‚³.
-    [SerializeField] float TurretSpeed;    // ƒ^ƒŒƒbƒg‚Ì‰ñ“]‘¬‚³.
+    [SerializeField] float MoveSpeed;         // ˆÚ“®‚·‚é‘¬‚³.
+    [SerializeField] float RotationSpeed;     // ‰ñ“]‚·‚é‘¬‚³.
+    [SerializeField] float TurretSpeed;       // ƒ^ƒŒƒbƒg‚Ì‰ñ“]‘¬‚³.
     [SerializeField] int Num;
-    [SerializeField] int MaxBulletNum;     // ’e‚ÌÅ‘å”.
-    private float RotationAngle;           // —İÏ‰ñ“]Šp“x.
+    [SerializeField] int MaxBulletNum;        // ’e‚ÌÅ‘å”.
+    [SerializeField] List<bool> isFirBullet;  // ’e‚ğ”­Ë‚µ‚Ä‚¢‚é‚©.
+    [SerializeField] List<GameObject> Bullets;
+    private float RotationAngle;              // —İÏ‰ñ“]Šp“x.
 
     [SerializeField] GameObject Tank;
     [SerializeField] GameObject Turret;
     [SerializeField] GameObject ShotPos;
     [SerializeField] GameObject BulletList;
     [SerializeField] MoveBullet MoveBullet;
-    [SerializeField] GameObject Target;    // ‘_‚¤‘ÎÛ.
+    [SerializeField] GameObject Target;       // ‘_‚¤‘ÎÛ.
 
     /// <summary>
     /// ‰Šú‰»—pŠÖ”.
@@ -40,12 +42,22 @@ public class Rajikon : MonoBehaviour
 
     private void InitBullet()
     {
-        BulletGenerateClass.BulletInstantiate(gameObject, BulletList.gameObject, "RealBullet", MaxBulletNum);
+        //BulletGenerateClass.BulletInstantiate(gameObject, BulletList.gameObject, "RealBullet", MaxBulletNum);
 
-        for (int num = 0; num < BulletList.transform.childCount; num++)
+        //isFirBullet = new List<bool>(new bool[MaxBulletNum]);
+
+        //for (int num = 0; num < BulletList.transform.childCount; num++)
+        //{
+        //    MoveBullet = BulletList.transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
+        //    MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+        //}
+
+        GameObject Bullet;
+
+        for(int i = 0; i < MaxBulletNum; i++)
         {
-            MoveBullet = BulletList.transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
-            MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+            //Bullet =
+            //Bullets.Add(Bullet);
         }
     }
 
@@ -97,17 +109,22 @@ public class Rajikon : MonoBehaviour
                 if (Num < BulletList.transform.childCount)
                 {
                     MoveBullet = BulletList.transform.GetChild(Num).gameObject.GetComponent<MoveBullet>();
-                    MoveBullet.gameObject.SetActive(true);
-                    MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+                    
+                    isFirBullet[Num] = true;
                     Num++;
+
+                    if (isFirBullet[Num] == false)
+                    {
+                        MoveBullet.gameObject.SetActive(true);
+                        MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);    
+                    }
+                    
                     Debug.Log(Num);
-                    if(Num >= BulletList.transform.childCount)
+                    if (Num >= BulletList.transform.childCount)
                     {
                         Num = 0;
                     }
                 }
-               
-
                 break;
             default:
 
@@ -153,4 +170,17 @@ public class Rajikon : MonoBehaviour
     {
         Target = target;
     }
+
+    void Check()
+    {
+        for(int i = 0; i < Bullets.Count; i++)
+        {
+            if(Bullets[i] == false)
+            {
+                
+            }
+
+        }
+    }
+    
 }

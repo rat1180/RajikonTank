@@ -5,8 +5,6 @@ using ConstList;
 
 public class EnemyManager : MonoBehaviour
 {
-    Rajikon rajikon;
-
     private bool isGenerate = true;   // 生成フラグ
 
     // Start is called before the first frame update
@@ -39,26 +37,24 @@ public class EnemyManager : MonoBehaviour
     #region 外部からの敵生成用
 
     // 通常敵生成
-    public void SpawnNormalEnemy()
+    public void SpawnNormalEnemy(/*Vector3 getSpawnPos*/)
     {
         GameObject enemyChildObj;
 
         enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.Enemy_Normal); // タンク生成
-        enemyChildObj.transform.parent = this.transform;    // 生成した敵を子オブジェクトに追加
-        enemyChildObj.transform.position = GetPosition();   // 初期位置に設定
-
-        GameManager.instance.PushTank(TeamID.CPU, rajikon); // チームID送信
+        enemyChildObj.transform.parent = this.transform;  // 生成した敵を子オブジェクトに追加
+        enemyChildObj.transform.position = GetPosition();   // 受け取った初期位置に設定
     }
 
     // 反射敵生成
-    //public void SpawnReflectEnemy()
-    //{
-    //GameObject enemyChildObj;
-    //Vector3 spawnPos = GetPosition(); // 初期位置を取得
+    public void SpawnReflectEnemy()
+    {
+        //GameObject enemyChildObj;
+        //Vector3 spawnPos = GetPosition(); // 初期位置を取得
 
-    //enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_REFLECT); // タンク生成
-    //    enemyChildObj.transform.parent = this.transform;   // 生成した敵を子オブジェクトに追加
-    //}
+        //enemyChildObj = TankGenerateClass.TankInstantiate(TankPrefabNames.TANK_REFLECT); // タンク生成
+        //enemyChildObj.transform.parent = this.transform;   // 生成した敵を子オブジェクトに追加
+    }
     #endregion
 
     // 初期位置を受け取る

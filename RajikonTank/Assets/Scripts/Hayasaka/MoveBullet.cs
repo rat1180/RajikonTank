@@ -15,6 +15,11 @@ public class MoveBullet : MonoBehaviour
     Vector3 Direction;
     Vector3 TestStartPos;
     Vector3 TestTarget;
+    private void OnDisable()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
