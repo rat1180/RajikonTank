@@ -46,6 +46,7 @@ public class Rajikon : MonoBehaviour
         {
             MoveBullet = BulletList.transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
             MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
+            MoveBullet.gameObject.SetActive(false);
         }
     }
 
