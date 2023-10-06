@@ -26,6 +26,7 @@ public class StageManager : MonoBehaviour
             teamID = SpawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
             CreateTank(teamID, SpawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
         }
+        GameManager.instance.NowGameState = GAMESTATUS.READY;
     }
 
     /// <summary>
@@ -38,7 +39,8 @@ public class StageManager : MonoBehaviour
         switch (teamID) {
             case TeamID.player:
                 tank = Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
-                GameManager.instance.PushTank(TeamID.player, tank.GetComponent<Rajikon>()); // チームID送信
+                tank.GetComponent<PlayerClass>().InitPlayer(PlayerClass.InitMode.NATURAL);
+                //GameManager.instance.PushTank(TeamID.player, tank.GetComponent<Rajikon>()); // チームID送信
                 //tank = TankGenerateClass.TankInstantiate(TankPrefabNames.NONE);//Playerをパス指定で生成.
                 //tank.transform.position = position;                                     //生成位置をセット.
                 break;

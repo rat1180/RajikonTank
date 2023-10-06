@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        NowGameState = GAMESTATUS.READY;
+       // NowGameState = GAMESTATUS.READY;
     }
 
     private void Update()

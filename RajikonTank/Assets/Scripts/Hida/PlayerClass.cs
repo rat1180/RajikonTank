@@ -87,9 +87,11 @@ public class PlayerClass : TankEventHandler
     // Start is called before the first frame update
     void Start()
     {
-        //プレイヤーの初期化
-        InitPlayer(InitModeSelect);
-        
+        if(InitModeSelect != InitMode.NATURAL)
+        {
+            //プレイヤーの初期化・テスト
+            InitPlayer(InitModeSelect);
+        }
     }
 
     // Update is called once per frame
@@ -106,8 +108,14 @@ public class PlayerClass : TankEventHandler
     /// Playerクラスの初期化を行う
     /// ゲームマネージャーへのチーム登録とタンクの生成、タンクの初期化
     /// </summary>
-    private void InitPlayer(InitMode mode)
+    public void InitPlayer(InitMode mode)
     {
+        //操作権限の初期化
+        isControl = false;
+
+        //キー入力取得用スクリプト確認・追加
+        CheckPlayerInputScript();
+
         //モードに合わせた処理
         switch (mode)
         {
@@ -117,27 +125,20 @@ public class PlayerClass : TankEventHandler
             case InitMode.NATURAL:
                 SetSpawnPoint(transform.position);
                 CheckGameManagerInstance();
+                PopTank();
                 break;
             case InitMode.DEBUG:
                 SetSpawnPoint(transform.position);
 
                 //テスト
-                //PopTank();
+                PopTank();
                 break;
             default:
                 break;
         }
 
-        
-
-        //操作権限の初期化
-        isControl = false;
-
-        //キー入力取得用スクリプト確認・追加
-        CheckPlayerInputScript();
-
         //テスト
-        PopTank();
+        //PopTank();
 
         //エラー確認
         if (PossessionTank == null)

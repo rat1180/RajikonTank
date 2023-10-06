@@ -148,7 +148,8 @@ namespace ConstList
             var obj = Object.Instantiate(prefabobj);
 
             //ターゲットオブジェクトを生成
-            var target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //var target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var target = new GameObject();
             target.name = "targetobject";
             obj.GetComponent<Rajikon>().SetTargetObject(target);
 
