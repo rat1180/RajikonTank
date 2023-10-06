@@ -53,9 +53,9 @@ public class Rajikon : MonoBehaviour
     {
         
         Tank = transform.GetChild(0).gameObject;
-        BulletList = transform.GetChild(2).gameObject;
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
+        BulletList = transform.GetChild(2).gameObject;
         InitBullet();
     }
 
@@ -147,5 +147,10 @@ public class Rajikon : MonoBehaviour
     public void TargetUpdate()
     {
         Target.transform.position = PlayerInput.TargetPosition();
+    }
+
+    public void SetTargetObject(GameObject target)
+    {
+        Target = target;
     }
 }

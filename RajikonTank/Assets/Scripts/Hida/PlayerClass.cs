@@ -56,7 +56,7 @@ public class PlayerClass : TankEventHandler
         GameManagerInstance = GameManager.instance;
 
         //テスト
-        GameManager.instance.PushTeamList(TeamID);
+        //GameManager.instance.PushTeamList(TeamID);
 
         //操作権限の初期化
         isControl = false;
@@ -74,7 +74,7 @@ public class PlayerClass : TankEventHandler
         }
 
         //チームへ追加
-        GameManagerInstance.PushTank(TeamID, PossessionTank);
+        //GameManagerInstance.PushTank(TeamID, PossessionTank);
 
         isControl = true;
         
@@ -101,7 +101,7 @@ public class PlayerClass : TankEventHandler
     private GameObject TankSpawn()
     {
         //タンクの生成
-        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.Rajikon);
+        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.TankBase);
 
         //タンクの初期化
         tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);
@@ -129,8 +129,6 @@ public class PlayerClass : TankEventHandler
         {
             //操作を取得
             InputControler();
-
-            //PossessionTank.Tar
         }
     }
 

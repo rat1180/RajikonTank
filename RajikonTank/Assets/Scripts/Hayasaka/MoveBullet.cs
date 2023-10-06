@@ -33,9 +33,10 @@ public class MoveBullet : MonoBehaviour
     void InitBullet()
     {
         Rb = this.transform.GetComponent<Rigidbody>();
-        TestTarget = new Vector3(10, 0, 0);
+        TestTarget = new Vector3(10, 0, 5);
         TestStartPos = new Vector3(1, 0, 0);
         StartRotation(TestTarget, TestStartPos);
+        gameObject.SetActive(false);
     }
     //íºêiÇ≥ÇπÇÈ
     void Moving()
@@ -49,6 +50,9 @@ public class MoveBullet : MonoBehaviour
         BulletHead.transform.rotation = rotation;
 
         this.transform.position = StartPos;
+
+        ReflectCount = 0;
+        Rb.velocity = new Vector3(0, 0, 0);
     }
     //îΩéÀÇ≥ÇπÇÈä÷êî
     void Reflect(Vector3 WallObj)
