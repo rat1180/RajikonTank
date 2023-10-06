@@ -39,17 +39,14 @@ public class StageManager : MonoBehaviour
         GameObject tank;
         switch (teamID) {
             case TeamID.player:
-                tank = TankGenerateClass.TankInstantiate(TankPrefabNames.NONE);//Playerをパス指定で生成.
-                tank.transform.position = position;                                     //生成位置をセット.
+                tank = Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
+                GameManager.instance.PushTank(TeamID.player, tank.GetComponent<Rajikon>()); // チームID送信
+                //tank = TankGenerateClass.TankInstantiate(TankPrefabNames.NONE);//Playerをパス指定で生成.
+                //tank.transform.position = position;                                     //生成位置をセット.
                 break;
             case TeamID.CPU:
-                //enemyManager.SpawnNormalEnemy(position);
-                //tank = TankGenerateClass.TankInstantiate(TankPrefabNames.Enemy_Normal);//CPUをパス指定で生成.
-                //tank.transform.position = position;                                    //生成位置をセット.
-                //tank.transform.parent = enemyManager.transform;                              //CPUをEmemysの子供に.
-                //GameManager.instance.PushTank(teamID, tank.GetComponent<Rajikon>());   //チームID送信
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);
                 break;
         }
-       // GameManager.instance.testOBJ = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject;
     }
 }

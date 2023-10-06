@@ -39,7 +39,8 @@ public class StateBaseAI : TankEventHandler
     void Start()
     {
         // (‰¼)
-        player = GameObject.Find("Player");
+        //player = GameObject.Find("Player");
+        player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject;
     }
 
     // Update is called once per frame

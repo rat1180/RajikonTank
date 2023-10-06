@@ -338,6 +338,7 @@ public class GameManager : MonoBehaviour
         InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
+        Debug.Log(teamInfo[CPU_IDnum].ReturnActiveMember());
         InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
     }
