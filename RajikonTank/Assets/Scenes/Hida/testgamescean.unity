@@ -910,6 +910,7 @@ MonoBehaviour:
   tanks:
   - {fileID: 6962108626774797003, guid: fd817822cfb8dd7489da4449227fb6bc, type: 3}
   - {fileID: 8572637675443589868, guid: a94dcbfd96c21234f83d0a6edef35ce5, type: 3}
+  Enemys: {fileID: 0}
   ChindCnt: 0
 --- !u!4 &481488424
 Transform:
@@ -1450,7 +1451,7 @@ MonoBehaviour:
   isControl: 0
   GameManagerInstance: {fileID: 0}
   TeamID: 0
-  SpawnPoint: {x: 1.3, y: 10.3, z: 17}
+  SpawnPoint: {x: 0, y: 0, z: 0}
 --- !u!4 &960195149
 Transform:
   m_ObjectHideFlags: 0
@@ -2092,6 +2093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NowGameState: 0
   InGameCanvas: {fileID: 1064502130}
+  RestBullets: 0
   BulletsImage:
   - {fileID: -1603283486, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
   - {fileID: 31076913, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
@@ -2102,8 +2104,10 @@ MonoBehaviour:
   DebugFlg: 0
   DebugPanel: {fileID: 325850442}
   teamNameList: {fileID: 674396280}
-  RestBullets: 0
   EndGamePanel: {fileID: 1538708566}
+  player_IDnum: 0
+  CPU_IDnum: 0
+  testOBJ: {fileID: 0}
 --- !u!4 &1278218609
 Transform:
   m_ObjectHideFlags: 0

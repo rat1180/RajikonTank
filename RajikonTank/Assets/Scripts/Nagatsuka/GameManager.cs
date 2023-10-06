@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject EndGamePanel;//ゲーム終了時に表示するパネル.
 
-    private int player_IDnum;//Playerがリストの何番目なのかを確認.
-    private int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
-    
+    public int player_IDnum;//Playerがリストの何番目なのかを確認.
+    public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
+
+    public GameObject testOBJ;
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
@@ -179,10 +180,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (DebugFlg) CheckDebug();
-        else
-        {
-            DebugPanel.SetActive(false);
-        }
+        else DebugPanel.SetActive(false);
     }
     #endregion
 
@@ -362,6 +360,7 @@ public class GameManager : MonoBehaviour
         DebugPanel.SetActive(true);
         teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
                             teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActiveMember() + ":" + teamInfo[1].ReturnActive() + "\n";
+        //Debug.Log("CPUIDNUM" + CPU_IDnum);
     }
 
     public void TestDeathplayer()
