@@ -417,7 +417,7 @@ MonoBehaviour:
   ShotPos: {fileID: 0}
   BulletList: {fileID: 0}
   MoveBullet: {fileID: 0}
-  Target: {fileID: 603615161}
+  Target: {fileID: 0}
 --- !u!1 &833246810
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +789,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023372741}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.13, y: 2, z: -1.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1036,12 +1036,24 @@ PrefabInstance:
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: Target
       value: 
-      objectReference: {fileID: 7245203260631108900}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+      propertyPath: Target.x
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: PlayerInput
       value: 
       objectReference: {fileID: 1555266130}
-    - target: {fileID: 7322654455951455839, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+    - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+      propertyPath: TurretSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+      propertyPath: MaxBulletNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: Target
       value: 
       objectReference: {fileID: 7245203260631108900}
