@@ -48,7 +48,7 @@ namespace Photon.Chat.Demo
 
         public string UserName { get; set; }
 
-        private string selectedChannelName; // mainly used for GUI/input
+        private string selectedChannelName; // mainly used for GUI/cpuInput
 
         public ChatClient chatClient;
 
