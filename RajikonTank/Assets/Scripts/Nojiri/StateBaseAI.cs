@@ -11,7 +11,7 @@ public class StateBaseAI : TankEventHandler
 
     private Rajikon rajikon;       // Rajikonクラス取得
     private CPUInput cpuInput;     // CPUInputクラス取得
-    private GameObject player;     // プレイヤー取得
+    public GameObject player;     // プレイヤー取得
     private GameObject grandChild; // 孫オブジェクト取得
     private Vector3 enemyPos;      // 敵(自分)の位置取得
     private Vector3 playerPos;     // プレイヤーの位置取得
@@ -40,7 +40,7 @@ public class StateBaseAI : TankEventHandler
     {
         // (仮)
         //player = GameObject.Find("Player");
-        player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject;
+        player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject.transform.Find("Tank").gameObject;
     }
 
     // Update is called once per frame
@@ -158,11 +158,12 @@ public class StateBaseAI : TankEventHandler
         bool attackFlg; // 攻撃判定フラグ
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, playerPos, out hit))
+        if (Physics.Raycast(enemyPos, (playerPos-enemyPos).normalized, out hit))
         {
+
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
-            if (hitObj.tag == "Player") // Playerと自分の間に遮蔽物がないとき
+            if (hitObj.tag == "Tank" && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
                 attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
@@ -200,7 +201,7 @@ public class StateBaseAI : TankEventHandler
         {
             GameObject turretHitObj = turretHit.collider.gameObject;
 
-            if (turretHitObj.tag == "Player")
+            if (turretHitObj.tag == "Tank" && turretHitObj == player)
             {
                 Debug.Log("Playerに当たった");
                 // 攻撃可

@@ -145,6 +145,9 @@ public class PlayerClass : TankEventHandler
         {
             Debug.LogWarning("初期化時にタンクが生成されていません");
         }
+
+        //テスト
+        isControl = true;
     }
 
     /// <summary>
