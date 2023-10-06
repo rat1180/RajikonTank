@@ -132,7 +132,7 @@ public class StateBaseAI : TankEventHandler
                     break;
                 case EnemyAiState.ATTACK:
                     Debug.Log("射撃");
-                    //Attack();
+                    Attack();
                     break;
                 case EnemyAiState.AVOID:
                     Debug.Log("回避");
@@ -158,18 +158,16 @@ public class StateBaseAI : TankEventHandler
         bool attackFlg; // 攻撃判定フラグ
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        //if (Physics.Raycast(enemyPos, playerPos, out hit))
         if (Physics.Raycast(enemyPos, playerPos, out hit))
         {
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
-            if (hitObj.tag == "Player")
+            if (hitObj.tag == "Player") // Playerと自分の間に遮蔽物がないとき
             {
-                attackFlg = TurretDirection();
-                if (attackFlg) aiState = EnemyAiState.ATTACK; // 攻撃
-                else aiState = EnemyAiState.TURN;             // 旋回
+                attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
-                //aiState = EnemyAiState.MOVE;   // テスト用
+                if (attackFlg) aiState = EnemyAiState.ATTACK; // true ：攻撃
+                else aiState = EnemyAiState.TURN;             // false：旋回
             }
             else
             {
@@ -192,8 +190,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private bool TurretDirection()
     {
-        grandChild = transform.Find("LAV25/LAV25_Turret").gameObject;  // LAV25_Turret取得
-        //grandChild = transform.GetChild(0).GetChild(1).gameObject;     // 順番から取得
+        grandChild = transform.GetChild(0).GetChild(1).gameObject;   // 順番からTurret取得
         RaycastHit turretHit;   // レイに衝突したオブジェクト情報
 
         if (grandChild == null) return false;
@@ -228,13 +225,20 @@ public class StateBaseAI : TankEventHandler
         isTimer = false;
     }
 
+    // 指定秒数ごとに攻撃処理を実行するタイマー
+    IEnumerator AttackTimer()
+    {
+        yield return new WaitForSeconds(2);
+    }
+
     #region 行動遷移ごとのメソッド
     // 攻撃用メソッド
     private void Attack()
     {
-        GameObject shotObj = grandChild.transform.GetChild(0).gameObject;  // ShotPosition取得
-        bool isInstans = BulletGenerateClass.BulletInstantiate(gameObject, shotObj, "Bullet", shotNum); // 弾生成
-        if (isInstans) Debug.LogError("弾が生成されませんでした");
+        cpuInput.moveveckey = KeyList.NONE;
+        cpuInput.moveveckey = KeyList.SPACE;
+
+        StartCoroutine("AttackTimer"); // 2秒後に処理を再開
     }
 
     // 旋回用メソッド
