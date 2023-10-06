@@ -42,8 +42,6 @@ public class GameManager : MonoBehaviour
     public int player_IDnum;//Playerがリストの何番目なのかを確認.
     public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
 
-    public GameObject testOBJ;
-
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
     /// 各チームの情報を入れるクラス
@@ -157,7 +155,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        NowGameState = GAMESTATUS.INGAME;
+        NowGameState = GAMESTATUS.READY;
     }
 
     private void Update()
@@ -190,7 +188,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ReadyRoop()
     {
-
+        NowGameState = GAMESTATUS.INGAME;
     }
 
     /// <summary>

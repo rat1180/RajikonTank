@@ -11,12 +11,11 @@ public class StageManager : MonoBehaviour
     #endregion
 
     [SerializeField] GameObject SpawnPoints;//タンクを生成する座標を入れたリスト.
-    [SerializeField] GameObject[] tanks;
+    [SerializeField] GameObject[] tanks;    //テスト用プレファブ.
 
     [SerializeField] EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する(旧Tanks).
 
-    [Header("確認用変数")]
-    [SerializeField]int ChindCnt;
+    private int ChindCnt;//SpawnPointsの子供要素の数を数える用変数.
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +24,6 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
         {
             teamID = SpawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
-            Debug.Log(teamID);
             CreateTank(teamID, SpawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
         }
     }
@@ -45,7 +43,7 @@ public class StageManager : MonoBehaviour
                 //tank.transform.position = position;                                     //生成位置をセット.
                 break;
             case TeamID.CPU:
-                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
                 break;
         }
     }
