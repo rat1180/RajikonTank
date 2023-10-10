@@ -257,14 +257,12 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Attack()
     {
+        cpuInput.moveveckey = KeyList.NONE; // キーボード入力を初期化
+
         if (!isAttack)
         {
             isAttack = true; // 攻撃中
-
-            Debug.Log("弾発射");
-
-            cpuInput.moveveckey = KeyList.NONE;
-            cpuInput.moveveckey = KeyList.SPACE;
+            cpuInput.moveveckey = KeyList.SPACE; // 攻撃ボタン押下
 
             StartCoroutine(AttackTimer()); // 指定秒数後に処理を再開
         }
