@@ -48,6 +48,7 @@ public class PlayerClass : TankEventHandler
     /// デバッグモードでの初期化用に設定しなければならない設定
     /// それ以外のモードでは使用しない
     /// </summary>
+    [System.Serializable]
     public class DebugModeSettings
     {
 
