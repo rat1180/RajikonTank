@@ -15,7 +15,10 @@ public class MoveBullet : MonoBehaviour
     Vector3 Direction;
     Vector3 TestStartPos;
     Vector3 TestTarget;
-
+    private void OnDisable()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,7 @@ public class MoveBullet : MonoBehaviour
         TestTarget = new Vector3(10, 0, 5);
         TestStartPos = new Vector3(1, 0, 0);
         StartRotation(TestTarget, TestStartPos);
+        gameObject.SetActive(false);
     }
     //íºêiÇ≥ÇπÇÈ
     void Moving()

@@ -215,8 +215,61 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &342780473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 342780475}
+  - component: {fileID: 342780474}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &342780474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342780473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ca740f5d4d4684a9f5d266037162e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitModeSelect: 2
+  PlayerInputScript: {fileID: 0}
+  GameManagerInstance: {fileID: 0}
+  MaxBulletNm: 5
+  PossessionTank: {fileID: 0}
+  isControl: 0
+  TeamID: 0
+  SpawnPoint: {x: 0, y: 0, z: 0}
+  RemainingBulletNm: 0
+--- !u!4 &342780475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342780473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &603615161
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +445,7 @@ Transform:
   - {fileID: 1337770587}
   - {fileID: 603615162}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &767769882
 MonoBehaviour:
@@ -412,6 +465,8 @@ MonoBehaviour:
   TurretSpeed: 0
   Num: 0
   MaxBulletNum: 0
+  isFirBullet: 
+  Bullets: []
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}
@@ -513,7 +568,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &840411010
 GameObject:
@@ -597,7 +652,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &987364085
 GameObject:
@@ -795,7 +850,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1023372747
 BoxCollider:
@@ -932,7 +987,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7245203260631108898
 Transform:
@@ -947,7 +1002,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7245203260631108900
 GameObject:
@@ -987,7 +1042,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7318542449285533185, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7318542449285533185, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1033,6 +1088,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rajikon
       objectReference: {fileID: 0}
+    - target: {fileID: 7321212567925012725, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: Target
       value: 
@@ -1053,9 +1112,5 @@ PrefabInstance:
       propertyPath: MaxBulletNum
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 7245203260631108900}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
