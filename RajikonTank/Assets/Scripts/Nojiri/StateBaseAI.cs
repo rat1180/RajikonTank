@@ -6,18 +6,19 @@ using TankClassInfomations;
 
 public class StateBaseAI : TankEventHandler
 {
-    public EnemyName aiName = EnemyName.NORMAL;  //敵属性の設定
+    public EnemyName aiName = EnemyName.NORMAL;   //敵属性の設定
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の初期遷移
 
-    private Rajikon rajikon;       // Rajikonクラス取得
-    private CPUInput cpuInput;     // CPUInputクラス取得
-    public GameObject player;     // プレイヤー取得
-    private GameObject grandChild; // 孫オブジェクト取得
-    private Vector3 enemyPos;      // 敵(自分)の位置取得
-    private Vector3 playerPos;     // プレイヤーの位置取得
-    private bool isInit  = false;  // 初期化状態確認
-    private bool isTimer = false;  // タイマーフラグ
-    private const int shotNum = 1; // 発射数
+    private Rajikon rajikon;        // Rajikonクラス
+    private CPUInput cpuInput;      // CPUInputクラス
+    private GameObject player;      // プレイヤー
+    private GameObject grandChild;  // 孫オブジェクト
+    private Vector3 enemyPos;       // 敵(自分)の位置
+    private Vector3 playerPos;      // プレイヤーの位置
+    private string playerTag;       // Playerのtag
+    private bool isInit   = false;  // 初期化状態確認
+    private bool isAttack = false;  // 攻撃間隔用フラグ
+    private bool isTimer  = false;  // タイマーフラグ
 
     public enum EnemyName // 敵種類
     {
@@ -38,9 +39,10 @@ public class StateBaseAI : TankEventHandler
     // Start is called before the first frame update
     void Start()
     {
-        // (仮)
+        // ゲームオブジェクトで生成されたPlayerを取得
         //player = GameObject.Find("Player");
         player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject.transform.Find("Tank").gameObject;
+        playerTag = player.tag; // tagを取得
     }
 
     // Update is called once per frame
@@ -86,6 +88,8 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
+        isInit = true;
+
         // PlayerInputクラス取得
         rajikon = gameObject.GetComponent<Rajikon>();
         cpuInput = gameObject.GetComponent<CPUInput>();
@@ -94,7 +98,6 @@ public class StateBaseAI : TankEventHandler
         AddTeam(); // チーム追加
 
         Debug.Log("初期化実行");
-        isInit = true;
     }
 
     /// <summary>
@@ -113,37 +116,34 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Normal()
     {
-        if(isTimer == false)
-        {
-            NormalAiRoutine();
+        NormalAiRoutine();
 
-            switch (aiState)
-            {
-                case EnemyAiState.WAIT:
-                    Debug.Log("待機");
-                    break;
-                case EnemyAiState.MOVE:
-                    Debug.Log("移動");
-                    VectorCalc();
-                    break;
-                case EnemyAiState.TURN:
-                    Debug.Log("旋回");
-                    Turn();
-                    break;
-                case EnemyAiState.ATTACK:
-                    Debug.Log("射撃");
-                    Attack();
-                    break;
-                case EnemyAiState.AVOID:
-                    Debug.Log("回避");
-                    break;
-                case EnemyAiState.DEATH:
-                    Debug.Log("死亡");
-                    Destroy(gameObject);
-                    break;
-                default:
-                    break;
-            }
+        switch (aiState)
+        {
+            case EnemyAiState.WAIT:
+                Debug.Log("待機");
+                break;
+            case EnemyAiState.MOVE:
+                Debug.Log("移動");
+                //Move();
+                break;
+            case EnemyAiState.TURN:
+                Debug.Log("旋回");
+                Turn();
+                break;
+            case EnemyAiState.ATTACK:
+                Debug.Log("射撃");
+                Attack();
+                break;
+            case EnemyAiState.AVOID:
+                Debug.Log("回避");
+                break;
+            case EnemyAiState.DEATH:
+                Debug.Log("死亡");
+                Destroy(gameObject);
+                break;
+            default:
+                break;
         }
     }
 
@@ -154,16 +154,24 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalAiRoutine()
     {
-        RaycastHit hit; // Rayが衝突したオブジェクト情報
-        bool attackFlg; // 攻撃判定フラグ
+        // AiTimer実行中
+        if(isTimer == true)
+        {
+            return;
+        }
+
+        RaycastHit hit;         // Rayが衝突したオブジェクト情報
+        Vector3 fireDirection;  // 発射方向  
+        bool attackFlg;         // 攻撃判定フラグ
+
+        fireDirection = (playerPos - enemyPos).normalized;
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, (playerPos-enemyPos).normalized, out hit))
+        if (Physics.Raycast(enemyPos, fireDirection, out hit))
         {
-
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
-            if (hitObj.tag == "Tank" && hitObj == player) // Playerと自分の間に遮蔽物がないとき
+            if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
                 attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
@@ -181,7 +189,7 @@ public class StateBaseAI : TankEventHandler
             Debug.LogError("Rayが当たりませんでした。");
         }
 
-        StartCoroutine("AiTimer");
+        StartCoroutine(AiTimer());
     }
 
     /// <summary>
@@ -201,9 +209,8 @@ public class StateBaseAI : TankEventHandler
         {
             GameObject turretHitObj = turretHit.collider.gameObject;
 
-            if (turretHitObj.tag == "Tank" && turretHitObj == player)
+            if (turretHitObj.tag == playerTag && turretHitObj == player)
             {
-                Debug.Log("Playerに当たった");
                 // 攻撃可
                 return true;
             }
@@ -218,28 +225,47 @@ public class StateBaseAI : TankEventHandler
     #endregion
 
     // 毎フレーム処理による負荷の軽減用タイマー
-    IEnumerator AiTimer()
+    private IEnumerator AiTimer()
     {
         isTimer = true;
-        yield return new WaitForSeconds(0.5f); // 0.5秒ごとに実行
+        yield return new WaitForSeconds(1); // 1秒ごとに実行
 
         isTimer = false;
     }
 
     // 指定秒数ごとに攻撃処理を実行するタイマー
-    IEnumerator AttackTimer()
+    private IEnumerator AttackTimer()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
+        isAttack = false;
     }
 
     #region 行動遷移ごとのメソッド
-    // 攻撃用メソッド
+    /// <summary>
+    /// 移動用メソッド
+    /// ベクトル変換した移動方向を取得し、
+    /// </summary>
+    private void Move()
+    {
+        Vector3 enemyMovePos = VectorCalc(); // 移動方向を取得
+        transform.position += enemyMovePos;  // Player追従テスト
+    }
+
+    /// <summary>
+    /// 攻撃用メソッド
+    /// 弾を発射後は、5秒間弾を打てなくする
+    /// </summary>
     private void Attack()
     {
-        cpuInput.moveveckey = KeyList.NONE;
-        cpuInput.moveveckey = KeyList.SPACE;
+        cpuInput.moveveckey = KeyList.NONE; // キーボード入力を初期化
 
-        StartCoroutine("AttackTimer"); // 2秒後に処理を再開
+        if (!isAttack)
+        {
+            isAttack = true; // 攻撃中
+            cpuInput.moveveckey = KeyList.SPACE; // 攻撃ボタン押下
+
+            StartCoroutine(AttackTimer()); // 指定秒数後に処理を再開
+        }
     }
 
     // 旋回用メソッド
@@ -265,7 +291,7 @@ public class StateBaseAI : TankEventHandler
     /// EnemyからPlayerのいる角度を計算
     /// 求めた角度を8方向に分割し、Vector2(-1～1, -1～1)に変換
     /// </summary>
-    private void VectorCalc()
+    private Vector3 VectorCalc()
     {
         // 内積を求め、角度に変換(内積＊角度)
         float VectorX = enemyPos.x - playerPos.x;
@@ -289,11 +315,11 @@ public class StateBaseAI : TankEventHandler
         //Vector2 Direction = Conversion(Division);
         Vector3 Direction = Conversion(Division); // テスト
 
-        //transform.position += Direction; // Player追従テスト
+        return Direction; // 変換したベクトルを返す
     }
 
     // ベクトル変換メソッド
-    Vector3 Conversion(int index)
+    private Vector3 Conversion(int index)
     {
         switch (index)
         {
