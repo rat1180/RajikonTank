@@ -126,6 +126,29 @@ namespace ConstList
             return true;
         }
 
+        /// <summary>
+        /// 弾を一つだけ生成する関数
+        /// 生成した弾に対して処理を行いたい場合はこの関数を使う
+        /// </summary>
+        /// <param name="parentobject"></param>
+        /// <param name="buletname"></param>
+        /// <returns></returns>
+        public static GameObject BulletInstantiateOne(GameObject parentobject,string bulletname)
+        {
+            //生成対象を探索
+            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + bulletname);
+
+            //弾を親オブジェクト基準で生成
+            var obj = Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation, parentobject.transform);
+
+            //エラーチェック
+            if (obj == null)
+            {
+                Debug.LogError("弾の生成に失敗しました");
+                return new GameObject();
+            }
+            return obj;
+        }
     }
 
     public static class TankGenerateClass
@@ -148,7 +171,8 @@ namespace ConstList
             var obj = Object.Instantiate(prefabobj);
 
             //ターゲットオブジェクトを生成
-            var target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //var target = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var target = new GameObject();
             target.name = "targetobject";
             obj.GetComponent<Rajikon>().SetTargetObject(target);
 

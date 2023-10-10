@@ -44,9 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ca740f5d4d4684a9f5d266037162e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitModeSelect: 1
   PlayerInputScript: {fileID: 0}
+  GameManagerInstance: {fileID: 0}
+  MaxBulletNm: 5
   PossessionTank: {fileID: 0}
   isControl: 0
-  GameManagerInstance: {fileID: 0}
   TeamID: 0
   SpawnPoint: {x: 0, y: 0, z: 0}
+  RemainingBulletNm: 0

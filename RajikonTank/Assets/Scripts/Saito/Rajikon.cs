@@ -56,8 +56,8 @@ public class Rajikon : MonoBehaviour
 
         for(int i = 0; i < MaxBulletNum; i++)
         {
-            //Bullet =
-            //Bullets.Add(Bullet);
+            Bullet = BulletGenerateClass.BulletInstantiateOne(BulletList, "RealBullet");
+            Bullets.Add(Bullet);
         }
     }
 
@@ -106,25 +106,23 @@ public class Rajikon : MonoBehaviour
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
             case KeyList.SPACE:
-                if (Num < BulletList.transform.childCount)
-                {
-                    MoveBullet = BulletList.transform.GetChild(Num).gameObject.GetComponent<MoveBullet>();
-                    
-                    isFirBullet[Num] = true;
-                    Num++;
+                Check();
+                //if (Num < BulletList.transform.childCount)
+                //{
+                //    MoveBullet = BulletList.transform.GetChild(Num).gameObject.GetComponent<MoveBullet>();
 
-                    if (isFirBullet[Num] == false)
-                    {
-                        MoveBullet.gameObject.SetActive(true);
-                        MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);    
-                    }
-                    
-                    Debug.Log(Num);
-                    if (Num >= BulletList.transform.childCount)
-                    {
-                        Num = 0;
-                    }
-                }
+                //    isFirBullet[Num] = true;
+                //    Num++;
+
+
+
+
+                //    Debug.Log(Num);
+                //    if (Num >= BulletList.transform.childCount)
+                //    {
+                //        Num = 0;
+                //    }
+                //}
                 break;
             default:
 
@@ -175,11 +173,12 @@ public class Rajikon : MonoBehaviour
     {
         for(int i = 0; i < Bullets.Count; i++)
         {
-            if(Bullets[i] == false)
+            if(Bullets[i].activeSelf==false)
             {
-                
+                Bullets[i].gameObject.SetActive(true);
+                Bullets[i].GetComponent<MoveBullet>().StartRotation(Turret.transform.forward, ShotPos.transform.position);
+                return;
             }
-
         }
     }
     
