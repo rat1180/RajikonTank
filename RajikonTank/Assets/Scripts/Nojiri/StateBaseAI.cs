@@ -88,6 +88,8 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
+        isInit = true;
+
         // PlayerInputクラス取得
         rajikon = gameObject.GetComponent<Rajikon>();
         cpuInput = gameObject.GetComponent<CPUInput>();
@@ -96,7 +98,6 @@ public class StateBaseAI : TankEventHandler
         AddTeam(); // チーム追加
 
         Debug.Log("初期化実行");
-        isInit = true;
     }
 
     /// <summary>
@@ -115,37 +116,34 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Normal()
     {
-        if(isTimer == false)
-        {
-            NormalAiRoutine();
+        NormalAiRoutine();
 
-            switch (aiState)
-            {
-                case EnemyAiState.WAIT:
-                    Debug.Log("待機");
-                    break;
-                case EnemyAiState.MOVE:
-                    Debug.Log("移動");
-                    VectorCalc();
-                    break;
-                case EnemyAiState.TURN:
-                    Debug.Log("旋回");
-                    Turn();
-                    break;
-                case EnemyAiState.ATTACK:
-                    Debug.Log("射撃");
-                    Attack();
-                    break;
-                case EnemyAiState.AVOID:
-                    Debug.Log("回避");
-                    break;
-                case EnemyAiState.DEATH:
-                    Debug.Log("死亡");
-                    Destroy(gameObject);
-                    break;
-                default:
-                    break;
-            }
+        switch (aiState)
+        {
+            case EnemyAiState.WAIT:
+                Debug.Log("待機");
+                break;
+            case EnemyAiState.MOVE:
+                Debug.Log("移動");
+                //Move();
+                break;
+            case EnemyAiState.TURN:
+                Debug.Log("旋回");
+                Turn();
+                break;
+            case EnemyAiState.ATTACK:
+                Debug.Log("射撃");
+                Attack();
+                break;
+            case EnemyAiState.AVOID:
+                Debug.Log("回避");
+                break;
+            case EnemyAiState.DEATH:
+                Debug.Log("死亡");
+                Destroy(gameObject);
+                break;
+            default:
+                break;
         }
     }
 
@@ -156,13 +154,21 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalAiRoutine()
     {
-        RaycastHit hit; // Rayが衝突したオブジェクト情報
-        bool attackFlg; // 攻撃判定フラグ
+        // AiTimer実行中
+        if(isTimer == true)
+        {
+            return;
+        }
+
+        RaycastHit hit;         // Rayが衝突したオブジェクト情報
+        Vector3 fireDirection;  // 発射方向  
+        bool attackFlg;         // 攻撃判定フラグ
+
+        fireDirection = (playerPos - enemyPos).normalized;
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, (playerPos-enemyPos).normalized, out hit))
+        if (Physics.Raycast(enemyPos, fireDirection, out hit))
         {
-
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
             if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
@@ -222,7 +228,7 @@ public class StateBaseAI : TankEventHandler
     private IEnumerator AiTimer()
     {
         isTimer = true;
-        yield return new WaitForSeconds(0.5f); // 0.5秒ごとに実行
+        yield return new WaitForSeconds(1); // 1秒ごとに実行
 
         isTimer = false;
     }
@@ -236,6 +242,16 @@ public class StateBaseAI : TankEventHandler
 
     #region 行動遷移ごとのメソッド
     /// <summary>
+    /// 移動用メソッド
+    /// ベクトル変換した移動方向を取得し、
+    /// </summary>
+    private void Move()
+    {
+        Vector3 enemyMovePos = VectorCalc(); // 移動方向を取得
+        transform.position += enemyMovePos;  // Player追従テスト
+    }
+
+    /// <summary>
     /// 攻撃用メソッド
     /// 弾を発射後は、5秒間弾を打てなくする
     /// </summary>
@@ -244,6 +260,8 @@ public class StateBaseAI : TankEventHandler
         if (!isAttack)
         {
             isAttack = true; // 攻撃中
+
+            Debug.Log("弾発射");
 
             cpuInput.moveveckey = KeyList.NONE;
             cpuInput.moveveckey = KeyList.SPACE;
@@ -275,7 +293,7 @@ public class StateBaseAI : TankEventHandler
     /// EnemyからPlayerのいる角度を計算
     /// 求めた角度を8方向に分割し、Vector2(-1～1, -1～1)に変換
     /// </summary>
-    private void VectorCalc()
+    private Vector3 VectorCalc()
     {
         // 内積を求め、角度に変換(内積＊角度)
         float VectorX = enemyPos.x - playerPos.x;
@@ -299,11 +317,11 @@ public class StateBaseAI : TankEventHandler
         //Vector2 Direction = Conversion(Division);
         Vector3 Direction = Conversion(Division); // テスト
 
-        //transform.position += Direction; // Player追従テスト
+        return Direction; // 変換したベクトルを返す
     }
 
     // ベクトル変換メソッド
-    Vector3 Conversion(int index)
+    private Vector3 Conversion(int index)
     {
         switch (index)
         {

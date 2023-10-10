@@ -5,9 +5,11 @@ using ConstList;
 
 public class EnemyManager : MonoBehaviour
 {
-    #region 外部からの敵生成用
-
-    // 通常敵生成
+    /// <summary>
+    /// 通常敵生成
+    /// </summary>
+    /// <param name="getSpawnPos">初期位置</param>
+    /// <param name="spawnName">生成する敵の名前</param>
     public void SpawnEnemy(Vector3 getSpawnPos, TankPrefabNames spawnName)
     {
         GameObject enemyChildObj;
@@ -15,6 +17,4 @@ public class EnemyManager : MonoBehaviour
         enemyChildObj.transform.parent = this.transform;  // 生成した敵を子オブジェクトに追加
         enemyChildObj.transform.position = getSpawnPos;   // 受け取った初期位置に設定
     }
-
-    #endregion
 }
