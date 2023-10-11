@@ -109,7 +109,7 @@ public class StateBaseAI : TankEventHandler
     public void AddTeam()
     {
         // CPUのチームIDを送ってチームに追加
-        GameManager.instance.PushTank(TeamID.CPU, rajikon); // チームID送信
+        GameManager.instance.PushTank(TeamID.CPU, rajikon);
     }
     #endregion
 
@@ -287,7 +287,8 @@ public class StateBaseAI : TankEventHandler
     {
         base.TankHit();
 
-        aiState = EnemyAiState.DEATH; // 死亡遷移に移行、敵消滅
+        GameManager.instance.DeathTank(TeamID.CPU); // GameManagerに死亡処理送信
+        aiState = EnemyAiState.DEATH;  // 死亡遷移に移行、敵消滅
     }
     #endregion
 
