@@ -95,9 +95,7 @@ public class StateBaseAI : TankEventHandler
         cpuInput = gameObject.GetComponent<CPUInput>();
         rajikon.SetPlayerInput(cpuInput);
 
-        //add.h
-        rajikon.SetEventHandler(this);
-
+        rajikon.SetEventHandler(this); // タンクのイベントを通知する
         AddTeam(); // チーム追加
 
         Debug.Log("初期化実行");
