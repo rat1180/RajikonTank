@@ -51,10 +51,13 @@ public class MoveBullet : MonoBehaviour
     //‘—‚ç‚ê‚½•ûŒü‚ÉŒü‚­
     public void StartRotation(Vector3 TargetPos,Vector3 StartPos)
     {
+        //add.h
+        this.transform.position = StartPos;
+
         Quaternion rotation = Quaternion.LookRotation(TargetPos);
         BulletHead.transform.rotation = rotation;
 
-        this.transform.position = StartPos;
+        //this.transform.position = StartPos;
 
         ReflectCount = 0;
         Rb.velocity = new Vector3(0, 0, 0);
@@ -100,6 +103,12 @@ public class MoveBullet : MonoBehaviour
             }
         }
         if (other.gameObject.tag == "Tank")
+        {
+            BulletDestroy();
+        }
+
+        //add.h
+        if(other.gameObject.tag == "Bullet")
         {
             BulletDestroy();
         }

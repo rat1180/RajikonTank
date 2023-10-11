@@ -23,18 +23,24 @@ public class Tank : MonoBehaviour
         Debug.Log(HitObjTag);
     }
 
-    private void OnTriggerEnter(Collider other)
+    //add.h
+    private void OnCollisionEnter(Collision other)
     {
         HitObj(other);
     }
 
-    void HitObj(Collider other)
+    //add.h
+    void HitObj(Collision other)
     {
         HitObjTag = other.gameObject.tag;
 
         switch (HitObjTag)
         {
             case "Bullet":
+
+                //add.h
+                Rajikon.GetComponent<Rajikon>().TankHit();
+
                 Rajikon.gameObject.SetActive(false);
                 break;
             case "Tank":

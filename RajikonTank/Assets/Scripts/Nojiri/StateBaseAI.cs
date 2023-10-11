@@ -95,6 +95,9 @@ public class StateBaseAI : TankEventHandler
         cpuInput = gameObject.GetComponent<CPUInput>();
         rajikon.SetPlayerInput(cpuInput);
 
+        //add.h
+        rajikon.SetEventHandler(this);
+
         AddTeam(); // ƒ`[ƒ€’Ç‰Á
 
         Debug.Log("‰Šú‰»Às");
@@ -140,6 +143,8 @@ public class StateBaseAI : TankEventHandler
                 break;
             case EnemyAiState.DEATH:
                 Debug.Log("€–S");
+                //add.h
+                GameManager.instance.DeathTank(TeamID.CPU);
                 Destroy(gameObject);
                 break;
             default:

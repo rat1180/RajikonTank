@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
+using TankClassInfomations;
 
 public class Rajikon : MonoBehaviour
 {
     [SerializeField] PlayerInput PlayerInput;
+
+    //add.h
+    [SerializeField, Header("タンクのイベントを通知するスクリプト")] TankEventHandler EventHandler;
+
     [SerializeField] float MoveSpeed;         // 移動する速さ.
     [SerializeField] float RotationSpeed;     // 回転する速さ.
     [SerializeField] float TurretSpeed;       // タレットの回転速さ.
@@ -38,6 +43,12 @@ public class Rajikon : MonoBehaviour
     public void SetPlayerInput(PlayerInput input)
     {
         PlayerInput = input;
+    }
+
+    //add.h
+    public void SetEventHandler(TankEventHandler eventhandler)
+    {
+        EventHandler = eventhandler;
     }
 
     private void InitBullet()
@@ -81,6 +92,10 @@ public class Rajikon : MonoBehaviour
     public void MoveInput(KeyList inputkey)
     {
         // Debug.Log(inputkey);
+
+        //add.h
+        if (PlayerInput == null) return;
+
         Move(PlayerInput.KeyInput());
     }
 
@@ -180,6 +195,14 @@ public class Rajikon : MonoBehaviour
                 return;
             }
         }
+    }
+
+    //add.h
+    public void TankHit()
+    {
+        if (EventHandler == null) return;
+
+        EventHandler.TankHit();
     }
     
 }

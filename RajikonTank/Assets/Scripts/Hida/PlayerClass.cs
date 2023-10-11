@@ -186,6 +186,8 @@ public class PlayerClass : TankEventHandler
 
         //タンクの初期化
         tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);
+        //add.h
+        tank.GetComponent<Rajikon>().SetEventHandler(this);
         RemainingBulletNm = MaxBulletNm;
 
         //タンクの初期位置を設定
