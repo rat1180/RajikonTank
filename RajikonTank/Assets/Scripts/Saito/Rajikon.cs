@@ -191,7 +191,7 @@ public class Rajikon : MonoBehaviour
             if(Bullets[i].activeSelf==false)
             {
                 Bullets[i].gameObject.SetActive(true);
-                Bullets[i].GetComponent<MoveBullet>().StartRotation(Turret.transform.forward, ShotPos.transform.position);
+                Bullets[i].GetComponent<MoveBullet>().StartRotation(ShotPos.transform.forward, ShotPos.transform.position);
                 return;
             }
         }
