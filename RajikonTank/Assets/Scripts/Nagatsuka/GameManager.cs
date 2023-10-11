@@ -299,7 +299,6 @@ public class GameManager : MonoBehaviour
                 Debug.Log("メンバー死亡完了");
                 return;//メンバー追加した時点で関数を抜ける.
             }
-
         }
     }
 
@@ -360,6 +359,14 @@ public class GameManager : MonoBehaviour
         teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
                             teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActiveMember() + ":" + teamInfo[1].ReturnActive() + "\n";
         //Debug.Log("CPUIDNUM" + CPU_IDnum);
+    }
+
+    /// <summary>
+    /// ゲーム終了時にシーンを初期化する(Reload)関数
+    /// </summary>
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void TestDeathplayer()
