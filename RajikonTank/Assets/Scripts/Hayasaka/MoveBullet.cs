@@ -17,7 +17,7 @@ public class MoveBullet : MonoBehaviour
     Vector3 TestTarget;
     private void OnDisable()
     {
-        
+        InitBullet();
     }
 
     // Start is called before the first frame update
