@@ -223,7 +223,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3177968769001969105}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
@@ -235,7 +235,7 @@ Transform:
   - {fileID: 3175500276591404043}
   m_Father: {fileID: 3175429009410269107}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &3179126989381399616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,6 +520,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8121bd209640b574c9048ce948a9dd3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputLeftCaterpillarMove:
+    m_Name: Input Left Caterpillar Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 15075562-abe6-4c16-887f-d5c0b2f7698a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  InputRightCaterpillarMove:
+    m_Name: Input Right Caterpillar Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 756fbbaa-16cb-4207-be08-503b40892b9e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   sendkey: 0
   sendtarget: {x: 0, y: 0, z: 0}
   moveveckey: 0
