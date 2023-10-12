@@ -192,6 +192,10 @@ public class Rajikon : MonoBehaviour
             {
                 Bullets[i].gameObject.SetActive(true);
                 Bullets[i].GetComponent<MoveBullet>().StartRotation(ShotPos.transform.forward, ShotPos.transform.position);
+
+                //ƒeƒXƒg
+                EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Fire, ShotPos.transform.position);
+
                 return;
             }
         }
