@@ -20,9 +20,11 @@ namespace ConstList
 
     public enum SE_ID
     {
+        Start,
         Move,
         EnemyDeath,
-        PlayerDeath
+        PlayerDeath,
+        Shot
     }
 
     public enum TankPrefabNames

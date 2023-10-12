@@ -19,9 +19,14 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetSpawnID();
+    }
+
+    private void GetSpawnID()
+    {
         ChindCnt = SpawnPoints.transform.childCount;//子供の数を取得する.
         TeamID teamID;                              //ID取得用.
-        for(int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
+        for (int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
         {
             teamID = SpawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
             CreateTank(teamID, SpawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.

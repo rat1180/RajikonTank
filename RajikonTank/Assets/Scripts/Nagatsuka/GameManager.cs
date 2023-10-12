@@ -18,13 +18,16 @@ public class GameManager : MonoBehaviour
     const int ENEMY_NUM_GROUP = 1;
     const int ENEMY_NUM = 0;
     const int REST_BULLETS_IMAGE = 2;
-    const int STATE_STAGE_PANEL = 3;
+    const int STATE_STAGE_PANEL = 0;
     const int STAGE_NAME = 1;
     const int INITIAL_ENEMY_NUM = 2;
     #endregion
 
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
+
+    [Header("GameStart(Ready)時のキャンバス")]
+    [SerializeField] GameObject ReadyGameCanvas; 
 
     [Header("InGame時のキャンバス関連")]
     [SerializeField] GameObject InGameCanvas;//InGame中に表示しているキャンバス(UI).
@@ -198,7 +201,7 @@ public class GameManager : MonoBehaviour
     private void ReadyRoop()
     {
         DrawStateStagePanel();
-        //NowGameState = GAMESTATUS.INGAME;
+        Debug.Log("CPU数:" + teamInfo[CPU_IDnum].ReturnActiveMember());
     }
 
     /// <summary>
@@ -335,6 +338,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ChangeInGameCanvs()
     {
+        InGameCanvas.SetActive(true);
+        ReadyGameCanvas.SetActive(false);
         InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
@@ -344,9 +349,9 @@ public class GameManager : MonoBehaviour
 
     private void DrawStateStagePanel()
     {
-        InGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = Stages[NowStage].name;
-        InGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
     }
 

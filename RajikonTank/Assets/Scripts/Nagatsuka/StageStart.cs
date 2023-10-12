@@ -6,6 +6,8 @@ using ConstList;
 
 public class StageStart : MonoBehaviour
 {
+	Animation anim;
+
 	private const float k_maxLength = 1f;
 	private const string k_propName = "_MainTex";
 
@@ -16,6 +18,7 @@ public class StageStart : MonoBehaviour
 
 	private void Start()
 	{
+		anim = GetComponent<Animation>();
 		if (GetComponent<Image>() is Image i)
 		{
 			m_material = i.material;
@@ -43,10 +46,17 @@ public class StageStart : MonoBehaviour
 		}
 	}
 
+	public void StartAnimation()
+    {
+		GameManager.instance.PlaySE(SE_ID.Start);
+	}
+
+
 	public void FinishAnimation()
     {
 		GameManager.instance.NowGameState = GAMESTATUS.INGAME;
-		Debug.Log("”ñ•\Ž¦‚É‚È‚½‚æ");
-		this.gameObject.SetActive(false);
+		//Debug.Log("”ñ•\Ž¦‚É‚È‚½‚æ");
+		anim.Stop();
+		this.gameObject.transform.parent.gameObject.SetActive(false);
 	}
 }
