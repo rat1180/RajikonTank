@@ -95,9 +95,7 @@ public class StateBaseAI : TankEventHandler
         cpuInput = gameObject.GetComponent<CPUInput>();
         rajikon.SetPlayerInput(cpuInput);
 
-        //add.h
-        rajikon.SetEventHandler(this);
-
+        rajikon.SetEventHandler(this); // タンクのイベントを通知する
         AddTeam(); // チーム追加
 
         Debug.Log("初期化実行");
@@ -143,9 +141,7 @@ public class StateBaseAI : TankEventHandler
                 break;
             case EnemyAiState.DEATH:
                 Debug.Log("死亡");
-                //add.h
-                GameManager.instance.DeathTank(TeamID.CPU);
-                Destroy(gameObject);
+                EnemyDeath();
                 break;
             default:
                 break;
@@ -281,14 +277,22 @@ public class StateBaseAI : TankEventHandler
 
     /// <summary>
     /// 死亡用メソッド
-    /// bulletに当たった時に死亡遷移に移行
+    /// 死亡処理をGameManagerに送信後にDestroyする
+    /// </summary>
+    private void EnemyDeath()
+    {
+        GameManager.instance.DeathTank(TeamID.CPU); // GameManagerに死亡処理送信
+        Destroy(gameObject); // 敵削除
+    }
+
+    /// <summary>
+    /// bulletに当たった時に呼ばれるメソッド
     /// </summary>
     public override void TankHit()
     {
         base.TankHit();
 
-        GameManager.instance.DeathTank(TeamID.CPU); // GameManagerに死亡処理送信
-        aiState = EnemyAiState.DEATH;  // 死亡遷移に移行、敵消滅
+        aiState = EnemyAiState.DEATH;  // 死亡遷移に移行
     }
     #endregion
 
