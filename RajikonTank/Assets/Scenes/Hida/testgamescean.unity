@@ -1222,7 +1222,7 @@ MonoBehaviour:
   - {fileID: 249069739, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
   - {fileID: -743907656, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
   - {fileID: -923310811, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
-  DebugFlg: 1
+  DebugFlg: 0
   DebugPanel: {fileID: 830849846}
   teamNameList: {fileID: 1301618585}
   EndGamePanel: {fileID: 694535083}
@@ -2993,7 +2993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2101037249
 MonoBehaviour:
   m_ObjectHideFlags: 0
