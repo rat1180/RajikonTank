@@ -65,10 +65,10 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void UpdateAI()
     {
-        if (GameManager.instance.NowGameState != GAMESTATUS.INGAME)
-        {
-            return;
-        }
+        //if(GameManager.instance.NowGameState != GAMESTATUS.INGAME)
+        //{
+        //    return;
+        //}
 
         InitAI();
 
@@ -177,16 +177,16 @@ public class StateBaseAI : TankEventHandler
 
             if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
-                attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
+                //attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
-                if (attackFlg) aiState = EnemyAiState.ATTACK; // true ：攻撃
-                else aiState = EnemyAiState.TURN;             // false：旋回
-                //aiState = EnemyAiState.MOVE;
+                //if (attackFlg) aiState = EnemyAiState.ATTACK; // true ：攻撃
+                //else aiState = EnemyAiState.TURN;             // false：旋回
+                aiState = EnemyAiState.MOVE;
             }
             else
             {
-                aiState = EnemyAiState.WAIT;   // 待機
-                //aiState = EnemyAiState.MOVE;
+                //aiState = EnemyAiState.WAIT;   // 待機
+                aiState = EnemyAiState.MOVE;
             }
         }
         else
@@ -255,7 +255,7 @@ public class StateBaseAI : TankEventHandler
     private void Move()
     {
         int enemyMovePos = VectorCalc(); // Playerの位置を0～3に変換
-        //Debug.Log(enemyMovePos);
+        Debug.Log(enemyMovePos);
         //Debug.Log(enemy.transform.rotation.y);
         //Conversion(enemyMovePos); // 求めた位置をキーボード処理に変換して移動
     }
@@ -322,6 +322,7 @@ public class StateBaseAI : TankEventHandler
             // -180～180で返るため、0～360に変換
             Radian += 360;
         }
+
         // 360度を4分割し、四捨五入する(0～8)
         int Division = Mathf.RoundToInt(Radian / 90.0f);
 
@@ -329,8 +330,10 @@ public class StateBaseAI : TankEventHandler
         if (Division == 4) Division = 0;
 
         //var relativePos = playerPos - enemyPos;
-        //Quaternion.LookRotation(R, enemyPos);
-        //enemy.transform.rotation = Quaternion.Euler(new Vector3(0, Radian, 0));
+        var RotateAngle = Quaternion.LookRotation(playerPos);
+        var DefauldAngle = Quaternion.Angle(enemy.transform.rotation,RotateAngle);
+
+        Debug.Log(DefauldAngle);
 
         return Division;
     }
