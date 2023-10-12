@@ -40,9 +40,6 @@ public class StageManager : MonoBehaviour
             case TeamID.player:
                 tank = Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
                 tank.GetComponent<PlayerClass>().InitPlayer(PlayerClass.InitMode.NATURAL);
-                //GameManager.instance.PushTank(TeamID.player, tank.GetComponent<Rajikon>()); // チームID送信
-                //tank = TankGenerateClass.TankInstantiate(TankPrefabNames.NONE);//Playerをパス指定で生成.
-                //tank.transform.position = position;                                     //生成位置をセット.
                 break;
             case TeamID.CPU:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
