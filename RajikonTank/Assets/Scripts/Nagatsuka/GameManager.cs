@@ -102,7 +102,6 @@ public class GameManager : MonoBehaviour
         public void Death()
         {
             isActive = false;
-            GameManager.instance.CheckActive();
         }
         /// <summary>
         /// 単純なint型で数を管理、0になったら死亡関数を呼び出す.
@@ -196,7 +195,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void InGameRoop()
     {
-        CheckActive();
         ChangeInGameCanvs();
     }
 
@@ -245,14 +243,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("リスト追加完了");
             return;
         }
-
-        //for(int i = 0; i < teamInfo.Count; i++)
-        //{
-        //    if (teamInfo[i].ReturnID() == teamID)//IDが一致したらTankをPushする.
-        //    {
-        //        teamInfo[i].PushTank(tank);
-        //    }
-        //}
     }
 
     /// <summary>
@@ -293,9 +283,10 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
             {
-            if (teamInfo[i].ReturnID() == teamID)//IDが同じ場合、メンバーを減少(死亡)する.
+            if (teamInfo[i].ReturnID() == teamID)//IDが同じ場合、メンバーを減少(死亡)させる.
             {
                 teamInfo[i].MemberDeath();
+                CheckActive();
                 Debug.Log("メンバー死亡完了");
                 return;//メンバー追加した時点で関数を抜ける.
             }
@@ -321,9 +312,10 @@ public class GameManager : MonoBehaviour
         }
         if (activeNum == 1)
         {
+            ChangeInGameCanvs();//CPUが0になったら反映.
             NowGameState = GAMESTATUS.ENDGAME;
         }
-        Debug.Log("アクティブ数" + activeNum);
+        //Debug.Log("アクティブ数" + activeNum);
     }
 
     /// <summary>
@@ -335,7 +327,6 @@ public class GameManager : MonoBehaviour
         InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
-        Debug.Log(teamInfo[CPU_IDnum].ReturnActiveMember());
         InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
     }
