@@ -141,9 +141,7 @@ public class StateBaseAI : TankEventHandler
                 break;
             case EnemyAiState.DEATH:
                 Debug.Log("€–S");
-                //add.h
-                GameManager.instance.DeathTank(TeamID.CPU);
-                Destroy(gameObject);
+                EnemyDeath();
                 break;
             default:
                 break;
@@ -279,14 +277,22 @@ public class StateBaseAI : TankEventHandler
 
     /// <summary>
     /// €–S—pƒƒ\ƒbƒh
-    /// bullet‚É“–‚½‚Á‚½‚É€–S‘JˆÚ‚ÉˆÚs
+    /// €–Sˆ—‚ğGameManager‚É‘—MŒã‚ÉDestroy‚·‚é
+    /// </summary>
+    private void EnemyDeath()
+    {
+        GameManager.instance.DeathTank(TeamID.CPU); // GameManager‚É€–Sˆ—‘—M
+        Destroy(gameObject); // “Gíœ
+    }
+
+    /// <summary>
+    /// bullet‚É“–‚½‚Á‚½‚ÉŒÄ‚Î‚ê‚éƒƒ\ƒbƒh
     /// </summary>
     public override void TankHit()
     {
         base.TankHit();
 
-        GameManager.instance.DeathTank(TeamID.CPU); // GameManager‚É€–Sˆ—‘—M
-        aiState = EnemyAiState.DEATH;  // €–S‘JˆÚ‚ÉˆÚsA“GÁ–Å
+        aiState = EnemyAiState.DEATH;  // €–S‘JˆÚ‚ÉˆÚs
     }
     #endregion
 
