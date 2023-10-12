@@ -78,7 +78,7 @@ public class Rajikon : MonoBehaviour
         Tank = transform.GetChild(0).gameObject;
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
-        BulletList = transform.GetChild(2).gameObject;
+        BulletList = transform.GetChild(1).gameObject;
         InitBullet();
     }
 

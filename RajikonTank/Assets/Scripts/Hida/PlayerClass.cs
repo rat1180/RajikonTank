@@ -92,6 +92,7 @@ public class PlayerClass : TankEventHandler
         {
             //プレイヤーの初期化・テスト
             InitPlayer(InitModeSelect);
+            SetisControl(true);
         }
     }
 
@@ -130,8 +131,6 @@ public class PlayerClass : TankEventHandler
                 break;
             case InitMode.DEBUG:
                 SetSpawnPoint(transform.position);
-
-                //テスト
                 PopTank();
                 break;
             default:
@@ -146,7 +145,6 @@ public class PlayerClass : TankEventHandler
         {
             Debug.LogWarning("初期化時にタンクが生成されていません");
         }
-
         //テスト
         isControl = true;
     }
