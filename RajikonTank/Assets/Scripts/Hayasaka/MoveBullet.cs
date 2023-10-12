@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
 {
-    const int FalseCount = 2;
-    int   ReflectCount = 0;
-    float Speed = 5.0f;
-    bool  Flg = false;
+    protected const int FalseCount = 2;
+    protected int   ReflectCount;
+    protected float Speed;
+    protected bool  Flg = false;
 
     public GameObject BulletHead;
 
-    Rigidbody Rb;
-    Vector3 Direction;
-    Vector3 TestStartPos;
-    Vector3 TestTarget;
+    protected Rigidbody Rb;
+    protected Vector3 Direction;
+    protected Vector3 TestStartPos;
+    protected Vector3 TestTarget;
     private void OnDisable()
     {
         InitBullet();
@@ -35,16 +35,18 @@ public class MoveBullet : MonoBehaviour
         }
         Direction = Rb.velocity;
     }
-    void InitBullet()
+    public virtual void InitBullet()
     {
         Rb = this.transform.GetComponent<Rigidbody>();
         TestTarget = new Vector3(10, 0, 5);
         TestStartPos = new Vector3(1, 0, 0);
-        StartRotation(TestTarget, TestStartPos);
         gameObject.SetActive(false);
+        ReflectCount = 0;
+        Speed = 5.0f;
+        StartRotation(TestTarget, TestStartPos);
     }
     //直進させる
-    void Moving()
+    protected void Moving()
     {
         Rb.velocity = BulletHead.transform.forward * Speed;
     }
@@ -58,12 +60,10 @@ public class MoveBullet : MonoBehaviour
         BulletHead.transform.rotation = rotation;
 
         //this.transform.position = StartPos;
-
-        ReflectCount = 0;
         Rb.velocity = new Vector3(0, 0, 0);
     }
     //反射させる関数
-    void Reflect(Vector3 WallObj)
+    protected void Reflect(Vector3 WallObj)
     {
         // 反射ベクトル（速度）
         var result = Vector3.Reflect(Direction,WallObj);
@@ -80,10 +80,9 @@ public class MoveBullet : MonoBehaviour
         BulletHead.transform.rotation = rotation;
     }
     //弾の削除
-    void BulletDestroy()
+    protected void BulletDestroy()
     {
         this.gameObject.SetActive(false);
-        ReflectCount = 0;
         Flg = false;
     }
     void OnCollisionEnter(Collision other)  

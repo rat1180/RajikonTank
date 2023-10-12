@@ -1234,11 +1234,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 1555266130}
+  EventHandler: {fileID: 0}
   MoveSpeed: 3
   RotationSpeed: 90
   TurretSpeed: 0
   Num: 0
   MaxBulletNum: 0
+  isFirBullet: 
+  Bullets: []
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}
