@@ -255,7 +255,7 @@ public class StateBaseAI : TankEventHandler
     private void Move()
     {
         int enemyMovePos = VectorCalc(); // Playerの位置を0～3に変換
-        Debug.Log(enemyMovePos);
+        //Debug.Log(enemyMovePos);
         //Debug.Log(enemy.transform.rotation.y);
         //Conversion(enemyMovePos); // 求めた位置をキーボード処理に変換して移動
     }
@@ -330,10 +330,11 @@ public class StateBaseAI : TankEventHandler
         if (Division == 4) Division = 0;
 
         //var relativePos = playerPos - enemyPos;
-        var RotateAngle = Quaternion.LookRotation(playerPos);
-        var DefauldAngle = Quaternion.Angle(enemy.transform.rotation,RotateAngle);
+        //var RotateAngle = Quaternion.LookRotation(playerPos);
+        //var DefauldAngle = Quaternion.Angle(enemy.transform.localRotation,RotateAngle);
 
-        Debug.Log(DefauldAngle);
+        //Debug.Log("DefaultAngle：" + DefauldAngle);
+        //enemy.transform.rotation = RotateAngle;
 
         return Division;
     }
