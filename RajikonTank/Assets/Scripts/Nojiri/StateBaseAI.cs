@@ -271,7 +271,7 @@ public class StateBaseAI : TankEventHandler
         if (!isAttack)
         {
             isAttack = true; // 攻撃中
-            cpuInput.moveveckey = KeyList.SPACE; // 攻撃ボタン押下
+            cpuInput.moveveckey = KeyList.FIRE; // 攻撃ボタン押下
 
             StartCoroutine(AttackTimer()); // 指定秒数後に処理を再開
         }
