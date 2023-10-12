@@ -53,16 +53,6 @@ public class Rajikon : MonoBehaviour
 
     private void InitBullet()
     {
-        //BulletGenerateClass.BulletInstantiate(gameObject, BulletList.gameObject, "RealBullet", MaxBulletNum);
-
-        //isFirBullet = new List<bool>(new bool[MaxBulletNum]);
-
-        //for (int num = 0; num < BulletList.transform.childCount; num++)
-        //{
-        //    MoveBullet = BulletList.transform.GetChild(num).gameObject.GetComponent<MoveBullet>();
-        //    MoveBullet.StartRotation(Turret.transform.forward, ShotPos.transform.position);
-        //}
-
         GameObject Bullet;
 
         for(int i = 0; i < MaxBulletNum; i++)
@@ -78,7 +68,7 @@ public class Rajikon : MonoBehaviour
         Tank = transform.GetChild(0).gameObject;
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
-        BulletList = transform.GetChild(2).gameObject;
+        BulletList = transform.GetChild(1).gameObject;
         InitBullet();
     }
 
@@ -120,24 +110,8 @@ public class Rajikon : MonoBehaviour
             case KeyList.W:
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
-            case KeyList.SPACE:
+            case KeyList.FIRE:
                 Check();
-                //if (Num < BulletList.transform.childCount)
-                //{
-                //    MoveBullet = BulletList.transform.GetChild(Num).gameObject.GetComponent<MoveBullet>();
-
-                //    isFirBullet[Num] = true;
-                //    Num++;
-
-
-
-
-                //    Debug.Log(Num);
-                //    if (Num >= BulletList.transform.childCount)
-                //    {
-                //        Num = 0;
-                //    }
-                //}
                 break;
             default:
 

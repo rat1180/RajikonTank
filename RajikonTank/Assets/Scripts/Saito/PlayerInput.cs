@@ -2,11 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
+using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] InputAction InputLeftCaterpillarMove;
+    [SerializeField] InputAction InputRightCaterpillarMove;
+    Vector2 LeftStickInput;
+    Vector2 RightStickInput;
+
     public KeyList sendkey;  // ‰Ÿ‚³‚ê‚½ƒL[‚Ìî•ñ‚ğ‘—‚é•Ï”.
     public Vector3 sendtarget;   // ‘_‚Á‚Ä‚¢‚éêŠ‚ğ‘—‚é•Ï”
+
+    private void OnDisable()
+    {
+        InputLeftCaterpillarMove.Disable();
+    }
 
     void Start()
     {
@@ -33,41 +44,50 @@ public class PlayerInput : MonoBehaviour
     /// <returns></returns>
     public virtual KeyList KeyInput()
     {
-        if (Input.GetKey(KeyCode.A))
+        Keyboard keyboard = Keyboard.current;
+        Gamepad gamepad = Gamepad.current;
+
+        if(gamepad != null)
+        {
+            LeftStickInput = gamepad.leftStick.ReadValue();
+            RightStickInput = gamepad.rightStick.ReadValue();
+        }
+
+        if (keyboard.aKey.isPressed)
         {
             sendkey = KeyList.A;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (keyboard.dKey.isPressed)
         {
             sendkey = KeyList.D;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (keyboard.sKey.isPressed || LeftStickInput.magnitude <= -1.0f && gamepad != null)
         {
             sendkey = KeyList.S;
         }
-        else if (Input.GetKey(KeyCode.W))
+        else if (keyboard.wKey.isPressed || LeftStickInput.magnitude >= 1.0f && gamepad != null)
         {
             sendkey = KeyList.W;
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (keyboard.upArrowKey.isPressed || RightStickInput.magnitude >= 1.0f && gamepad != null)
         {
             sendkey = KeyList.UPARROW;
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (keyboard.rightArrowKey.isPressed)
         {
             sendkey = KeyList.RIGHTARROW;
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (keyboard.leftArrowKey.isPressed)
         {
             sendkey = KeyList.LEFTARROW;
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (keyboard.downArrowKey.isPressed || RightStickInput.magnitude <= -1.0f && gamepad != null)
         {
             sendkey = KeyList.DOWNARROW;
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (keyboard.spaceKey.wasPressedThisFrame || gamepad.rightTrigger.wasPressedThisFrame)
         {
-            sendkey = KeyList.SPACE;
+            sendkey = KeyList.FIRE;
         }
         else
         {
