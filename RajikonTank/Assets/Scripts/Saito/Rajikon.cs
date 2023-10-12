@@ -20,7 +20,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // ó›êœâÒì]äpìx.
 
-    [SerializeField] GameObject Tank;
+    public GameObject Tank;
     [SerializeField] GameObject Turret;
     [SerializeField] GameObject ShotPos;
     [SerializeField] GameObject BulletList;
