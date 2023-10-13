@@ -8,29 +8,27 @@ public class StageManager : MonoBehaviour
     #region 定数値
     const int PLAYER_NUM = 0;
     const int CPU_NUM = 1;
+
+    const int SPOWN_POINTS = 0;
     #endregion
 
-    [SerializeField] GameObject SpawnPoints;//タンクを生成する座標を入れたリスト.
+    public List<GameObject> Stages;
     [SerializeField] GameObject[] tanks;    //テスト用プレファブ.
 
-    [SerializeField] EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する(旧Tanks).
+    [SerializeField] EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する.
 
     private int ChindCnt;//SpawnPointsの子供要素の数を数える用変数.
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetSpawnID();
-    }
 
-    private void GetSpawnID()
+    private void GetSpawnID(GameObject spawnPoints)
     {
-        ChindCnt = SpawnPoints.transform.childCount;//子供の数を取得する.
+        ChindCnt = spawnPoints.transform.childCount;//子供の数を取得する.
         TeamID teamID;                              //ID取得用.
         for (int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
         {
-            teamID = SpawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
-            CreateTank(teamID, SpawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
+            teamID = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
+            CreateTank(teamID, spawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
         }
+        spawnPoints.SetActive(false);
         GameManager.instance.NowGameState = GAMESTATUS.READY;
     }
 
@@ -49,6 +47,29 @@ public class StageManager : MonoBehaviour
             case TeamID.CPU:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
                 break;
+        }
+    }
+
+    /// <summary>
+    /// GameManagerから呼び出す関数
+    /// 引数にアクティブにするステージナンバーを指定、スポーンポイントを取得しタンクを生成する.
+    /// </summary>
+    /// <param name="stage"></param>
+    public void ActiveStage(int stage)
+    {
+        GameObject spawnPoints;
+        for (int i = 0; i < Stages.Count; i++)
+        {
+            if(i == stage)
+            {
+                Stages[i].SetActive(true);
+                spawnPoints = Stages[i].transform.GetChild(SPOWN_POINTS).gameObject;
+                GetSpawnID(spawnPoints);
+            }
+            else
+            {
+                Stages[i].SetActive(false);
+            }
         }
     }
 }

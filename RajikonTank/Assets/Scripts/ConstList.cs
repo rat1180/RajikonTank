@@ -49,6 +49,15 @@ namespace ConstList
         CPU
     }
 
+    public enum CPU_ID { 
+      NormalCPU,
+      MoveCPU,
+      FastBulletCPU,
+      FastAndMoveCPU,
+      CPU_cnt
+    }
+
+
     /// <summary>
     /// ƒQ[ƒ€‚ÌŒ»İ‚Ìó‘Ô‚ğ•\‚·—ñ‹“‘Ì
     /// </summary>
