@@ -19,6 +19,8 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // 累積回転角度.
 
+    [SerializeField] bool isFixedTurret;      // タレットを固定するか true:固定 false:解除.
+
     public GameObject Tank;
     [SerializeField] GameObject Turret;
     public GameObject ShotPos;
@@ -75,7 +77,7 @@ public class Rajikon : MonoBehaviour
     {
         if (PlayerInput == null) return;
         MoveInput(PlayerInput.KeyInput());
-        LookTarget();
+        if(isFixedTurret == false) LookTarget();
         TargetUpdate();
     }
 
