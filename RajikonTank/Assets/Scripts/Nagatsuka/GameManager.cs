@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] SoundManager soundManager;
-
     #region 定数宣言
     //InGameCanvas使用定数.
     const int OPERATION_IMAGE = 0;
@@ -25,42 +24,35 @@ public class GameManager : MonoBehaviour
     const int READYGAMEPANEL = 0; 
     const int INGAMEPANEL = 1;
     const int ENDGAMEPANEL = 2;
+    const int DEBUGPANEL = 3;//デバック情報をまとめたパネル.
     #endregion
 
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
 
+    [Header("ゲーム中のキャンバス")]
     [SerializeField] GameObject GameCanvas;
-    public List<GameObject> GamePanel;
+    [SerializeField] List<GameObject> GamePanel;
 
-    //[Header("GameStart(Ready)時のキャンバス")]
-    //[SerializeField] GameObject ReadyGameCanvas; 
-
-    //[Header("InGame時のキャンバス関連")]
-    //[SerializeField] GameObject InGameCanvas;//InGame中に表示しているキャンバス(UI).
     public int RestBullets;                  //残弾数.
 
-    [Header("ステージ")]
-    [SerializeField] List<GameObject> Stages;
+    [Header("ステージ番号")]
     public int NowStage;
+
+    public int player_IDnum;//Playerがリストの何番目なのかを確認.
+    public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
+    public int[] DestroyCPU = new int[(int)CPU_ID.CPU_cnt];//撃破したCPUをカウント.
+    TeamID WinId;                          //勝利したチームのID.
 
     [Header("使用画像")]
     [SerializeField] Sprite[] BulletsImage;  //残弾数表示画像.
 
     #region デバック確認用一覧
-    [Header("デバッグ確認フラグ")]
+    [Header("デバッグパネル確認フラグ")]
     public bool DebugFlg;                  //ONOFFでデバックの表示を切り換える.
-    [SerializeField] GameObject DebugPanel;//デバック情報をまとめたパネル.
-    public Text teamNameList;              //チームのID・数・生存状態を表示用.
-    TeamID WinId;                          //勝者のID.    
     #endregion
 
-   // [SerializeField] GameObject EndGamePanel;//ゲーム終了時に表示するパネル.
-
-    public string stageName;
-
-    public int player_IDnum;//Playerがリストの何番目なのかを確認.
-    public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
+    
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
@@ -177,11 +169,12 @@ public class GameManager : MonoBehaviour
         GamePanel.Add(GameCanvas.transform.GetChild(READYGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(INGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject);
+        GamePanel.Add(GameCanvas.transform.GetChild(DEBUGPANEL).gameObject);
+        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
     }
 
     private void Update()
     {
-        //NowGameState = (int)PhotonNetwork.CurrentRoom.CustomProperties["Turn"];
         switch (NowGameState)//ゲームモードによって処理を分岐する.
         {
             case GAMESTATUS.READY:
@@ -199,7 +192,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (DebugFlg) CheckDebug();
-        else DebugPanel.SetActive(false);
+        else GamePanel[DEBUGPANEL].SetActive(false);
     }
     #endregion
 
@@ -209,6 +202,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ReadyRoop()
     {
+        ActiveGamePanel(READYGAMEPANEL);
         DrawStateStagePanel();
         Debug.Log("CPU数:" + teamInfo[CPU_IDnum].ReturnActiveMember());
     }
@@ -226,14 +220,30 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void EndGameRoop()
     {
-        GamePanel[ENDGAMEPANEL].SetActive(true);
+        ActiveGamePanel(ENDGAMEPANEL);
         //勝利したチームのIDを表示.
         GamePanel[ENDGAMEPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
-        //EndGamePanel.SetActive(true);
-        ////勝利したチームのIDを表示.
-        //EndGamePanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
     }
     #endregion
+
+    /// <summary>
+    /// ゲームモードによって表示するパネル1つだけをアクティブにする関数
+    /// アクティブにするパネルを引数に指定.
+    /// </summary>
+    private void ActiveGamePanel(int mode)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            if(i == mode)
+            {
+                GamePanel[i].SetActive(true);
+            }
+            else
+            {
+                GamePanel[i].SetActive(false);
+            }
+        }
+    }
 
     #region 外部から呼び出す関数(Listに追加する・死亡関数).
     /// <summary>
@@ -255,7 +265,6 @@ public class GameManager : MonoBehaviour
             {
                 if (teamInfo[i].ReturnID() == teamID)//追加するIDが同じ場合、メンバーを追加する
                 {
-                    //teamInfo[i].AddMember();
                     teamInfo[i].PushTank(tank);
                     Debug.Log("メンバー追加完了");
                     return;//メンバー追加した時点で関数を抜ける.
@@ -270,6 +279,8 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
+
+
 
     /// <summary>
     /// TeamListにタンクを追加する
@@ -318,7 +329,30 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// タンクが死亡した際に呼び出す関数
+    /// CPUのIDも一緒に引数に指定、撃破したCPUの種類をカウントする.
+    /// </summary>
+    public void DeathTank(TeamID teamID,CPU_ID cpu_ID)
+    {
+        for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+        {
+            if (teamInfo[i].ReturnID() == teamID)//IDが同じ場合、メンバーを減少(死亡)させる.
+            {
+                teamInfo[i].MemberDeath();
+                for(int j = 0; j < DestroyCPU.Length; j++)//CPUの種類を判断する.
+                {
+                    if (j == (int)cpu_ID)
+                    {
+                        DestroyCPU[j]++;
+                    }
+                }
+                CheckActive();
+                Debug.Log("メンバー死亡完了");
+                return;//メンバー追加した時点で関数を抜ける.
+            }
+        }
+    }
     #endregion
 
     /// <summary>
@@ -341,7 +375,6 @@ public class GameManager : MonoBehaviour
             ChangeInGameCanvs();//CPUが0になったら反映.
             NowGameState = GAMESTATUS.ENDGAME;
         }
-        //Debug.Log("アクティブ数" + activeNum);
     }
 
     /// <summary>
@@ -350,34 +383,22 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ChangeInGameCanvs()
     {
-        GamePanel[INGAMEPANEL].SetActive(true);
-        GamePanel[READYGAMEPANEL].SetActive(false);
+        ActiveGamePanel(INGAMEPANEL);
         GamePanel[INGAMEPANEL].transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
         GamePanel[INGAMEPANEL].transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
-        //InGameCanvas.SetActive(true);
-        //ReadyGameCanvas.SetActive(false);
-        //InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
-        //    transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
-        //                                ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
-        //InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
-        //    BulletsImage[RestBullets];
     }
 
     private void DrawStateStagePanel()
     {
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
-            transform.GetChild(STAGE_NAME).GetComponent<Text>().text = Stages[NowStage].name;
+            transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
+            this.transform.GetChild(0).gameObject.GetComponent<StageManager>().Stages[NowStage].name;
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
-        //ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
-        //    transform.GetChild(STAGE_NAME).GetComponent<Text>().text = Stages[NowStage].name;
-        //ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
-        //    transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
     }
-
 
     #region SoundManager関数
     public void PlaySE(SE_ID id)
@@ -410,8 +431,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void CheckDebug()
     {
-        DebugPanel.SetActive(true);
-        teamNameList.text = teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
+        GamePanel[DEBUGPANEL].SetActive(true);
+        GamePanel[DEBUGPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = 
+                            teamInfo[0].ReturnID().ToString() + ":" + teamInfo[0].ReturnActiveMember() + ":" + teamInfo[0].ReturnActive() + "\n" +
                             teamInfo[1].ReturnID().ToString() + ":" + teamInfo[1].ReturnActiveMember() + ":" + teamInfo[1].ReturnActive() + "\n";
     }
 
