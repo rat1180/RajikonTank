@@ -20,11 +20,16 @@ public class StateBaseAI : TankEventHandler
     private bool isInit   = false;  // 初期化状態確認
     private bool isAttack = false;  // 攻撃間隔用フラグ
     private bool isTimer  = false;  // タイマーフラグ
+    private const int forwardAngle  = 20;  // 前方角度
+    private const int backwardAngle = 160; // 後方角度
 
+    Quaternion lookAngle; // テスト
     public enum EnemyName // 敵種類
     {
         NORMAL,              // 通常敵
-        REFLECT              // 反射敵
+        MOVE,                // 移動敵
+        FASTBULLET,          // 高速弾敵
+        FASTANDMOVE          // 高速弾と移動敵
     }
 
     public enum EnemyAiState // 行動パターン
@@ -55,9 +60,12 @@ public class StateBaseAI : TankEventHandler
     void Update()
     {
         UpdateAI();
+        var relative = playerPos - enemyPos;
+        lookAngle = Quaternion.LookRotation(relative.normalized);  // Playerに向いた時の角度
+        Debug.Log("Y  " + lookAngle.y);
     }
 
-    #region AI遷移ループ
+    #region 名前遷移/メインループ
     /// <summary>
     /// 敵の種類によって行動遷移を変更
     /// </summary>
@@ -74,10 +82,16 @@ public class StateBaseAI : TankEventHandler
         switch (aiName)
         {
             case EnemyName.NORMAL:
-                Normal();
+                NormalEnemy();
                 break;
-            case EnemyName.REFLECT:
-                //Reflect();
+            case EnemyName.MOVE:
+                MoveEnemy();
+                break;
+            case EnemyName.FASTBULLET:
+                //FastBulletEnemy();
+                break;
+            case EnemyName.FASTANDMOVE:
+                //FastAndMoveEnemy();
                 break;
             default:
                 break;
@@ -111,24 +125,23 @@ public class StateBaseAI : TankEventHandler
     /// <summary>
     /// チームID送信
     /// </summary>
-    public void AddTeam()
+    private  void AddTeam()
     {
         // CPUのチームIDを送ってチームに追加
         GameManager.instance.PushTank(TeamID.CPU, rajikon);
     }
     #endregion
 
-    #region 通常敵遷移
+    #region 行動遷移/AIメインルーチン
     /// <summary>
-    /// AI状態遷移
+    /// 全ての敵で使用する状態遷移
     /// </summary>
-    private void Normal()
+    private void AiMainRoutine()
     {
-        NormalAiRoutine();
-
         switch (aiState)
         {
             case EnemyAiState.WAIT:
+                Wait();
                 break;
             case EnemyAiState.MOVE:
                 Move();
@@ -149,15 +162,29 @@ public class StateBaseAI : TankEventHandler
         }
     }
 
+    #endregion
+
+    #region 通常敵遷移
+    /// <summary>
+    /// 通常敵ループ
+    /// </summary>
+    private void NormalEnemy()
+    {
+        NormalEnemyRoutine(); // 通常敵機能
+        AiMainRoutine();   // 行動遷移
+    }
+
     /// <summary>
     /// Rayに触れたオブジェクトによるStateの割り当て
     /// Playerの場合　：攻撃
     /// それ以外の場合：移動or旋回
     /// </summary>
-    private void NormalAiRoutine()
+    private void NormalEnemyRoutine()
     {
+        //GameManager.instance.id = CPU_ID.Normal; // ID設定
+
         // AiTimer実行中
-        if(isTimer == true || aiState == EnemyAiState.DEATH)
+        if (isTimer == true || aiState == EnemyAiState.DEATH)
         {
             return;
         }
@@ -169,7 +196,7 @@ public class StateBaseAI : TankEventHandler
         fireDirection = (playerPos - enemyPos).normalized;
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, fireDirection, out hit))
+        if (Physics.Raycast(enemyPos, fireDirection, out hit, 50f))
         {
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
@@ -208,7 +235,7 @@ public class StateBaseAI : TankEventHandler
         if (grandChild == null) return false;
 
         // 砲台の前方にRayを発射
-        if (Physics.SphereCast(enemyPos, 0.5f, grandChild.transform.forward, out turretHit))
+        if (Physics.SphereCast(enemyPos, 0.5f, grandChild.transform.forward, out turretHit, 50f))
         {
             GameObject turretHitObj = turretHit.collider.gameObject;
 
@@ -224,6 +251,22 @@ public class StateBaseAI : TankEventHandler
             }
         }
         return false;
+    }
+    #endregion
+
+    #region 移動敵遷移
+    /// <summary>
+    /// 移動敵ループ
+    /// </summary>
+    private void MoveEnemy()
+    {
+        MoveEnemyRoutine(); // 移動敵機能
+        AiMainRoutine();   // 行動遷移
+    }
+
+    private void MoveEnemyRoutine()
+    {
+
     }
     #endregion
 
@@ -247,6 +290,15 @@ public class StateBaseAI : TankEventHandler
 
     #region 行動遷移ごとのメソッド
     /// <summary>
+    /// 待機処理
+    /// 変数の初期化
+    /// </summary>
+    private void Wait()
+    {
+        cpuInput.moveveckey = KeyList.NONE;
+    }
+
+    /// <summary>
     /// 移動用メソッド
     /// Playerとの位置関係を計算
     /// キーボード処理に変換してPlayerを追従
@@ -255,7 +307,7 @@ public class StateBaseAI : TankEventHandler
     {
         float enemyMovePos = VectorCalc(); // Playerまでの角度を受け取る
 
-        Conversion(enemyMovePos); // キーボード変換
+        ConversionKey(enemyMovePos); // キーボード変換
     }
 
     /// <summary>
@@ -309,53 +361,65 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private float VectorCalc()
     {
-        //// 内積を求め、角度に変換(内積＊角度)
-        //float VectorX = playerPos.x - enemyPos.x;
-        //float VectorZ = playerPos.z - enemyPos.z;
-        //float Radian = Mathf.Atan2(VectorZ, VectorX) * Mathf.Rad2Deg;
-
-        ////角度表示変更
-        //if (Radian < 0)
-        //{
-        //    // -180～180で返るため、0～360に変換
-        //    Radian += 360;
-        //}
-
-        //// 360度を4分割し、四捨五入する(0～8)
-        //int Division = Mathf.RoundToInt(Radian / 90.0f);
-
-        //// 4の場合0に変換(9等分防止)
-        //if (Division == 4) Division = 0;
-
         Vector3 relativePos = playerPos - enemyPos; // EnemyからPlayerへの相対ベクトル
-        Quaternion lookAngle = Quaternion.LookRotation(relativePos.normalized);        // Playerに向いた時の角度
+        //lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Playerに向いた時の角度
         float rotateAngle = Quaternion.Angle(enemy.transform.localRotation,lookAngle); // 現在の角度からPlayerまでの間の角度
 
         return rotateAngle; // Playerまでの角度を返す
     }
 
-    private const int forwardAngle  = 10;  // 前方角度
-    private const int backwardAngle = 170; // 後方角度
-
     /// <summary>
-    /// ベクトル変換メソッド
+    /// キーボード変換メソッド
     /// 受け取った角度の大きさに応じてキーボード変換
     /// </summary>
     /// <param name="index">現在の角度からPlayerまでの角度</param>
-    private void Conversion(float index)
+    private void ConversionKey(float index)
     {
-        if (index <= forwardAngle) // 前方角度内にPlayerがいるとき
+        if (index < forwardAngle) // Playerが前方角度内にいるとき
         {
             cpuInput.moveveckey = KeyList.ACCELE;
         }
-        else if(index > forwardAngle && index <= backwardAngle) // 中方角度内にいるとき
+        else if(index >= forwardAngle && index <= backwardAngle) // Playerが中方角度内にいるとき
         {
-            Debug.Log(enemy.transform.rotation);
-            //cpuInput.moveveckey = KeyList.A;
+            // 左にいるとき
+            if (lookAngle.y < 0 && lookAngle.y < -0.5f)
+            {
+                // 前方後方の近さによって回る向きを変える
+                if (lookAngle.y > -0.5f)
+                {
+                    cpuInput.moveveckey = KeyList.LEFTROTATION;
+                    Debug.Log("左前方");
+                }
+                else if(lookAngle.y < -0.5f)
+                {
+                    cpuInput.moveveckey = KeyList.RIGHTROTATION;
+                    Debug.Log("左後方");
+                }
+            }
+
+            // 右にいるとき
+            if (lookAngle.y > 0)
+            {
+                // 前方後方の近さによって回る向きを変える
+                if (lookAngle.y < 0.5f)
+                {
+                    cpuInput.moveveckey = KeyList.RIGHTROTATION;
+                    Debug.Log("右前方");
+                }
+                else if(lookAngle.y >= 0.5f)
+                {
+                    cpuInput.moveveckey = KeyList.LEFTROTATION;
+                    Debug.Log("右後方");
+                }
+            }
         }
-        else if(index > backwardAngle) // 後方角度内にいるとき
+        else if(index > backwardAngle) // Playerが後方角度内にいるとき
         {
             cpuInput.moveveckey = KeyList.BACK;
+        }
+        else
+        {
+            cpuInput.moveveckey = KeyList.NONE;
         }
     }
     #endregion
