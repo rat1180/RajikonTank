@@ -11,7 +11,8 @@ public class StateBaseAI : TankEventHandler
 
     private Rajikon rajikon;        // Rajikonクラス
     private CPUInput cpuInput;      // CPUInputクラス
-    private GameObject player;      // プレイヤー
+    private GameObject player;      // プレイヤー情報
+    private GameObject enemy;       // エネミー情報
     private GameObject grandChild;  // 孫オブジェクト
     private Vector3 enemyPos;       // 敵(自分)の位置
     private Vector3 playerPos;      // プレイヤーの位置
@@ -39,16 +40,23 @@ public class StateBaseAI : TankEventHandler
     // Start is called before the first frame update
     void Start()
     {
+        // PlayerInputクラス取得
+        rajikon = gameObject.GetComponent<Rajikon>();
+        cpuInput = gameObject.GetComponent<CPUInput>();
+
         // ゲームオブジェクトで生成されたPlayerを取得
-        //player = GameObject.Find("Player");
         player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject.transform.Find("Tank").gameObject;
         playerTag = player.tag; // tagを取得
+
+        enemy = rajikon.Tank.transform.gameObject;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateAI();
+        VectorCalc();
     }
 
     #region AI遷移ループ
@@ -57,6 +65,11 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void UpdateAI()
     {
+        if (GameManager.instance.NowGameState != GAMESTATUS.INGAME)
+        {
+            return;
+        }
+
         InitAI();
 
         switch (aiName)
@@ -80,7 +93,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void InitAI()
     {
-        enemyPos  = transform.position;
+        enemyPos = enemy.transform.position;
         playerPos = player.transform.position;
 
         if (isInit == true)
@@ -90,11 +103,7 @@ public class StateBaseAI : TankEventHandler
 
         isInit = true;
 
-        // PlayerInputクラス取得
-        rajikon = gameObject.GetComponent<Rajikon>();
-        cpuInput = gameObject.GetComponent<CPUInput>();
         rajikon.SetPlayerInput(cpuInput);
-
         rajikon.SetEventHandler(this); // タンクのイベントを通知する
         AddTeam(); // チーム追加
 
@@ -122,25 +131,19 @@ public class StateBaseAI : TankEventHandler
         switch (aiState)
         {
             case EnemyAiState.WAIT:
-                Debug.Log("待機");
                 break;
             case EnemyAiState.MOVE:
-                Debug.Log("移動");
-                //Move();
+                Move();
                 break;
             case EnemyAiState.TURN:
-                Debug.Log("旋回");
                 Turn();
                 break;
             case EnemyAiState.ATTACK:
-                Debug.Log("射撃");
                 Attack();
                 break;
             case EnemyAiState.AVOID:
-                Debug.Log("回避");
                 break;
             case EnemyAiState.DEATH:
-                Debug.Log("死亡");
                 EnemyDeath();
                 break;
             default:
@@ -156,7 +159,7 @@ public class StateBaseAI : TankEventHandler
     private void NormalAiRoutine()
     {
         // AiTimer実行中
-        if(isTimer == true)
+        if(isTimer == true || aiState == EnemyAiState.DEATH)
         {
             return;
         }
@@ -178,10 +181,12 @@ public class StateBaseAI : TankEventHandler
 
                 if (attackFlg) aiState = EnemyAiState.ATTACK; // true ：攻撃
                 else aiState = EnemyAiState.TURN;             // false：旋回
+                //aiState = EnemyAiState.MOVE;
             }
             else
             {
                 aiState = EnemyAiState.WAIT;   // 待機
+                //aiState = EnemyAiState.MOVE;
             }
         }
         else
@@ -244,12 +249,15 @@ public class StateBaseAI : TankEventHandler
     #region 行動遷移ごとのメソッド
     /// <summary>
     /// 移動用メソッド
-    /// ベクトル変換した移動方向を取得し、
+    /// Playerとの位置関係を計算
+    /// キーボード処理に変換してPlayerを追従
     /// </summary>
     private void Move()
     {
-        Vector3 enemyMovePos = VectorCalc(); // 移動方向を取得
-        transform.position += enemyMovePos;  // Player追従テスト
+        int enemyMovePos = VectorCalc(); // Playerの位置を0～3に変換
+        //Debug.Log(enemyMovePos);
+        //Debug.Log(enemy.transform.rotation.y);
+        //Conversion(enemyMovePos); // 求めた位置をキーボード処理に変換して移動
     }
 
     /// <summary>
@@ -301,11 +309,11 @@ public class StateBaseAI : TankEventHandler
     /// EnemyからPlayerのいる角度を計算
     /// 求めた角度を8方向に分割し、Vector2(-1～1, -1～1)に変換
     /// </summary>
-    private Vector3 VectorCalc()
+    private int VectorCalc()
     {
         // 内積を求め、角度に変換(内積＊角度)
-        float VectorX = enemyPos.x - playerPos.x;
-        float VectorZ = enemyPos.z - playerPos.z;
+        float VectorX = playerPos.x - enemyPos.x;
+        float VectorZ = playerPos.z - enemyPos.z;
         float Radian = Mathf.Atan2(VectorZ, VectorX) * Mathf.Rad2Deg;
 
         //角度表示変更
@@ -314,46 +322,40 @@ public class StateBaseAI : TankEventHandler
             // -180～180で返るため、0～360に変換
             Radian += 360;
         }
+        // 360度を4分割し、四捨五入する(0～8)
+        int Division = Mathf.RoundToInt(Radian / 90.0f);
 
-        // 360度を8分割し、四捨五入する(0～8)
-        int Division = Mathf.RoundToInt(Radian / 45.0f);
+        // 4の場合0に変換(9等分防止)
+        if (Division == 4) Division = 0;
 
-        // 8の場合0に変換(9等分防止)
-        if (Division == 8) Division = 0;
+        //var relativePos = playerPos - enemyPos;
+        //Quaternion.LookRotation(R, enemyPos);
+        //enemy.transform.rotation = Quaternion.Euler(new Vector3(0, Radian, 0));
 
-        // Vector2に変換して取得
-        //Vector2 Direction = Conversion(Division);
-        Vector3 Direction = Conversion(Division); // テスト
-
-        return Direction; // 変換したベクトルを返す
+        return Division;
     }
 
     // ベクトル変換メソッド
-    private Vector3 Conversion(int index)
+    private void Conversion(int index)
     {
         switch (index)
         {
             // 左回り
-            //case 0: return new Vector2(-1,  0);  // 0度
-            //case 1: return new Vector2(-1, -1);  // 45度
-            //case 2: return new Vector2( 0, -1);  // 90度
-            //case 3: return new Vector2( 1, -1);  // 135度
-            //case 4: return new Vector2( 1,  0);  // 180度
-            //case 5: return new Vector2( 1,  1);  // 225度
-            //case 6: return new Vector2( 0,  1);  // 270度
-            //case 7: return new Vector2(-1,  1);  // 315度
-            //default: return Vector2.zero;
-
-            // テスト
-            case 0: return new Vector3(-1, 0,  0);   // 0度
-            case 1: return new Vector3(-1, 0, -1);   // 45度
-            case 2: return new Vector3( 0, 0, -1);   // 90度
-            case 3: return new Vector3( 1, 0, -1);  // 135度
-            case 4: return new Vector3( 1, 0,  0);  // 180度
-            case 5: return new Vector3( 1, 0,  1); // 225度
-            case 6: return new Vector3( 0, 0,  1);  // 270度
-            case 7: return new Vector3(-1, 0,  1);  // 315度
-            default: return Vector2.zero;
+            case 0:
+                cpuInput.moveveckey = KeyList.W;
+                break;
+            case 1:
+                cpuInput.moveveckey = KeyList.A;
+                break;
+            case 2:
+                cpuInput.moveveckey = KeyList.S;
+                break;
+            case 3:
+                cpuInput.moveveckey = KeyList.D;
+                break;
+            default:
+                cpuInput.moveveckey = KeyList.NONE;
+                break;
         }
     }
     #endregion

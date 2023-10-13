@@ -18,6 +18,15 @@ namespace ConstList
         SPACE,
     }
 
+    public enum SE_ID
+    {
+        Start,
+        Move,
+        EnemyDeath,
+        PlayerDeath,
+        Shot
+    }
+
     public enum TankPrefabNames
     {
         NONE,
