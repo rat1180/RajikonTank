@@ -56,7 +56,7 @@ public class StageStart : MonoBehaviour
     {
 		GameManager.instance.NowGameState = GAMESTATUS.INGAME;
 		//Debug.Log("”ñ•\Ž¦‚É‚È‚½‚æ");
-		anim.Stop();
-		this.gameObject.transform.parent.gameObject.SetActive(false);
+		//anim.Stop();
+		//this.gameObject.transform.parent.gameObject.SetActive(false);
 	}
 }
