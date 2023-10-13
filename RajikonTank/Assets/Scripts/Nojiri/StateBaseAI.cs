@@ -335,6 +335,9 @@ public class StateBaseAI : TankEventHandler
         return rotateAngle; // Playerまでの角度を返す
     }
 
+    private const int forwardAngle  = 10;  // 前方角度
+    private const int backwardAngle = 170; // 後方角度
+
     /// <summary>
     /// ベクトル変換メソッド
     /// 受け取った角度の大きさに応じてキーボード変換
@@ -342,19 +345,18 @@ public class StateBaseAI : TankEventHandler
     /// <param name="index">現在の角度からPlayerまでの角度</param>
     private void Conversion(float index)
     {
-        // 0～180
-        if (index <= 10f)
+        if (index <= forwardAngle) // 前方角度内にPlayerがいるとき
         {
-            cpuInput.moveveckey = KeyList.W;
+            cpuInput.moveveckey = KeyList.ACCELE;
         }
-        else if(index > 10f && index <= 170f)
+        else if(index > forwardAngle && index <= backwardAngle) // 中方角度内にいるとき
         {
+            Debug.Log(enemy.transform.rotation);
             //cpuInput.moveveckey = KeyList.A;
-            Debug.Log("旋回");
         }
-        else if(index > 170f)
+        else if(index > backwardAngle) // 後方角度内にいるとき
         {
-            cpuInput.moveveckey = KeyList.S;
+            cpuInput.moveveckey = KeyList.BACK;
         }
     }
     #endregion
