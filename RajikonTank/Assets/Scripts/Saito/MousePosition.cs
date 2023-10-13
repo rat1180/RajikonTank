@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MousePosition : MonoBehaviour
 {
@@ -21,8 +22,10 @@ public class MousePosition : MonoBehaviour
     /// </summary>
     void MoveMouse()
     {
+        Mouse mouse = Mouse.current;
+
         // カーソルの位置を取得.
-        Vector3 MousePos = Input.mousePosition;
+        Vector3 MousePos = mouse.position.ReadValue();
 
         // カーソル位置のZ座標を変更 ※0だとカメラのレンズに張り付いている感じになり上手くワールド座標に変換できない為.
         MousePos.z = 10;

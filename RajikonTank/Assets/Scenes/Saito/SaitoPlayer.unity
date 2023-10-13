@@ -227,8 +227,9 @@ GameObject:
   m_Component:
   - component: {fileID: 342780475}
   - component: {fileID: 342780474}
+  - component: {fileID: 342780476}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PlayerClass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,8 +269,120 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &342780476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342780473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7e43b9ff7e5e7543856bbf93bbbfba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputLeftCaterpillarMove:
+    m_Name: Input Left Caterpillar Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b28b6a27-adb3-40f2-b29b-47c150259182
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: b7e69651-aeb0-420d-a45f-53fe4393c322
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Left Caterpillar Move
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 679c56b2-7471-45ed-8f65-294941211081
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Left Caterpillar Move
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 98041d06-ca1a-45bc-bbf4-171cfac9f5f4
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Left Caterpillar Move
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 657b258c-9b28-47c1-a473-a20fac9aa759
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Left Caterpillar Move
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 14ade867-3b45-4fb9-b84b-0fa12eff5eeb
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Left Caterpillar Move
+      m_Flags: 8
+    m_Flags: 0
+  InputRightCaterpillarMove:
+    m_Name: Input Right Caterpillar Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 51eb324a-036a-4520-aa8a-7d9d092a8501
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: 37f564cd-44bc-4c2a-951f-cc89368771ce
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Right Caterpillar Move
+      m_Flags: 4
+    - m_Name: up
+      m_Id: f9550f81-3feb-46cd-afb6-e64ff39cb622
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Right Caterpillar Move
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 0903b5fe-7048-41eb-b91a-28d04729c811
+      m_Path: <Keyboard>/downArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Right Caterpillar Move
+      m_Flags: 8
+    - m_Name: left
+      m_Id: fb57f215-abe0-4030-bd27-074048747a5e
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Right Caterpillar Move
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 97a359e8-6948-4304-8f9a-ca86816008c5
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Right Caterpillar Move
+      m_Flags: 8
+    m_Flags: 0
+  sendkey: 0
+  sendtarget: {x: 0, y: 0, z: 0}
 --- !u!1 &603615161
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9bbb2355b9bf843961ae1cecb32553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerInput: {fileID: 1555266130}
+  PlayerInput: {fileID: 0}
   EventHandler: {fileID: 0}
   MoveSpeed: 5
   RotationSpeed: 70
@@ -569,7 +682,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &840411010
 GameObject:
@@ -653,7 +766,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &987364085
 GameObject:
@@ -1041,52 +1154,6 @@ Transform:
   m_Father: {fileID: 767769881}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1555266129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555266131}
-  - component: {fileID: 1555266130}
-  m_Layer: 0
-  m_Name: PlayerInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1555266130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555266129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7e43b9ff7e5e7543856bbf93bbbfba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sendkey: 0
-  sendtarget: {x: 0, y: 0, z: 0}
---- !u!4 &1555266131
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555266129}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7245203260631108898
 Transform:
   m_ObjectHideFlags: 0
@@ -1202,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: PlayerInput
       value: 
-      objectReference: {fileID: 1555266130}
+      objectReference: {fileID: 0}
     - target: {fileID: 7322654455661434867, guid: f3f3f94835eaedc4991cd2d9a79dfcdd, type: 3}
       propertyPath: TurretSpeed
       value: 50

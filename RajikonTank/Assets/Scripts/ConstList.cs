@@ -15,7 +15,10 @@ namespace ConstList
         RIGHTARROW,
         LEFTARROW,
         DOWNARROW,
-        SPACE,
+        FIRE,
+        ACCELE,
+        BACK,
+
     }
 
     public enum SE_ID

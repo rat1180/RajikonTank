@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ConstList;
 using TankClassInfomations;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// ユーザー一人に割り当てられるプレイヤークラス
@@ -230,7 +231,8 @@ public class PlayerClass : TankEventHandler
     /// <returns></returns>
     private Vector3 GetMousePos()
     {
-        Vector3 mousepos = Input.mousePosition;
+        Mouse mouse = Mouse.current;
+        Vector3 mousepos = mouse.position.ReadValue();
         mousepos.z = 10;
         mousepos = Camera.main.ScreenToWorldPoint(mousepos);
         return mousepos;
