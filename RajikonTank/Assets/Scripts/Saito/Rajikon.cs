@@ -21,7 +21,7 @@ public class Rajikon : MonoBehaviour
 
     public GameObject Tank;
     [SerializeField] GameObject Turret;
-    [SerializeField] GameObject ShotPos;
+    public GameObject ShotPos;
     [SerializeField] GameObject BulletList;
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ë_Ç§ëŒè€.

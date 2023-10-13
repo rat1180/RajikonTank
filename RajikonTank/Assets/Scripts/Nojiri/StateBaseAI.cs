@@ -288,6 +288,7 @@ public class StateBaseAI : TankEventHandler
     private void EnemyDeath()
     {
         GameManager.instance.DeathTank(TeamID.CPU); // GameManager‚É€–Sˆ—‘—M
+
         Destroy(gameObject); // “Gíœ
     }
 
