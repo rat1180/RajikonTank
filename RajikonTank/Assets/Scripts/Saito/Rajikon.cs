@@ -73,6 +73,7 @@ public class Rajikon : MonoBehaviour
 
     void Update()
     {
+        if (PlayerInput == null) return;
         MoveInput(PlayerInput.KeyInput());
         LookTarget();
         TargetUpdate();
