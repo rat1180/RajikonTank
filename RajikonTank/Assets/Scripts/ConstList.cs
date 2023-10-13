@@ -28,6 +28,13 @@ namespace ConstList
         Enemy_Normal
     }
 
+    public enum EffectNames
+    {
+        Effect_Tank_Deth,
+        Effect_Bullet_Fire,
+        Effect_Bullet_Hit
+    }
+
     /// <summary>
     /// ƒ`[ƒ€IDˆê———ñ‹“‘Ì.
     /// </summary>

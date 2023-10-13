@@ -60,6 +60,8 @@ public class MoveBullet : MonoBehaviour
         BulletHead.transform.rotation = rotation;
 
         //this.transform.position = StartPos;
+
+        ReflectCount = 0;
         Rb.velocity = new Vector3(0, 0, 0);
     }
     //反射させる関数
@@ -78,6 +80,8 @@ public class MoveBullet : MonoBehaviour
 
         // オブジェクトの回転に反映
         BulletHead.transform.rotation = rotation;
+
+        
     }
     //弾の削除
     protected void BulletDestroy()
@@ -89,6 +93,9 @@ public class MoveBullet : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall")
         {
+            //テスト
+            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
+
             var WallObj = other.contacts[0].normal;
             Flg = true;
             ReflectCount++;

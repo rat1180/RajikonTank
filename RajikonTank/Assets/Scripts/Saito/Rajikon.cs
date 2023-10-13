@@ -78,7 +78,7 @@ public class Rajikon : MonoBehaviour
         Tank = transform.GetChild(0).gameObject;
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
-        BulletList = transform.GetChild(2).gameObject;
+        BulletList = transform.GetChild(1).gameObject;
         InitBullet();
     }
 
@@ -192,6 +192,10 @@ public class Rajikon : MonoBehaviour
             {
                 Bullets[i].gameObject.SetActive(true);
                 Bullets[i].GetComponent<MoveBullet>().StartRotation(ShotPos.transform.forward, ShotPos.transform.position);
+
+                //ƒeƒXƒg
+                EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Fire, ShotPos.transform.position);
+
                 return;
             }
         }
