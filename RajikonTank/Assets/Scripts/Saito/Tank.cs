@@ -44,7 +44,7 @@ public class Tank : MonoBehaviour
                 //ƒeƒXƒg
                 EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Tank_Deth,transform.position);
 
-                Rajikon.gameObject.SetActive(false);
+                //Rajikon.gameObject.SetActive(false);
                 break;
             case "Tank":
 

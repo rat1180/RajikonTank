@@ -248,8 +248,15 @@ public class PlayerClass : TankEventHandler
         //ゲームマネージャーにヒットしたことを通知
         GameManagerInstance.DeathTank(TeamID);
 
+        PossessionTank.gameObject.SetActive(false);
+
         //操作を停止
         SetisControl(false);
+    }
+
+    private void PredictionAim()
+    {
+        var aimvector = PossessionTank.ShotPos.transform.forward;
     }
 
     #endregion

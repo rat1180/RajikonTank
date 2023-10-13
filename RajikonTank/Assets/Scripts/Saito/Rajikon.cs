@@ -19,9 +19,11 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // —İÏ‰ñ“]Šp“x.
 
+    [SerializeField] bool isFixedTurret;      // ƒ^ƒŒƒbƒg‚ğŒÅ’è‚·‚é‚© true:ŒÅ’è false:‰ğœ.
+
     public GameObject Tank;
     [SerializeField] GameObject Turret;
-    [SerializeField] GameObject ShotPos;
+    public GameObject ShotPos;
     [SerializeField] GameObject BulletList;
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ‘_‚¤‘ÎÛ.
@@ -73,8 +75,9 @@ public class Rajikon : MonoBehaviour
 
     void Update()
     {
+        if (PlayerInput == null) return;
         MoveInput(PlayerInput.KeyInput());
-        LookTarget();
+        if(isFixedTurret == false) LookTarget();
         TargetUpdate();
     }
 
