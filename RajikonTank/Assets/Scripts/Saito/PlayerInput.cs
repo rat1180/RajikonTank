@@ -6,18 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] InputAction InputLeftCaterpillarMove;
-    [SerializeField] InputAction InputRightCaterpillarMove;
     Vector2 LeftStickInput;
     Vector2 RightStickInput;
 
     public KeyList sendkey;  // 押されたキーの情報を送る変数.
     public Vector3 sendtarget;   // 狙っている場所を送る変数
-
-    private void OnDisable()
-    {
-        InputLeftCaterpillarMove.Disable();
-    }
 
     void Start()
     {
@@ -49,49 +42,67 @@ public class PlayerInput : MonoBehaviour
 
         if(gamepad != null)
         {
+            Debug.Log("ゲームパッドが接続されました");
             LeftStickInput = gamepad.leftStick.ReadValue();
             RightStickInput = gamepad.rightStick.ReadValue();
-        }
 
-        if (keyboard.aKey.isPressed)
-        {
-            sendkey = KeyList.A;
+            if (gamepad.rightTrigger.wasPressedThisFrame)
+            {
+                sendkey = KeyList.FIRE;
+            }
+            else if (LeftStickInput.magnitude <= -1.0f || RightStickInput.magnitude >= 1.0f)
+            {
+                sendkey = KeyList.LEFTROTATION;
+            }
+            else if (LeftStickInput.magnitude >= 1.0f || RightStickInput.magnitude <= -1.0f)
+            {
+                sendkey = KeyList.RIGHTROTATION;
+            }
+            else
+            {
+                sendkey = KeyList.NONE;
+            }
         }
-        else if (keyboard.dKey.isPressed)
+        
+        if(keyboard != null)
         {
-            sendkey = KeyList.D;
-        }
-        else if (keyboard.sKey.isPressed || LeftStickInput.magnitude <= -1.0f && gamepad != null)
-        {
-            sendkey = KeyList.S;
-        }
-        else if (keyboard.wKey.isPressed || LeftStickInput.magnitude >= 1.0f && gamepad != null)
-        {
-            sendkey = KeyList.W;
-        }
-        else if (keyboard.upArrowKey.isPressed || RightStickInput.magnitude >= 1.0f && gamepad != null)
-        {
-            sendkey = KeyList.UPARROW;
-        }
-        else if (keyboard.rightArrowKey.isPressed)
-        {
-            sendkey = KeyList.RIGHTARROW;
-        }
-        else if (keyboard.leftArrowKey.isPressed)
-        {
-            sendkey = KeyList.LEFTARROW;
-        }
-        else if (keyboard.downArrowKey.isPressed || RightStickInput.magnitude <= -1.0f && gamepad != null)
-        {
-            sendkey = KeyList.DOWNARROW;
-        }
-        else if (keyboard.spaceKey.wasPressedThisFrame || gamepad.rightTrigger.wasPressedThisFrame)
-        {
-            sendkey = KeyList.FIRE;
-        }
-        else
-        {
-            sendkey = KeyList.NONE;
+            var wkey = keyboard.wKey.isPressed;
+            var skey = keyboard.sKey.isPressed;
+            var upkey = keyboard.upArrowKey.isPressed;
+            var downkey = keyboard.downArrowKey.isPressed;
+
+            if (keyboard.spaceKey.wasPressedThisFrame)
+            {
+                sendkey = KeyList.FIRE;
+            }
+            else if (wkey && upkey)
+            {
+                sendkey = KeyList.ACCELE;
+            }
+            else if (skey && downkey)
+            {
+                sendkey = KeyList.BACK;
+            }
+            else if (skey && upkey)
+            {
+                sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            }
+            else if (wkey && downkey)
+            {
+                sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            }
+            else if (skey || upkey)
+            {
+                sendkey = KeyList.LEFTROTATION;
+            }
+            else if (wkey || downkey)
+            {
+                sendkey = KeyList.RIGHTROTATION;
+            }
+            else
+            {
+                sendkey = KeyList.NONE;
+            }
         }
 
         return sendkey;
