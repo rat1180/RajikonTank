@@ -21,16 +21,23 @@ public class GameManager : MonoBehaviour
     const int STATE_STAGE_PANEL = 0;
     const int STAGE_NAME = 1;
     const int INITIAL_ENEMY_NUM = 2;
+
+    const int READYGAMEPANEL = 0; 
+    const int INGAMEPANEL = 1;
+    const int ENDGAMEPANEL = 2;
     #endregion
 
     [Header("ゲーム状態")]
     public GAMESTATUS NowGameState;//現在のゲーム状態.
 
-    [Header("GameStart(Ready)時のキャンバス")]
-    [SerializeField] GameObject ReadyGameCanvas; 
+    [SerializeField] GameObject GameCanvas;
+    public List<GameObject> GamePanel;
 
-    [Header("InGame時のキャンバス関連")]
-    [SerializeField] GameObject InGameCanvas;//InGame中に表示しているキャンバス(UI).
+    //[Header("GameStart(Ready)時のキャンバス")]
+    //[SerializeField] GameObject ReadyGameCanvas; 
+
+    //[Header("InGame時のキャンバス関連")]
+    //[SerializeField] GameObject InGameCanvas;//InGame中に表示しているキャンバス(UI).
     public int RestBullets;                  //残弾数.
 
     [Header("ステージ")]
@@ -48,7 +55,7 @@ public class GameManager : MonoBehaviour
     TeamID WinId;                          //勝者のID.    
     #endregion
 
-    [SerializeField] GameObject EndGamePanel;//ゲーム終了時に表示するパネル.
+   // [SerializeField] GameObject EndGamePanel;//ゲーム終了時に表示するパネル.
 
     public string stageName;
 
@@ -167,7 +174,9 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-       // NowGameState = GAMESTATUS.READY;
+        GamePanel.Add(GameCanvas.transform.GetChild(READYGAMEPANEL).gameObject);
+        GamePanel.Add(GameCanvas.transform.GetChild(INGAMEPANEL).gameObject);
+        GamePanel.Add(GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject);
     }
 
     private void Update()
@@ -217,9 +226,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void EndGameRoop()
     {
-        EndGamePanel.SetActive(true);
+        GamePanel[ENDGAMEPANEL].SetActive(true);
         //勝利したチームのIDを表示.
-        EndGamePanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
+        GamePanel[ENDGAMEPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
+        //EndGamePanel.SetActive(true);
+        ////勝利したチームのIDを表示.
+        //EndGamePanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
     }
     #endregion
 
@@ -338,21 +350,32 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ChangeInGameCanvs()
     {
-        InGameCanvas.SetActive(true);
-        ReadyGameCanvas.SetActive(false);
-        InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
+        GamePanel[INGAMEPANEL].SetActive(true);
+        GamePanel[READYGAMEPANEL].SetActive(false);
+        GamePanel[INGAMEPANEL].transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
-        InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
+        GamePanel[INGAMEPANEL].transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
+        //InGameCanvas.SetActive(true);
+        //ReadyGameCanvas.SetActive(false);
+        //InGameCanvas.transform.GetChild(ENEMY_NUM_GROUP).gameObject.
+        //    transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
+        //                                ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
+        //InGameCanvas.transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
+        //    BulletsImage[RestBullets];
     }
 
     private void DrawStateStagePanel()
     {
-        ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = Stages[NowStage].name;
-        ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
+        //ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        //    transform.GetChild(STAGE_NAME).GetComponent<Text>().text = Stages[NowStage].name;
+        //ReadyGameCanvas.transform.GetChild(STATE_STAGE_PANEL).gameObject.
+        //    transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
     }
 
 
