@@ -12,13 +12,16 @@ namespace ConstList
         S,
         W,
         UPARROW,
-        RIGHTARROW,
         LEFTARROW,
+        RIGHTARROW,
         DOWNARROW,
         FIRE,
         ACCELE,
         BACK,
-
+        LEFTROTATION,
+        RIGHTROTATION,
+        LEFTHIGHSPEEDROTATION,
+        RIGHTHIGHSPEEDROTATION,
     }
 
     public enum SE_ID

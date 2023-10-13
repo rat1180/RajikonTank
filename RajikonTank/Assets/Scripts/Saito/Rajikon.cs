@@ -14,7 +14,6 @@ public class Rajikon : MonoBehaviour
     [SerializeField] float MoveSpeed;         // à⁄ìÆÇ∑ÇÈë¨Ç≥.
     [SerializeField] float RotationSpeed;     // âÒì]Ç∑ÇÈë¨Ç≥.
     [SerializeField] float TurretSpeed;       // É^ÉåÉbÉgÇÃâÒì]ë¨Ç≥.
-    [SerializeField] int Num;
     [SerializeField] int MaxBulletNum;        // íeÇÃç≈ëÂêî.
     [SerializeField] List<bool> isFirBullet;  // íeÇî≠éÀÇµÇƒÇ¢ÇÈÇ©.
     [SerializeField] List<GameObject> Bullets;
@@ -97,17 +96,22 @@ public class Rajikon : MonoBehaviour
 
         switch (keylist)
         {
-
-            case KeyList.A:
+            case KeyList.LEFTROTATION:
                 RotationAngle -= rotation;
                 break;
-            case KeyList.D:
+            case KeyList.RIGHTROTATION:
                 RotationAngle += rotation;
                 break;
-            case KeyList.S:
+            case KeyList.LEFTHIGHSPEEDROTATION:
+                RotationAngle -= rotation * 1.5f;
+                break;
+            case KeyList.RIGHTHIGHSPEEDROTATION:
+                RotationAngle += rotation * 1.5f;
+                break;
+            case KeyList.BACK:
                 Tank.transform.position -= Tank.transform.forward * MoveSpeed / 1.5f * Time.deltaTime;
                 break;
-            case KeyList.W:
+            case KeyList.ACCELE:
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
             case KeyList.FIRE:
