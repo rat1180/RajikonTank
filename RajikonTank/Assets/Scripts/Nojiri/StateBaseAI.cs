@@ -27,7 +27,7 @@ public class StateBaseAI : TankEventHandler
     public enum EnemyName // “Gí—Ş
     {
         NORMAL,              // ’Êí“G
-        MOVE,                // ˆÚ“®“G
+        MOVEMENT,                // ˆÚ“®“G
         FASTBULLET,          // ‚‘¬’e“G
         FASTANDMOVE          // ‚‘¬’e‚ÆˆÚ“®“G
     }
@@ -84,7 +84,7 @@ public class StateBaseAI : TankEventHandler
             case EnemyName.NORMAL:
                 NormalEnemy();
                 break;
-            case EnemyName.MOVE:
+            case EnemyName.MOVEMENT:
                 MoveEnemy();
                 break;
             case EnemyName.FASTBULLET:
@@ -181,7 +181,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalEnemyRoutine()
     {
-        //GameManager.instance.id = CPU_ID.Normal; // IDİ’è
+        //GameManager.instance.id = CPU_ID.Normal; // IDİ’è“K“–
 
         // AiTimerÀs’†
         if (isTimer == true || aiState == EnemyAiState.DEATH)
@@ -202,11 +202,16 @@ public class StateBaseAI : TankEventHandler
 
             if (hitObj.tag == playerTag && hitObj == player) // Player‚Æ©•ª‚ÌŠÔ‚ÉÕ•Á•¨‚ª‚È‚¢‚Æ‚«
             {
-                //attackFlg = TurretDirection(); // –C‘ä‚ªPlayer‚ÉŒü‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©
+                // ˆÚ“®“G‚©‚ÂƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª—£‚ê‚Ä‚¢‚é‚Æ‚«
+                //if(aiName == EnemyName.MOVEMENT)
+                //{
+                //    aiState = EnemyAiState.MOVE;
+                //}
 
-                //if (attackFlg) aiState = EnemyAiState.ATTACK; // true FUŒ‚
-                //else aiState = EnemyAiState.TURN;             // falseFù‰ñ
-                aiState = EnemyAiState.MOVE;
+                attackFlg = TurretDirection(); // –C‘ä‚ªPlayer‚ÉŒü‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©
+
+                if (attackFlg) aiState = EnemyAiState.ATTACK; // true FUŒ‚
+                else aiState = EnemyAiState.TURN;             // falseFù‰ñ
             }
             else
             {
