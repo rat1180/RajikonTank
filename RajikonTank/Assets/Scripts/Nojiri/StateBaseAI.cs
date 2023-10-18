@@ -181,7 +181,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalEnemyRoutine()
     {
-        //GameManager.instance.id = CPU_ID.Normal; // ID設定適当
+        //GameManager.instance.id = CPU_ID.Normal; // ID設定適当：長塚用
 
         // AiTimer実行中
         if (isTimer == true || aiState == EnemyAiState.DEATH)
@@ -202,11 +202,16 @@ public class StateBaseAI : TankEventHandler
 
             if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
+                float dis = Vector3.Distance(playerPos, enemyPos);
+
                 // 移動敵かつプレイヤーとの距離が離れているとき
-                //if(aiName == EnemyName.MOVEMENT)
-                //{
-                //    aiState = EnemyAiState.MOVE;
-                //}
+                if (aiName == EnemyName.MOVEMENT)
+                {
+                    Debug.Log("プレイヤーとの距離：" + dis);
+
+                    aiState = EnemyAiState.MOVE;
+                    return;
+                }
 
                 attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
