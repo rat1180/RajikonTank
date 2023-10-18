@@ -39,8 +39,13 @@ public class PlayerInput : MonoBehaviour
     {
         Keyboard keyboard = Keyboard.current;
         Gamepad gamepad = Gamepad.current;
+        float Threshold = 0.3f;  // 閾値の設定.
+        var LeftStickUp = LeftStickInput.y >= Threshold;      // 左スティックを前に倒した時.
+        var LeftStickDown = LeftStickInput.y <= -Threshold;   // 左スティックを後ろに倒した時.
+        var RightStickUp = RightStickInput.y >= Threshold;    // 右スティックを前に倒した時.
+        var RightStickDown = RightStickInput.y <= -Threshold; // 右スティックを後ろに倒した時.
 
-        if(gamepad != null)
+        if (gamepad != null)
         {
             Debug.Log("ゲームパッドが接続されました");
             LeftStickInput = gamepad.leftStick.ReadValue();
@@ -50,11 +55,27 @@ public class PlayerInput : MonoBehaviour
             {
                 sendkey = KeyList.FIRE;
             }
-            else if (LeftStickInput.magnitude <= -1.0f || RightStickInput.magnitude >= 1.0f)
+            else if(LeftStickUp && RightStickUp)
+            {
+                sendkey = KeyList.ACCELE;
+            }
+            else if(LeftStickDown && RightStickDown)
+            {
+                sendkey = KeyList.BACK;
+            }
+            else if (LeftStickDown && RightStickUp)
+            {
+                sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            }
+            else if (LeftStickUp && RightStickDown)
+            {
+                sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            }
+            else if (LeftStickDown || RightStickUp)
             {
                 sendkey = KeyList.LEFTROTATION;
             }
-            else if (LeftStickInput.magnitude >= 1.0f || RightStickInput.magnitude <= -1.0f)
+            else if (LeftStickUp || RightStickDown)
             {
                 sendkey = KeyList.RIGHTROTATION;
             }
@@ -64,7 +85,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
         
-        if(keyboard != null)
+        if(keyboard != null && gamepad == null)
         {
             var wkey = keyboard.wKey.isPressed;
             var skey = keyboard.sKey.isPressed;

@@ -16,6 +16,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] float TurretSpeed;       // ƒ^ƒŒƒbƒg‚Ì‰ñ“]‘¬‚³.
     [SerializeField] int MaxBulletNum;        // ’e‚ÌÅ‘å”.
     [SerializeField] List<bool> isFirBullet;  // ’e‚ğ”­Ë‚µ‚Ä‚¢‚é‚©.
+    [SerializeField] int FalseBullet;         // Œ‚‚Ä‚é’e‚Ì”.
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // —İÏ‰ñ“]Šp“x.
 
@@ -70,6 +71,7 @@ public class Rajikon : MonoBehaviour
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
         BulletList = transform.GetChild(1).gameObject;
+        isFixedTurret = true;
         InitBullet();
     }
 
@@ -169,7 +171,7 @@ public class Rajikon : MonoBehaviour
     {
         for(int i = 0; i < Bullets.Count; i++)
         {
-            if(Bullets[i].activeSelf==false)
+            if(Bullets[i].activeSelf == false)
             {
                 Bullets[i].gameObject.SetActive(true);
                 Bullets[i].GetComponent<MoveBullet>().StartRotation(ShotPos.transform.forward, ShotPos.transform.position);
@@ -179,7 +181,23 @@ public class Rajikon : MonoBehaviour
 
                 return;
             }
+            
         }
+    }
+
+    public int GetRestBullet()
+    {
+        FalseBullet = 0;
+
+        for (int i = 0; i < Bullets.Count; i++)
+        {
+            if (Bullets[i].activeSelf == false)
+            {
+                FalseBullet++;
+            }
+        }
+
+        return FalseBullet;
     }
 
     //add.h
