@@ -128,133 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DeformedTanks_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 200
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6441bf23bd3f2fd478469f3115971e31
-      internalID: -784039409
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_1
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 200
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e5bfe1b73b162f84cbd591d207b5c385
-      internalID: -1293534311
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 200
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c8fb5434b91349b448c12dbb4d263a7b
-      internalID: 1434465543
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 100
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cceb35b9b60274545a92a7efee51a03d
-      internalID: -629626120
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_4
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 100
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 116a86d114cd763469c1df809cd9e577
-      internalID: -230013061
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_5
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 100
-        width: 200
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b4e7962af1368a47acde4c44d7d2bf4
-      internalID: 789133741
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DeformedTanks_6
+      name: TanksText_0
       rect:
         serializedVersion: 2
         x: 0
@@ -268,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d5d016c03a336649b2563fa49cc8aea
-      internalID: -1354132700
+      spriteID: 73a5f4959ac75164f9d811341b0532b3
+      internalID: -776240240
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeformedTanks_7
+      name: TanksText_1
       rect:
         serializedVersion: 2
         x: 200
@@ -289,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 216e9349b2f624042924b5fd1a38e19b
-      internalID: -913802382
+      spriteID: b0b1bcf996c47394da3079bd067630dd
+      internalID: 120784711
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeformedTanks_8
+      name: TanksText_2
       rect:
         serializedVersion: 2
         x: 400
@@ -310,8 +184,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14942eaf5a27e4b45be92a2734dacb87
-      internalID: -530246886
+      spriteID: d5624e61d18002a458f91b4d2e574306
+      internalID: 2101570175
       vertices: []
       indices: 
       edges: []
@@ -319,7 +193,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: cbc10324686351a4f93e513a66a598a5
+    spriteID: 753813467c020b04382d02e0a6472699
     internalID: 0
     vertices: []
     indices: 
@@ -327,15 +201,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DeformedTanks_3: -629626120
-      DeformedTanks_0: -784039409
-      DeformedTanks_1: -1293534311
-      DeformedTanks_2: 1434465543
-      DeformedTanks_4: -230013061
-      DeformedTanks_6: -1354132700
-      DeformedTanks_7: -913802382
-      DeformedTanks_5: 789133741
-      DeformedTanks_8: -530246886
+      TanksText_1: 120784711
+      TanksText_2: 2101570175
+      TanksText_0: -776240240
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
