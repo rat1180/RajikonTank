@@ -40,7 +40,8 @@ namespace ConstList
         TANK_NORMAL_RED,
         TANK_NORMAL,
         TankBase,
-        Enemy_Normal
+        Enemy_Normal,
+        Enemy_Movement
     }
 
     public enum EffectNames
@@ -62,14 +63,14 @@ namespace ConstList
         CPU
     }
 
-    public enum CPU_ID { 
-      NormalCPU,
-      MoveCPU,
-      FastBulletCPU,
-      FastAndMoveCPU,
-      CPU_cnt
+    public enum EnemyName // “Gí—Ş
+    {
+        NORMAL,              // ’Êí“G
+        MOVEMENT,                // ˆÚ“®“G
+        FASTBULLET,          // ‚‘¬’e“G
+        FASTANDMOVE,          // ‚‘¬’e‚ÆˆÚ“®“G
+        COUNT
     }
-
 
     /// <summary>
     /// ƒQ[ƒ€‚ÌŒ»İ‚Ìó‘Ô‚ğ•\‚·—ñ‹“‘Ì

@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     public int player_IDnum;//Playerがリストの何番目なのかを確認.
     public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
-    public int[] DestroyCPU = new int[(int)CPU_ID.CPU_cnt];//撃破したCPUをカウント.
+    public int[] DestroyCPU = new int[(int)EnemyName.COUNT];//撃破したCPUをカウント.
     TeamID WinId;                          //勝利したチームのID.
 
     [Header("使用画像")]
@@ -150,6 +150,12 @@ public class GameManager : MonoBehaviour
             return memberNum;
         }
         #endregion
+
+        public void SetPosition(int id,Vector3 pos)
+        {
+            tankList[id].gameObject.transform.position = pos;
+            Debug.Log("SetPosition起動");
+        }
     }
 
     #endregion
@@ -213,6 +219,7 @@ public class GameManager : MonoBehaviour
     private void InGameRoop()
     {
         ChangeInGameCanvs();
+        Debug.Log("teamInfo[CPU_IDnum].ReturnActiveNum()"+ teamInfo[CPU_IDnum].ReturnActiveMember());
     }
 
     /// <summary>
@@ -333,7 +340,7 @@ public class GameManager : MonoBehaviour
     /// タンクが死亡した際に呼び出す関数
     /// CPUのIDも一緒に引数に指定、撃破したCPUの種類をカウントする.
     /// </summary>
-    public void DeathTank(TeamID teamID,CPU_ID cpu_ID)
+    public void DeathTank(TeamID teamID,EnemyName name)
     {
         for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
         {
@@ -342,7 +349,7 @@ public class GameManager : MonoBehaviour
                 teamInfo[i].MemberDeath();
                 for(int j = 0; j < DestroyCPU.Length; j++)//CPUの種類を判断する.
                 {
-                    if (j == (int)cpu_ID)
+                    if (j == (int)name)
                     {
                         DestroyCPU[j]++;
                     }
@@ -393,6 +400,8 @@ public class GameManager : MonoBehaviour
 
     private void DrawStateStagePanel()
     {
+        
+        GamePanel[READYGAMEPANEL].SetActive(true);
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
             this.transform.GetChild(0).gameObject.GetComponent<StageManager>().Stages[NowStage].name;
@@ -442,7 +451,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        NowStage++;
+        NowGameState = GAMESTATUS.READY;
+        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
+        DrawStateStagePanel();
     }
 
     public void TestDeathplayer()

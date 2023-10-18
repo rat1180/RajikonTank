@@ -6,7 +6,7 @@ using TankClassInfomations;
 
 public class StateBaseAI : TankEventHandler
 {
-    public EnemyName aiName = EnemyName.NORMAL;   //“G‘®«‚Ìİ’è
+    public EnemyName aiName = EnemyName.NORMAL;   //“G‘®«‚Ìİ’è.
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //“G‚Ì‰Šú‘JˆÚ
 
     private Rajikon rajikon;        // RajikonƒNƒ‰ƒX
@@ -24,13 +24,6 @@ public class StateBaseAI : TankEventHandler
     private const int backwardAngle = 160; // Œã•ûŠp“x
 
     Quaternion lookAngle; // ƒeƒXƒg
-    public enum EnemyName // “Gí—Ş
-    {
-        NORMAL,              // ’Êí“G
-        MOVEMENT,                // ˆÚ“®“G
-        FASTBULLET,          // ‚‘¬’e“G
-        FASTANDMOVE          // ‚‘¬’e‚ÆˆÚ“®“G
-    }
 
     public enum EnemyAiState // s“®ƒpƒ^[ƒ“
     {
@@ -60,9 +53,6 @@ public class StateBaseAI : TankEventHandler
     void Update()
     {
         UpdateAI();
-        var relative = playerPos - enemyPos;
-        lookAngle = Quaternion.LookRotation(relative.normalized);  // Player‚ÉŒü‚¢‚½‚ÌŠp“x
-        Debug.Log("Y  " + lookAngle.y);
     }
 
     #region –¼‘O‘JˆÚ/ƒƒCƒ“ƒ‹[ƒv
@@ -349,7 +339,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void EnemyDeath()
     {
-        GameManager.instance.DeathTank(TeamID.CPU); // GameManager‚É€–Sˆ—‘—M
+        GameManager.instance.DeathTank(TeamID.CPU,aiName); // GameManager‚É€–Sˆ—‘—M
 
         Destroy(gameObject); // “Gíœ
     }
@@ -373,7 +363,7 @@ public class StateBaseAI : TankEventHandler
     private float VectorCalc()
     {
         Vector3 relativePos = playerPos - enemyPos; // Enemy‚©‚çPlayer‚Ö‚Ì‘Š‘ÎƒxƒNƒgƒ‹
-        //lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Player‚ÉŒü‚¢‚½‚ÌŠp“x
+        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Player‚ÉŒü‚¢‚½‚ÌŠp“x
         float rotateAngle = Quaternion.Angle(enemy.transform.localRotation,lookAngle); // Œ»İ‚ÌŠp“x‚©‚çPlayer‚Ü‚Å‚ÌŠÔ‚ÌŠp“x
 
         return rotateAngle; // Player‚Ü‚Å‚ÌŠp“x‚ğ•Ô‚·
