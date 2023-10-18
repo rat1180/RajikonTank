@@ -69,6 +69,10 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("ゲームマネージャーのインスタンス")] private GameManager GameManagerInstance;
 
     [SerializeField, Tooltip("最大弾数(デフォルト値は5)")] private int MaxBulletNm = 5;
+
+    [SerializeField, Tooltip("狙っている場所を表示するオブジェクト")] private GameObject AimObject;
+
+    [SerializeField, Tooltip("照準オブジェクトの名前")] private string AimObjectPrefabName = "Others/AimObject";
     #endregion
 
     #region デバッグ用表示
@@ -118,6 +122,9 @@ public class PlayerClass : TankEventHandler
 
         //キー入力取得用スクリプト確認・追加
         CheckPlayerInputScript();
+
+        //照準位置の初期化とオブジェクトの生成
+        InitPredictionAim();
 
         //モードに合わせた処理
         switch (mode)
@@ -174,6 +181,14 @@ public class PlayerClass : TankEventHandler
         }
     }
 
+    private void InitPredictionAim()
+    {
+        AimObject = Instantiate(FolderObjectFinder.GetResorceObject(AimObjectPrefabName));
+        AimObject.transform.parent = gameObject.transform;
+        AimObject.transform.position = gameObject.transform.position;
+        AimObject.SetActive(false);
+    }
+
     /// <summary>
     /// タンクを生成する
     /// </summary>
@@ -212,6 +227,9 @@ public class PlayerClass : TankEventHandler
         {
             //操作を取得
             InputControler();
+
+            //照準を反映
+            if (AimObject != null) PredictionAim();
         }
     }
 
@@ -254,10 +272,24 @@ public class PlayerClass : TankEventHandler
         SetisControl(false);
     }
 
+    /// <summary>
+    /// 予測位置を表示する
+    /// </summary>
     private void PredictionAim()
     {
+        //現在の方向を取得
         var aimvector = PossessionTank.ShotPos.transform.forward;
+
+        AimObject.SetActive(false);
+        if(Physics.Raycast(PossessionTank.Tank.transform.position,aimvector,out RaycastHit hit))
+        {
+
+            AimObject.transform.position = new Vector3(hit.point.x, 3, hit.point.z);
+            //AimObject.transform.LookAt(Camera.main.transform);
+            AimObject.SetActive(true);
+        }
     }
+
 
     #endregion
 
