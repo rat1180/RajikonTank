@@ -20,7 +20,7 @@ public class Tank : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(HitObjTag);
+        //Debug.Log(HitObjTag);
     }
 
     //add.h
