@@ -263,6 +263,9 @@ public class PlayerClass : TankEventHandler
     {
         base.TankHit();
 
+        //ヒット音を出す
+        GameManagerInstance.PlaySE(SE_ID.PlayerDeath);
+
         //ゲームマネージャーにヒットしたことを通知
         GameManagerInstance.DeathTank(TeamID);
 
