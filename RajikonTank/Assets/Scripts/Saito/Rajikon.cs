@@ -20,7 +20,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // 累積回転角度.
 
-    [SerializeField] bool isFixedTurret;      // タレットを固定するか true:固定 false:解除.
+    public bool isFixedTurret;      // タレットを固定するか true:固定 false:解除.
 
     public GameObject Tank;
     [SerializeField] GameObject Turret;
@@ -59,7 +59,7 @@ public class Rajikon : MonoBehaviour
 
         for(int i = 0; i < MaxBulletNum; i++)
         {
-            Bullet = BulletGenerateClass.BulletInstantiateOne(BulletList, "RealBullet");
+            Bullet = BulletGenerateClass.BulletInstantiateOne(BulletList, BulletPrefabNames.RealBullet);
             Bullets.Add(Bullet);
         }
     }
@@ -71,7 +71,6 @@ public class Rajikon : MonoBehaviour
         Turret = Tank.transform.GetChild(1).gameObject;
         ShotPos = Turret.transform.GetChild(0).gameObject;
         BulletList = transform.GetChild(1).gameObject;
-        isFixedTurret = true;
         InitBullet();
     }
 

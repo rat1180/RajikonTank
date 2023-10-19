@@ -9,8 +9,8 @@ public class PlayerInput : MonoBehaviour
     Vector2 LeftStickInput;
     Vector2 RightStickInput;
 
-    public KeyList sendkey;  // 押されたキーの情報を送る変数.
-    public Vector3 sendtarget;   // 狙っている場所を送る変数
+    public KeyList sendkey;    // 押されたキーの情報を送る変数.
+    public Vector3 sendtarget; // 狙っている場所を送る変数
 
     [SerializeField] Controller NowController;
 
