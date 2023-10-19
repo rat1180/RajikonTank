@@ -9533,6 +9533,7 @@ GameObject:
   - component: {fileID: 4021103657954561943}
   - component: {fileID: 4021103657954561960}
   - component: {fileID: 4021103657954561941}
+  - component: {fileID: 8599754873386846081}
   m_Layer: 0
   m_Name: Effect_Bullet_Hit
   m_TagString: Untagged
@@ -14446,6 +14447,20 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 0}
+--- !u!114 &8599754873386846081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4021103657954561961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2ce786f94f01545a39a3c9cc0be408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SE_Name: 5
+  PlayOnAwake: 1
 --- !u!1 &4311522845078898388
 GameObject:
   m_ObjectHideFlags: 0
@@ -19218,7 +19233,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.9120099, b: 0, a: 1}
   m_Intensity: 0
   m_Range: 4
   m_SpotAngle: 30

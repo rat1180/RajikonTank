@@ -6,6 +6,7 @@ public class Tank : MonoBehaviour
 {
     [SerializeField] GameObject Rajikon;
     string HitObjTag;
+    protected TrailRenderer Trail;
 
     private void OnDisable()
     {
@@ -14,13 +15,13 @@ public class Tank : MonoBehaviour
 
     void Start()
     {
-        
+        Trail = GetComponent<TrailRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(HitObjTag);
+        //Debug.Log(HitObjTag);
     }
 
     //add.h
@@ -44,11 +45,17 @@ public class Tank : MonoBehaviour
                 //ƒeƒXƒg
                 EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Tank_Deth,transform.position);
 
-                Rajikon.gameObject.SetActive(false);
+                //Rajikon.gameObject.SetActive(false);
                 break;
             case "Tank":
 
                 break;
         }
+    }
+
+    public void SetPlayTrail(bool isPlay)
+    {
+        Trail.emitting = isPlay;
+        Trail.Clear();
     }
 }

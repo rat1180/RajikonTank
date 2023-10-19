@@ -15,6 +15,8 @@ public class MoveBullet : MonoBehaviour
     protected Vector3 Direction;
     protected Vector3 TestStartPos;
     protected Vector3 TestTarget;
+
+    protected TrailRenderer Trail;
     private void OnDisable()
     {
         InitBullet();
@@ -23,6 +25,7 @@ public class MoveBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Trail = GetComponent<TrailRenderer>();
         InitBullet();
     }
 
@@ -32,6 +35,7 @@ public class MoveBullet : MonoBehaviour
         if (!Flg)
         {
             Moving();
+
         }
         Direction = Rb.velocity;
     }
@@ -63,6 +67,8 @@ public class MoveBullet : MonoBehaviour
 
         ReflectCount = 0;
         Rb.velocity = new Vector3(0, 0, 0);
+
+        SetPlayTrail(true);
     }
     //îΩéÀÇ≥ÇπÇÈä÷êî
     protected void Reflect(Vector3 WallObj)
@@ -86,6 +92,8 @@ public class MoveBullet : MonoBehaviour
     //íeÇÃçÌèú
     protected void BulletDestroy()
     {
+        GameManager.instance.PlaySE(ConstList.SE_ID.BulletDestroy);
+        SetPlayTrail(false);
         this.gameObject.SetActive(false);
         Flg = false;
     }
@@ -116,7 +124,14 @@ public class MoveBullet : MonoBehaviour
         //add.h
         if(other.gameObject.tag == "Bullet")
         {
+            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
             BulletDestroy();
         }
+    }
+
+    private void SetPlayTrail(bool isPlay)
+    {
+        Trail.emitting = isPlay;
+        Trail.Clear();
     }
 }

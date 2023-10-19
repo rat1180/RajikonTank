@@ -24,7 +24,7 @@ public class Rajikon : MonoBehaviour
 
     public GameObject Tank;
     [SerializeField] GameObject Turret;
-    [SerializeField] GameObject ShotPos;
+    public GameObject ShotPos;
     [SerializeField] GameObject BulletList;
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ë_Ç§ëŒè€.
@@ -76,6 +76,7 @@ public class Rajikon : MonoBehaviour
 
     void Update()
     {
+        if (PlayerInput == null) return;
         MoveInput(PlayerInput.KeyInput());
         if(isFixedTurret == false) LookTarget();
         TargetUpdate();
@@ -96,6 +97,8 @@ public class Rajikon : MonoBehaviour
        // Debug.Log(keylist);
 
         var rotation = RotationSpeed * Time.deltaTime;
+
+        if (keylist != KeyList.FIRE || keylist != KeyList.NONE) GameManager.instance.PlaySE(SE_ID.Move);
 
         switch (keylist)
         {
@@ -205,5 +208,10 @@ public class Rajikon : MonoBehaviour
 
         EventHandler.TankHit();
     }
-    
+
+    public void SetPlayTrail(bool isPlay)
+    {
+        Tank.GetComponent<Tank>().SetPlayTrail(isPlay);
+    }
+
 }

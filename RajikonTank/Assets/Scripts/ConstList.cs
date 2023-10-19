@@ -36,7 +36,9 @@ namespace ConstList
         Move,
         EnemyDeath,
         PlayerDeath,
-        Shot
+        Shot,
+        Reflect,
+        BulletDestroy
     }
 
     public enum TankPrefabNames
@@ -46,7 +48,8 @@ namespace ConstList
         TANK_NORMAL_RED,
         TANK_NORMAL,
         TankBase,
-        Enemy_Normal
+        Enemy_Normal,
+        Enemy_Movement
     }
 
     public enum EffectNames
@@ -73,6 +76,15 @@ namespace ConstList
         NONE,
         RealBullet,
         HIGHTSPEEDBULLET,
+    }
+
+    public enum EnemyName // “Gí—Ş
+    {
+        NORMAL,              // ’Êí“G
+        MOVEMENT,                // ˆÚ“®“G
+        FASTBULLET,          // ‚‘¬’e“G
+        FASTANDMOVE,          // ‚‘¬’e‚ÆˆÚ“®“G
+        COUNT
     }
 
     /// <summary>
