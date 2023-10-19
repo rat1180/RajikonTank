@@ -99,6 +99,8 @@ public class Rajikon : MonoBehaviour
 
         var rotation = RotationSpeed * Time.deltaTime;
 
+        if (keylist != KeyList.FIRE || keylist != KeyList.NONE) GameManager.instance.PlaySE(SE_ID.Move);
+
         switch (keylist)
         {
             case KeyList.LEFTROTATION:
@@ -207,5 +209,10 @@ public class Rajikon : MonoBehaviour
 
         EventHandler.TankHit();
     }
-    
+
+    public void SetPlayTrail(bool isPlay)
+    {
+        Tank.GetComponent<Tank>().SetPlayTrail(isPlay);
+    }
+
 }

@@ -36,7 +36,9 @@ namespace ConstList
         Move,
         EnemyDeath,
         PlayerDeath,
-        Shot
+        Shot,
+        Reflect,
+        BulletDestroy
     }
 
     public enum TankPrefabNames

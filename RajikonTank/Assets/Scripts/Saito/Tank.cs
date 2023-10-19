@@ -6,6 +6,7 @@ public class Tank : MonoBehaviour
 {
     [SerializeField] GameObject Rajikon;
     string HitObjTag;
+    protected TrailRenderer Trail;
 
     private void OnDisable()
     {
@@ -14,7 +15,7 @@ public class Tank : MonoBehaviour
 
     void Start()
     {
-        
+        Trail = GetComponent<TrailRenderer>();
     }
 
     // Update is called once per frame
@@ -50,5 +51,11 @@ public class Tank : MonoBehaviour
 
                 break;
         }
+    }
+
+    public void SetPlayTrail(bool isPlay)
+    {
+        Trail.emitting = isPlay;
+        Trail.Clear();
     }
 }

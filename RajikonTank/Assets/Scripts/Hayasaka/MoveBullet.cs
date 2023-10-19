@@ -92,6 +92,7 @@ public class MoveBullet : MonoBehaviour
     //’e‚Ìíœ
     protected void BulletDestroy()
     {
+        GameManager.instance.PlaySE(ConstList.SE_ID.BulletDestroy);
         SetPlayTrail(false);
         this.gameObject.SetActive(false);
         Flg = false;
