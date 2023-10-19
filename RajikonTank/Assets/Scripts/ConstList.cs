@@ -24,6 +24,12 @@ namespace ConstList
         RIGHTHIGHSPEEDROTATION,
     }
 
+    public enum Controller
+    {
+        ROOKIE,
+        RAJICON,
+    }
+
     public enum SE_ID
     {
         Start,
