@@ -523,6 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendkey: 0
   sendtarget: {x: 0, y: 0, z: 0}
+  NowController: 0
   moveveckey: 0
 --- !u!114 &5296739251475878321
 MonoBehaviour:
@@ -536,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb493dd008950f44ad20c6784bfc61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiName: 1
+  aiName: 2
   aiState: 0
 --- !u!1 &3178823322372455257
 GameObject:

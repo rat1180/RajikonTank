@@ -9,21 +9,23 @@ public class StateBaseAI : TankEventHandler
     public EnemyName aiName = EnemyName.NORMAL;   //敵属性の設定.
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT; //敵の初期遷移
 
-    private Rajikon rajikon;        // Rajikonクラス
-    private CPUInput cpuInput;      // CPUInputクラス
-    private GameObject player;      // プレイヤー情報
-    private GameObject enemy;       // エネミー情報
-    private GameObject grandChild;  // 孫オブジェクト
-    private Vector3 enemyPos;       // 敵(自分)の位置
-    private Vector3 playerPos;      // プレイヤーの位置
-    private string playerTag;       // Playerのtag
-    private bool isInit   = false;  // 初期化状態確認
-    private bool isAttack = false;  // 攻撃間隔用フラグ
-    private bool isTimer  = false;  // タイマーフラグ
-    private const int forwardAngle  = 20;  // 前方角度
-    private const int backwardAngle = 160; // 後方角度
+    private Rajikon rajikon;           // Rajikonクラス
+    private CPUInput cpuInput;         // CPUInputクラス
+    private GameObject player;         // プレイヤー情報
+    private GameObject enemy;          // エネミー情報
+    private GameObject grandChild;     // 孫オブジェクト
 
-    Quaternion lookAngle; // テスト
+    private Quaternion lookAngle;      // Playerがいる方向
+    private Vector3 enemyPos;          // 敵(自分)の位置
+    private Vector3 playerPos;         // プレイヤーの位置
+
+    private string playerTag;          // Playerのtag
+    private float nowDistance;         // プレイヤーとの距離
+    private bool isInit   = false;     // 初期化状態確認
+    private bool isAttack = false;     // 攻撃間隔用フラグ
+    private bool isTimer  = false;     // タイマーフラグ
+    private bool canAttack = true;     // 攻撃可否フラグ
+    private const int rayLength = 50;  // Rayの長さ
 
     public enum EnemyAiState // 行動パターン
     {
@@ -31,6 +33,7 @@ public class StateBaseAI : TankEventHandler
         MOVE,                // 移動
         TURN,                // 旋回
         ATTACK,              // 攻撃
+        FASTANDMOVE,     // 移動攻撃
         AVOID,               // 回避
         DEATH,               // 死亡
     }
@@ -69,23 +72,8 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
-        switch (aiName)
-        {
-            case EnemyName.NORMAL:
-                NormalEnemy();
-                break;
-            case EnemyName.MOVEMENT:
-                MoveEnemy();
-                break;
-            case EnemyName.FASTBULLET:
-                //FastBulletEnemy();
-                break;
-            case EnemyName.FASTANDMOVE:
-                //FastAndMoveEnemy();
-                break;
-            default:
-                break;
-        }
+        EnemyMain();             // 敵共通処理
+        EnemyStateTransition();  // 敵状態遷移
     }
     #endregion
 
@@ -122,56 +110,20 @@ public class StateBaseAI : TankEventHandler
     }
     #endregion
 
-    #region 行動遷移/AIメインルーチン
+    #region 
     /// <summary>
-    /// 全ての敵で使用する状態遷移
-    /// </summary>
-    private void AiMainRoutine()
-    {
-        switch (aiState)
-        {
-            case EnemyAiState.WAIT:
-                Wait();
-                break;
-            case EnemyAiState.MOVE:
-                Move();
-                break;
-            case EnemyAiState.TURN:
-                Turn();
-                break;
-            case EnemyAiState.ATTACK:
-                Attack();
-                break;
-            case EnemyAiState.AVOID:
-                break;
-            case EnemyAiState.DEATH:
-                EnemyDeath();
-                break;
-            default:
-                break;
-        }
-    }
-
-    #endregion
-
-    #region 通常敵遷移
-    /// <summary>
-    /// 通常敵ループ
-    /// </summary>
-    private void NormalEnemy()
-    {
-        NormalEnemyRoutine(); // 通常敵機能
-        AiMainRoutine();   // 行動遷移
-    }
-
-    /// <summary>
+    /// 敵共通メソッド
     /// Rayに触れたオブジェクトによるStateの割り当て
-    /// Playerの場合　：攻撃
-    /// それ以外の場合：移動or旋回
+    /// Playerの場合　：敵名前ごとに処理の変更
+    /// それ以外の場合：待機
     /// </summary>
-    private void NormalEnemyRoutine()
+    private void EnemyMain()
     {
-        //GameManager.instance.id = CPU_ID.Normal; // ID設定適当：長塚用
+        RaycastHit hit;         // Rayが衝突したオブジェクト情報
+        Vector3 fireDirection;  // 発射方向  
+        bool isFacingPlayer;    //　Playerを向いているかどうか
+
+        nowDistance = Vector3.Distance(playerPos, enemyPos); // プレイヤーとの距離
 
         // AiTimer実行中
         if (isTimer == true || aiState == EnemyAiState.DEATH)
@@ -179,33 +131,26 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
-        RaycastHit hit;         // Rayが衝突したオブジェクト情報
-        Vector3 fireDirection;  // 発射方向  
-        bool attackFlg;         // 攻撃判定フラグ
-
         fireDirection = (playerPos - enemyPos).normalized;
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
-        if (Physics.Raycast(enemyPos, fireDirection, out hit, 50f))
+        if (Physics.Raycast(enemyPos, fireDirection, out hit, rayLength))
         {
             GameObject hitObj = hit.collider.gameObject; // RaycastHit型からGameObject型へ変換
 
             if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
-                float dis = Vector3.Distance(playerPos, enemyPos);
+                EnemyNameTransition(); // 敵の名前によって処理を変更
 
-                // 移動敵かつプレイヤーとの距離が離れているとき
-                if (aiName == EnemyName.MOVEMENT)
+                // falseの場合、攻撃遷移へ移行しない
+                if (!canAttack)
                 {
-                    Debug.Log("プレイヤーとの距離：" + dis);
-
-                    aiState = EnemyAiState.MOVE;
                     return;
                 }
 
-                attackFlg = TurretDirection(); // 砲台がPlayerに向いているかどうか
+                isFacingPlayer = TurretDirection(); // 砲台がPlayerに向いているかどうか
 
-                if (attackFlg) aiState = EnemyAiState.ATTACK; // true ：攻撃
+                if (isFacingPlayer) aiState = EnemyAiState.ATTACK; // true ：攻撃
                 else aiState = EnemyAiState.TURN;             // false：旋回
             }
             else
@@ -223,30 +168,60 @@ public class StateBaseAI : TankEventHandler
     }
 
     /// <summary>
+    /// 敵の名前によって行動遷移を変更
+    /// </summary>
+    private void EnemyNameTransition()
+    {
+        switch (aiName)
+        {
+            case EnemyName.TUTORIAL:
+                TutorialEnemy();
+                break;
+            case EnemyName.NORMAL:
+                NormalEnemy();
+                break;
+            case EnemyName.MOVEMENT:
+                MoveEnemy();
+                break;
+            case EnemyName.FASTBULLET:
+                FastBulletEnemy();
+                break;
+            case EnemyName.FASTANDMOVE:
+                FastAndMoveEnemy();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
     /// 砲台の向きを参照し、攻撃判定を返す
     /// Playerに向いているとき：ture
     /// それ以外　　　　　　　：false
     /// </summary>
     private bool TurretDirection()
     {
+        const float radius = 0.5f; //発射するRayの半径
+
         grandChild = transform.GetChild(0).GetChild(1).gameObject;   // 順番からTurret取得
         RaycastHit turretHit;   // レイに衝突したオブジェクト情報
 
         if (grandChild == null) return false;
 
         // 砲台の前方にRayを発射
-        if (Physics.SphereCast(enemyPos, 0.5f, grandChild.transform.forward, out turretHit, 50f))
+        if (Physics.SphereCast(enemyPos, radius, grandChild.transform.forward, out turretHit, rayLength))
         {
             GameObject turretHitObj = turretHit.collider.gameObject;
 
+            // プレイヤーを向いているかどうか
             if (turretHitObj.tag == playerTag && turretHitObj == player)
             {
-                // 攻撃可
+                // 向いている
                 return true;
             }
             else
             {
-                // 攻撃不可
+                // 向いていない
                 return false;
             }
         }
@@ -254,20 +229,122 @@ public class StateBaseAI : TankEventHandler
     }
     #endregion
 
+    #region 敵状態遷移
+    /// <summary>
+    /// 全ての敵で使用する状態遷移
+    /// </summary>
+    private void EnemyStateTransition()
+    {
+        switch (aiState)
+        {
+            case EnemyAiState.WAIT:
+                Wait();
+                break;
+            case EnemyAiState.MOVE:
+                Move();
+                break;
+            case EnemyAiState.TURN:
+                Turn();
+                break;
+            case EnemyAiState.ATTACK:
+                Attack();
+                break;
+            case EnemyAiState.FASTANDMOVE:
+                FastAndMoveEnemy();
+                break;
+            case EnemyAiState.AVOID:
+                break;
+            case EnemyAiState.DEATH:
+                EnemyDeath();
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+
+    #region 敵ごとのメソッド
+
+    #region チュートリアル敵遷移
+    private void TutorialEnemy()
+    {
+        aiName = EnemyName.TUTORIAL; // GameManagerに送るID設定
+
+        aiState = EnemyAiState.WAIT; // 待機
+        canAttack = false; // 攻撃不可
+    }
+    #endregion
+
+    #region 通常敵遷移
+    /// <summary>
+    /// 通常敵設定
+    /// </summary>
+    private void NormalEnemy()
+    {
+        aiName = EnemyName.NORMAL; // GameManagerに送るID設定
+
+        canAttack = true; // 攻撃可
+    }
+    #endregion
+
     #region 移動敵遷移
     /// <summary>
-    /// 移動敵ループ
+    /// 移動敵設定
     /// </summary>
     private void MoveEnemy()
     {
-        MoveEnemyRoutine(); // 移動敵機能
-        AiMainRoutine();   // 行動遷移
-    }
+        const int maxDistance = 10; // 攻撃可能範囲
 
-    private void MoveEnemyRoutine()
+        aiName = EnemyName.MOVEMENT; // GameManagerに送るID設定
+        aiState = EnemyAiState.MOVE; // 移動
+
+        // プレイヤーとの距離が一定値以上の時
+        if(nowDistance > maxDistance)
+        {
+            canAttack = false; // 攻撃不可
+        }
+        else
+        {
+            canAttack = true; // 攻撃可
+        }
+    }
+    #endregion
+
+    #region 高速弾敵
+    /// <summary>
+    /// 高速弾敵設定
+    /// </summary>
+    private void FastBulletEnemy()
     {
+        aiName = EnemyName.FASTBULLET; // GameManagerに送るID設定
 
+        canAttack = true; // 攻撃可
     }
+    #endregion
+
+    #region 高速弾＆移動敵
+    /// <summary>
+    /// 移動＆高速弾敵設定
+    /// </summary>
+    private void FastAndMoveEnemy()
+    {
+        const int maxDistance = 15; // 攻撃可能範囲
+
+        aiName = EnemyName.FASTANDMOVE; // GameManagerに送るID設定
+        aiState = EnemyAiState.FASTANDMOVE; // 移動
+
+        // プレイヤーとの距離が一定値以上の時
+        if (nowDistance > maxDistance)
+        {
+            canAttack = false; // 攻撃不可
+        }
+        else
+        {
+            canAttack = true; // 攻撃可
+        }
+    }
+    #endregion
+
     #endregion
 
     #region 各種タイマー
@@ -283,7 +360,18 @@ public class StateBaseAI : TankEventHandler
     // 指定秒数ごとに攻撃処理を実行するタイマー
     private IEnumerator AttackTimer()
     {
-        yield return new WaitForSeconds(5);
+        int second; // 発射間隔
+
+        // 早い弾を撃つ敵の場合、発射間隔を変更
+        if (aiName == EnemyName.FASTBULLET || aiName == EnemyName.FASTANDMOVE)
+        {
+            second = 8;
+        }
+        else
+        {
+            second = 5;
+        }
+            yield return new WaitForSeconds(second);
         isAttack = false;
     }
     #endregion
@@ -305,6 +393,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Move()
     {
+        Debug.Log("Move実行");
         float enemyMovePos = VectorCalc(); // Playerまでの角度を受け取る
 
         ConversionKey(enemyMovePos); // キーボード変換
@@ -363,7 +452,7 @@ public class StateBaseAI : TankEventHandler
     private float VectorCalc()
     {
         Vector3 relativePos = playerPos - enemyPos; // EnemyからPlayerへの相対ベクトル
-        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Playerに向いた時の角度
+        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Playerに向いた角度
         float rotateAngle = Quaternion.Angle(enemy.transform.localRotation,lookAngle); // 現在の角度からPlayerまでの間の角度
 
         return rotateAngle; // Playerまでの角度を返す
@@ -373,9 +462,15 @@ public class StateBaseAI : TankEventHandler
     /// キーボード変換メソッド
     /// 受け取った角度の大きさに応じてキーボード変換
     /// </summary>
-    /// <param name="index">現在の角度からPlayerまでの角度</param>
+    /// <param name="index">現在の角度からPlayerまでの角度0～1、0～-1を受け取る</param>
     private void ConversionKey(float index)
     {
+        const int forwardZero = 0;
+        const int forwardAngle  = 20;    // 前方角度
+        const int backwardAngle = 160;   // 後方角度
+        const float leftAngle   = -0.5f; // 左前後確認用
+        const float rightAngle  = 0.5f;  // 右前後確認用
+
         if (index < forwardAngle) // Playerが前方角度内にいるとき
         {
             cpuInput.moveveckey = KeyList.ACCELE;
@@ -383,15 +478,15 @@ public class StateBaseAI : TankEventHandler
         else if(index >= forwardAngle && index <= backwardAngle) // Playerが中方角度内にいるとき
         {
             // 左にいるとき
-            if (lookAngle.y < 0 && lookAngle.y < -0.5f)
+            if (lookAngle.y < forwardZero && lookAngle.y < leftAngle)
             {
                 // 前方後方の近さによって回る向きを変える
-                if (lookAngle.y > -0.5f)
+                if (lookAngle.y > leftAngle)
                 {
                     cpuInput.moveveckey = KeyList.LEFTROTATION;
                     Debug.Log("左前方");
                 }
-                else if(lookAngle.y < -0.5f)
+                else if(lookAngle.y < leftAngle)
                 {
                     cpuInput.moveveckey = KeyList.RIGHTROTATION;
                     Debug.Log("左後方");
@@ -399,15 +494,15 @@ public class StateBaseAI : TankEventHandler
             }
 
             // 右にいるとき
-            if (lookAngle.y > 0)
+            if (lookAngle.y > forwardZero)
             {
                 // 前方後方の近さによって回る向きを変える
-                if (lookAngle.y < 0.5f)
+                if (lookAngle.y < rightAngle)
                 {
                     cpuInput.moveveckey = KeyList.RIGHTROTATION;
                     Debug.Log("右前方");
                 }
-                else if(lookAngle.y >= 0.5f)
+                else if(lookAngle.y >= rightAngle)
                 {
                     cpuInput.moveveckey = KeyList.LEFTROTATION;
                     Debug.Log("右後方");
