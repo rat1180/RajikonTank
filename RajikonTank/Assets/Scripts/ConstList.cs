@@ -80,6 +80,13 @@ namespace ConstList
         COUNT
     }
 
+    public enum BulletPrefabNames
+    {
+        NONE,
+        RealBullet,
+        HIGHTSPEEDBULLET,
+    }
+
     /// <summary>
     /// ƒQ[ƒ€‚ÌŒ»İ‚Ìó‘Ô‚ğ•\‚·—ñ‹“‘Ì
     /// </summary>
@@ -173,7 +180,7 @@ namespace ConstList
         /// <param name="parentobject"></param>
         /// <param name="buletname"></param>
         /// <returns></returns>
-        public static GameObject BulletInstantiateOne(GameObject parentobject,string bulletname)
+        public static GameObject BulletInstantiateOne(GameObject parentobject, BulletPrefabNames bulletname)
         {
             //¶¬‘ÎÛ‚ğ’Tõ
             var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + bulletname);
