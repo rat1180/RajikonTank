@@ -73,11 +73,12 @@ namespace ConstList
 
     public enum EnemyName // “GŽí—Þ
     {
-        NORMAL,              // ’Êí“G
-        MOVEMENT,                // ˆÚ“®“G
-        FASTBULLET,          // ‚‘¬’e“G
-        FASTANDMOVE,          // ‚‘¬’e‚ÆˆÚ“®“G
-        COUNT
+        TUTORIAL,         // —ûK“G
+        NORMAL,           // ’Êí“G
+        MOVEMENT,         // ˆÚ“®“G
+        FASTBULLET,       // ‚‘¬’e“G
+        FASTANDMOVE,      // ‚‘¬’e‚ÆˆÚ“®“G
+        COUNT             // “G‚ÌŽí—Þ”
     }
 
     /// <summary>
