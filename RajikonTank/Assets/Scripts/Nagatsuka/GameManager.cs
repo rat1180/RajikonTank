@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
 
     const int READYGAMEPANEL = 0; 
     const int INGAMEPANEL = 1;
-    const int ENDGAMEPANEL = 2;
-    const int DEBUGPANEL = 3;//デバック情報をまとめたパネル.
+    const int WINPANEL = 2;
+    const int ENDGAMEPANEL = 3;
+    const int DEBUGPANEL = 4;//デバック情報をまとめたパネル.
     #endregion
 
     [Header("ゲーム状態")]
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject GameCanvas;
     [SerializeField] List<GameObject> GamePanel;
 
+    
+
     public int RestBullets;                  //残弾数.
 
     [Header("ステージ番号")]
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
     public int player_IDnum;//Playerがリストの何番目なのかを確認.
     public int CPU_IDnum;   //CPUがリストの何番目なのかを確認.
     public int[] DestroyCPU = new int[(int)EnemyName.COUNT];//撃破したCPUをカウント.
+    GameObject EnemysImage;                               //表示用.
     TeamID WinId;                          //勝利したチームのID.
 
     [Header("使用画像")]
@@ -115,6 +119,11 @@ public class GameManager : MonoBehaviour
         {
             isActive = false;
         }
+
+        public void Active()
+        {
+            isActive = true;
+        }
         /// <summary>
         /// 単純なint型で数を管理、0になったら死亡関数を呼び出す.
         /// </summary>
@@ -174,9 +183,12 @@ public class GameManager : MonoBehaviour
     {
         GamePanel.Add(GameCanvas.transform.GetChild(READYGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(INGAMEPANEL).gameObject);
+        GamePanel.Add(GameCanvas.transform.GetChild(WINPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(DEBUGPANEL).gameObject);
         this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
+
+        EnemysImage = GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject.transform.GetChild(3).gameObject;
     }
 
     private void Update()
@@ -191,6 +203,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GAMESTATUS.ENDGAME:
                 EndGameRoop();
+                break;
+            case GAMESTATUS.ENDGAME_WIN:
+                EndGameWinRoop();
                 break;
             default:
                 Debug.Log("エラー:予期せぬゲームモード");
@@ -210,7 +225,7 @@ public class GameManager : MonoBehaviour
     {
         ActiveGamePanel(READYGAMEPANEL);
         DrawStateStagePanel();
-        Debug.Log("CPU数:" + teamInfo[CPU_IDnum].ReturnActiveMember());
+        //Debug.Log("CPU数:" + teamInfo[CPU_IDnum].ReturnActiveMember());
     }
 
     /// <summary>
@@ -219,7 +234,6 @@ public class GameManager : MonoBehaviour
     private void InGameRoop()
     {
         ChangeInGameCanvs();
-        Debug.Log("teamInfo[CPU_IDnum].ReturnActiveNum()"+ teamInfo[CPU_IDnum].ReturnActiveMember());
     }
 
     /// <summary>
@@ -227,9 +241,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void EndGameRoop()
     {
-        ActiveGamePanel(ENDGAMEPANEL);
+        
+       // Debug.Log("ACTOVEEND");
         //勝利したチームのIDを表示.
-        GamePanel[ENDGAMEPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
+        //GamePanel[ENDGAMEPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
+    }
+
+    void EndGameWinRoop()
+    {
+        GamePanel[WINPANEL].transform.GetChild(1).GetComponent<Text>().text = 
+        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().Stages[NowStage].name+" Clear!!!";       
     }
     #endregion
 
@@ -239,7 +260,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ActiveGamePanel(int mode)
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < GamePanel.Count -1; i++)
         {
             if(i == mode)
             {
@@ -379,9 +400,14 @@ public class GameManager : MonoBehaviour
         }
         if (activeNum == 1)
         {
-            ChangeInGameCanvs();//CPUが0になったら反映.
-            NowGameState = GAMESTATUS.ENDGAME;
+            JudgeEndGame();
         }
+    }
+
+    private void ChangeWinMode()
+    {
+        NowGameState = GAMESTATUS.ENDGAME_WIN;
+        ActiveGamePanel(WINPANEL);
     }
 
     /// <summary>
@@ -425,6 +451,71 @@ public class GameManager : MonoBehaviour
         return audioClip;
     }
     #endregion
+
+    public void ChangeReadyMode()
+    {
+        NowStage++;
+        NowGameState = GAMESTATUS.READY;
+        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
+        DrawStateStagePanel();
+        for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+        {
+            teamInfo[i].Active();
+        }
+    }
+
+    /// <summary>
+    /// GameEnd(終了)かGameWinか判定.
+    /// </summary>
+    private void JudgeEndGame()
+    {
+        if (teamInfo[player_IDnum].ReturnActive() == false)
+        {
+            ChangeGameEnd();
+            return;
+        }
+        ChangeInGameCanvs();//CPUが0になったら反映.
+        ChangeWinMode();
+    }
+
+    private void ChangeGameEnd()
+    {
+        NowGameState = GAMESTATUS.ENDGAME;
+        ActiveGamePanel(ENDGAMEPANEL);
+        int cnt = 0;//死亡敵の種類をカウントする用.
+        for(int i=0;i< DestroyCPU.Length; i++)
+        {
+            if (DestroyCPU[i] == 0)
+            {
+                cnt++;
+            }
+        }
+        StartCoroutine(ActiveEnemysImage(cnt));
+       // Debug.Log("CNT" + cnt);
+       //for(int i = 0; i < cnt; i++)
+       // {
+       //     EnemysImage.transform.GetChild(i).gameObject.SetActive(true);
+       //     EnemysImage.transform.GetChild(i).gameObject.transform.GetChild(0).
+       //         gameObject.GetComponent<Text>().text =DestroyCPU[i].ToString();
+       //     //sum += DestroyCPU[i]; 
+       // }
+        GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.SetActive(true);
+       // GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.GetComponent<Text>().text = "総撃破数:" + sum;
+    }
+
+    IEnumerator ActiveEnemysImage(int cnt)
+    {
+        int sum = 0;//敵の総撃破数カウント用.
+        for (int i = 0; i < cnt; i++)
+        {
+            EnemysImage.transform.GetChild(i).gameObject.SetActive(true);
+            EnemysImage.transform.GetChild(i).gameObject.transform.GetChild(0).
+                gameObject.GetComponent<Text>().text = DestroyCPU[i].ToString();
+            yield return new WaitForSeconds(1f);
+            // sum += DestroyCPU[i];
+        }
+       
+    }
 
     #region リスト初期化・削除関数
     public void PushInitListButton()
