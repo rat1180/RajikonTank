@@ -87,7 +87,9 @@ public class MoveBullet : MonoBehaviour
         // オブジェクトの回転に反映
         BulletHead.transform.rotation = rotation;
 
-        
+
+        GameManager.instance.PlaySE(ConstList.SE_ID.Reflect);
+
     }
     //弾の削除
     protected void BulletDestroy()
