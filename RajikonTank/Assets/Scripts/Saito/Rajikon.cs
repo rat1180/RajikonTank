@@ -99,7 +99,7 @@ public class Rajikon : MonoBehaviour
 
         var rotation = RotationSpeed * Time.deltaTime;
 
-        if (keylist != KeyList.FIRE || keylist != KeyList.NONE) GameManager.instance.PlaySE(SE_ID.Move);
+        //if (keylist != KeyList.FIRE || keylist != KeyList.NONE) GameManager.instance.PlaySE(SE_ID.Move);
 
         switch (keylist)
         {

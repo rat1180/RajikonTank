@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4374901, g: 0.48531127, b: 0.56558615, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -331,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &42883340
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &96706456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1408,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.5566038, g: 0.5271983, b: 0.5271983, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1464,14 +1466,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194144157}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
+  m_LocalPosition: {x: 0, y: 10.3, z: -6.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
 --- !u!1 &217859398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,6 +1585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &233783105
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,6 +2008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &332822681
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,6 +2120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &337909173
 GameObject:
   m_ObjectHideFlags: 0
@@ -2642,6 +2647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
+  enemyName: 0
 --- !u!1 &568105869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,6 +2969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe361795e796dbe49b681202b498c56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alfa: 0
   m_offsetSpeed: {x: -0.3, y: -0.3}
 --- !u!114 &626337953
 MonoBehaviour:
@@ -4217,6 +4224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &1252019108
 GameObject:
   m_ObjectHideFlags: 0
@@ -4500,6 +4508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
+  enemyName: 0
 --- !u!1 &1317750505
 GameObject:
   m_ObjectHideFlags: 0
@@ -4931,6 +4940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &1485424851
 GameObject:
   m_ObjectHideFlags: 0
@@ -5385,6 +5395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
+  enemyName: 0
 --- !u!1 &1614771549
 GameObject:
   m_ObjectHideFlags: 0
@@ -5492,6 +5503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &1671342085
 GameObject:
   m_ObjectHideFlags: 0
@@ -6388,6 +6400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &1962926406
 GameObject:
   m_ObjectHideFlags: 0
@@ -6433,6 +6446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
+  enemyName: 0
 --- !u!1 &2044146596
 GameObject:
   m_ObjectHideFlags: 0
@@ -6890,6 +6904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c37e1954d3c0084d8bcc16f6b23ff79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createFlg: 0
   Stages:
   - {fileID: 281360220}
   - {fileID: 1287911612}
