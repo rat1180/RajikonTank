@@ -28,7 +28,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] GameObject BulletList;
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ‘_‚¤‘ÎÛ.
-
+    [SerializeField] BulletPrefabNames NowBulletPrefabNames; // ’e‚Ìí—Ş.
     /// <summary>
     /// ‰Šú‰»—pŠÖ”.
     /// </summary>
@@ -57,9 +57,9 @@ public class Rajikon : MonoBehaviour
     {
         GameObject Bullet;
 
-        for(int i = 0; i < MaxBulletNum; i++)
+        for (int i = 0; i < MaxBulletNum; i++)
         {
-            Bullet = BulletGenerateClass.BulletInstantiateOne(BulletList, BulletPrefabNames.RealBullet);
+            Bullet = BulletGenerateClass.BulletInstantiateOne(BulletList, NowBulletPrefabNames);
             Bullets.Add(Bullet);
         }
     }
