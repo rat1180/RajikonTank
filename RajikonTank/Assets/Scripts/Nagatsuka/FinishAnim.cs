@@ -11,6 +11,6 @@ public class FinishAnim : MonoBehaviour
     }
     public void StopAnim()
     {
-        anim.enabled = false; ;
+        anim.enabled = false;
     }
 }
