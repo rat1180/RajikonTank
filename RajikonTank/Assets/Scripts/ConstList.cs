@@ -49,7 +49,8 @@ namespace ConstList
         TANK_NORMAL,
         TankBase,
         Enemy_Normal,
-        Enemy_Movement
+        Enemy_Movement,
+        TankEnemy,
     }
 
     public enum EffectNames
