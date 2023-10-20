@@ -60,12 +60,14 @@ public class StageStart : MonoBehaviour
 
 	public void StartAnimation()
     {
+		GetComponent<ImageEffect>().ResetShader();
 		GameManager.instance.PlaySE(SE_ID.Start);
 	}
 
 
 	public void FinishAnimation()
     {
+		GetComponent<ImageEffect>().ResetShader();
 		GameManager.instance.NowGameState = GAMESTATUS.INGAME;
 		//Debug.Log("”ñ•\Ž¦‚É‚È‚½‚æ");
 		//anim.Stop();
@@ -75,5 +77,7 @@ public class StageStart : MonoBehaviour
 	public void ChangeAlfa()
     {
 		alfaFlg = true;
+
+		GetComponent<ImageEffect>().DefaultFadeInAndOut(true);
 	}
 }

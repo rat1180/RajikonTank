@@ -32,10 +32,11 @@ public class MoveBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) BulletDestroy();
+
         if (!Flg)
         {
             Moving();
-
         }
         Direction = Rb.velocity;
     }
@@ -65,7 +66,6 @@ public class MoveBullet : MonoBehaviour
 
         //this.transform.position = StartPos;
 
-        ReflectCount = 0;
         Rb.velocity = new Vector3(0, 0, 0);
 
         SetPlayTrail(true);
@@ -131,7 +131,7 @@ public class MoveBullet : MonoBehaviour
         }
     }
 
-    private void SetPlayTrail(bool isPlay)
+    protected void SetPlayTrail(bool isPlay)
     {
         Trail.emitting = isPlay;
         Trail.Clear();

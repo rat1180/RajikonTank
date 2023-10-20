@@ -56,6 +56,8 @@ public class PlayerInput : MonoBehaviour
     /// <returns></returns>
     public virtual Vector3 TargetPosition()
     {
+        if (GameManager.instance.NowGameState != GAMESTATUS.INGAME) return new Vector3(0,0,0);
+
         return sendtarget;
     }
 
@@ -65,6 +67,8 @@ public class PlayerInput : MonoBehaviour
     /// <returns></returns>
     public virtual KeyList KeyInput()
     {
+        if(GameManager.instance.NowGameState != GAMESTATUS.INGAME) return KeyList.NONE;
+
         if (gamepad != null)
         {
             Debug.Log("ゲームパッドが接続されました");

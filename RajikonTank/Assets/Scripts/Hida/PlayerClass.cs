@@ -196,12 +196,15 @@ public class PlayerClass : TankEventHandler
     private GameObject TankSpawn()
     {
         //タンクの生成
-        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.TankEnemy);
+        var tank = TankGenerateClass.TankInstantiate(TankPrefabNames.TankBase);
 
         //タンクの初期化
         tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);
         //add.h
         tank.GetComponent<Rajikon>().SetEventHandler(this);
+
+        tank.GetComponent<Rajikon>().isFixedTurret = true; ;
+
         RemainingBulletNm = MaxBulletNm;
 
         //タンクの初期位置を設定
