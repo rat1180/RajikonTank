@@ -491,16 +491,6 @@ public class GameManager : MonoBehaviour
             }
         }
         StartCoroutine(ActiveEnemysImage(cnt));
-       // Debug.Log("CNT" + cnt);
-       //for(int i = 0; i < cnt; i++)
-       // {
-       //     EnemysImage.transform.GetChild(i).gameObject.SetActive(true);
-       //     EnemysImage.transform.GetChild(i).gameObject.transform.GetChild(0).
-       //         gameObject.GetComponent<Text>().text =DestroyCPU[i].ToString();
-       //     //sum += DestroyCPU[i]; 
-       // }
-        GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.SetActive(true);
-       // GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.GetComponent<Text>().text = "ëçåÇîjêî:" + sum;
     }
 
     IEnumerator ActiveEnemysImage(int cnt)
@@ -512,9 +502,10 @@ public class GameManager : MonoBehaviour
             EnemysImage.transform.GetChild(i).gameObject.transform.GetChild(0).
                 gameObject.GetComponent<Text>().text = DestroyCPU[i].ToString();
             yield return new WaitForSeconds(1f);
-            // sum += DestroyCPU[i];
+            sum += DestroyCPU[i];
         }
-       
+        GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.SetActive(true);
+        GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.GetComponent<Text>().text = "ëçåÇîjêî:" + sum;
     }
 
     #region ÉäÉXÉgèâä˙âªÅEçÌèúä÷êî
