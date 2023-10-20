@@ -509,6 +509,7 @@ MonoBehaviour:
   BulletList: {fileID: 0}
   MoveBullet: {fileID: 0}
   Target: {fileID: 0}
+  NowBulletPrefabNames: 2
 --- !u!114 &5296739251475878320
 MonoBehaviour:
   m_ObjectHideFlags: 0
