@@ -495,6 +495,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ActiveEnemysImage(int cnt)
     {
+        Debug.Log("CNT" + cnt);
         int sum = 0;//敵の総撃破数カウント用.
         for (int i = 0; i < cnt; i++)
         {
