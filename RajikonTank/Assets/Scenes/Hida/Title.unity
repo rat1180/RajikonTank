@@ -567,19 +567,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1211055854}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1211055856}
-        m_TargetAssemblyTypeName: ImageEffect, Assembly-CSharp
-        m_MethodName: DefaultFadeInAndOut
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1211055854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,12 +615,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211055851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b02af8db5ede5942a7244f76e028bb8, type: 3}
+  m_Script: {fileID: 11500000, guid: d290ac643330b6c4999c894ec635723a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClearlanceNm: 0
-  Image: {fileID: 0}
-  FadeSpeed: 0.001
+  IsImage: 1
+  FlushInterval: 0
 --- !u!1 &1422458627
 GameObject:
   m_ObjectHideFlags: 0

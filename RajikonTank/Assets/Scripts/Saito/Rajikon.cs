@@ -67,10 +67,10 @@ public class Rajikon : MonoBehaviour
     void Start()
     {
         
-        Tank = transform.GetChild(0).gameObject;
-        Turret = Tank.transform.GetChild(1).gameObject;
-        ShotPos = Turret.transform.GetChild(0).gameObject;
-        BulletList = transform.GetChild(1).gameObject;
+        Tank = transform.Find("Tank").gameObject;
+        Turret = Tank.transform.Find("Turret").gameObject;
+        ShotPos = Turret.transform.Find("ShotPosition").gameObject;
+        BulletList = transform.Find("BulletList").gameObject;
         InitBullet();
     }
 

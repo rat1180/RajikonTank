@@ -202,6 +202,9 @@ public class PlayerClass : TankEventHandler
         tank.GetComponent<Rajikon>().SetPlayerInput(PlayerInputScript);
         //add.h
         tank.GetComponent<Rajikon>().SetEventHandler(this);
+
+        tank.GetComponent<Rajikon>().isFixedTurret = true; ;
+
         RemainingBulletNm = MaxBulletNm;
 
         //ƒ^ƒ“ƒN‚Ì‰ŠúˆÊ’u‚ğİ’è

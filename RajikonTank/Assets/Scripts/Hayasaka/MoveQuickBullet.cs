@@ -10,10 +10,13 @@ public class MoveQuickBullet : MoveBullet
     }
     void Start()
     {
+        Trail = GetComponent<TrailRenderer>();
         InitBullet();
     }
     void Update()
     {
+        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) BulletDestroy();
+
         if (!Flg)
         {
             Moving();
@@ -30,32 +33,32 @@ public class MoveQuickBullet : MoveBullet
         Speed = 12.0f;
         StartRotation(TestTarget, TestStartPos);
     }
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Wall")
-        {
-            var WallObj = other.contacts[0].normal;
-            Flg = true;
-            ReflectCount++;
-            if (ReflectCount == FalseCount)
-            {
-                BulletDestroy();
-            }
-            else
-            {
-                Reflect(WallObj);
-            }
-        }
-        if (other.gameObject.tag == "Tank")
-        {
-            BulletDestroy();
-        }
+    //void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.tag == "Wall")
+    //    {
+    //        var WallObj = other.contacts[0].normal;
+    //        Flg = true;
+    //        ReflectCount++;
+    //        if (ReflectCount == FalseCount)
+    //        {
+    //            BulletDestroy();
+    //        }
+    //        else
+    //        {
+    //            Reflect(WallObj);
+    //        }
+    //    }
+    //    if (other.gameObject.tag == "Tank")
+    //    {
+    //        BulletDestroy();
+    //    }
 
-        //add.h
-        if (other.gameObject.tag == "Bullet")
-        {
-            BulletDestroy();
-        }
-    }
+    //    //add.h
+    //    if (other.gameObject.tag == "Bullet")
+    //    {
+    //        BulletDestroy();
+    //    }
+    //}
 }
 

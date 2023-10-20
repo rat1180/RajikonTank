@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class ImageEffect : MonoBehaviour
 {
     [SerializeField, Header("処理で使用する変数"), Tooltip("透明値")] private float ClearlanceNm;
-    [SerializeField, Tooltip("アニメーションさせるイメージコンポーネント")] private Image Image;
+    [SerializeField, Tooltip("アニメーションさせるイメージコンポーネント")] private Material Image;
     [SerializeField, Tooltip("フェードのスピード"), Range(0.001f, 0.01f)] public float FadeSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        Image = GetComponent<Image>();
+        Image = GetComponent<Image>().material;
+        ResetShader();
     }
 
     // Update is called once per frame
@@ -31,10 +32,12 @@ public class ImageEffect : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ImageFadeInAndOut(float fadetime,bool isfadeout)
     {
+
         float time = 0;
         int fadedirection = isfadeout ? -1 : 1;
         float end = isfadeout ? 0 : 1;
         ClearlanceNm = Image.color.a;
+
 
         while (true)
         {
@@ -60,5 +63,10 @@ public class ImageEffect : MonoBehaviour
     public void DefaultFadeInAndOut(bool isfadeout)
     {
         StartCoroutine(ImageFadeInAndOut(0,isfadeout));
+    }
+
+    public void ResetShader()
+    {
+        Image.color = new Color(1, 1, 1, 1);
     }
 }

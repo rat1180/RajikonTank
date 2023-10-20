@@ -44,12 +44,13 @@ namespace ConstList
     public enum TankPrefabNames
     {
         NONE,
-        TANK_TEST,
-        TANK_NORMAL_RED,
-        TANK_NORMAL,
         TankBase,
+        Enemy_Tutorial,
         Enemy_Normal,
-        Enemy_Movement
+        Enemy_Movement,
+        Enemy_FastBullet,
+        Enemy_FastAndMove,
+        TankEnemy,
     }
 
     public enum EffectNames
@@ -85,7 +86,8 @@ namespace ConstList
     {
         NONE,
         RealBullet,
-        HIGHTSPEEDBULLET,
+        RealQuickBullet,
+        Real3ReflectBullet
     }
 
     /// <summary>
