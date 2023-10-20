@@ -294,6 +294,13 @@ public class PlayerClass : TankEventHandler
     }
 
 
+    private int TankRestBullet()
+    {
+        RemainingBulletNm = PossessionTank.GetRestBullet();
+        return RemainingBulletNm;
+    }
+
+
     #endregion
 
     #region GMÇ…ä÷Ç∑ÇÈèàóù
@@ -361,7 +368,7 @@ public class PlayerClass : TankEventHandler
     /// <returns></returns>
     public int GetBulletCount()
     {
-        return RemainingBulletNm;
+        return TankRestBullet();
     }
 
     /// <summary>
