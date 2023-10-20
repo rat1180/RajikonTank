@@ -75,5 +75,7 @@ public class StageStart : MonoBehaviour
 	public void ChangeAlfa()
     {
 		alfaFlg = true;
+
+		GetComponent<ImageEffect>().DefaultFadeInAndOut(true);
 	}
 }

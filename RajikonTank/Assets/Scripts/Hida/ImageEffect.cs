@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class ImageEffect : MonoBehaviour
 {
     [SerializeField, Header("処理で使用する変数"), Tooltip("透明値")] private float ClearlanceNm;
-    [SerializeField, Tooltip("アニメーションさせるイメージコンポーネント")] private Image Image;
+    [SerializeField, Tooltip("アニメーションさせるイメージコンポーネント")] private Material Image;
     [SerializeField, Tooltip("フェードのスピード"), Range(0.001f, 0.01f)] public float FadeSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        Image = GetComponent<Image>();
+        Image = GetComponent<Image>().material;
+        Image.color = new Color(1, 1, 1, 1);
     }
 
     // Update is called once per frame
