@@ -36,6 +36,7 @@ public class MoveBullet : MonoBehaviour
         {
             Moving();
 
+            if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) BulletDestroy();
         }
         Direction = Rb.velocity;
     }
