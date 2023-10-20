@@ -7,7 +7,6 @@ using TankClassInfomations;
 public class StateBaseAI : TankEventHandler
 {
     public EnemyName aiName = EnemyName.NORMAL;   //“G‘®«‚Ìİ’è
-    public BulletPrefabNames bulletName = BulletPrefabNames.NONE;  // ’e‚Ì‘®«İ’è
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT;   //“G‚Ì‰Šú‘JˆÚ
 
     private Rajikon rajikon;           // RajikonƒNƒ‰ƒX
@@ -34,7 +33,6 @@ public class StateBaseAI : TankEventHandler
         MOVE,                // ˆÚ“®
         TURN,                // ù‰ñ
         ATTACK,              // UŒ‚
-        //FASTANDMOVE,         // ˆÚ“®UŒ‚
         AVOID,               // ‰ñ”ğ
         DEATH,               // €–S
     }
@@ -250,9 +248,6 @@ public class StateBaseAI : TankEventHandler
             case EnemyAiState.ATTACK:
                 Attack();
                 break;
-            //case EnemyAiState.FASTANDMOVE:
-            //    FastAndMove();
-            //    break;
             case EnemyAiState.AVOID:
                 break;
             case EnemyAiState.DEATH:
@@ -283,7 +278,6 @@ public class StateBaseAI : TankEventHandler
     private void NormalEnemy()
     {
         aiName = EnemyName.NORMAL; // GameManager‚É‘—‚éIDİ’è
-        bulletName = BulletPrefabNames.RealBullet; // ’e‚Ì‘®«İ’è
 
         canAttack = true; // UŒ‚‰Â
     }
@@ -299,7 +293,6 @@ public class StateBaseAI : TankEventHandler
 
         aiName = EnemyName.MOVEMENT; // GameManager‚É‘—‚éIDİ’è
         aiState = EnemyAiState.MOVE; // ˆÚ“®
-        bulletName = BulletPrefabNames.RealBullet; // ’e‚Ì‘®«İ’è
 
         // ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’è’lˆÈã‚Ì
         if (nowDistance > maxDistance)
@@ -320,7 +313,6 @@ public class StateBaseAI : TankEventHandler
     private void FastBulletEnemy()
     {
         aiName = EnemyName.FASTBULLET; // GameManager‚É‘—‚éIDİ’è
-        bulletName = BulletPrefabNames.HIGHTSPEEDBULLET; // ’e‚Ì‘®«İ’è
 
         canAttack = true; // UŒ‚‰Â
     }
@@ -336,7 +328,6 @@ public class StateBaseAI : TankEventHandler
 
         aiName = EnemyName.FASTANDMOVE; // GameManager‚É‘—‚éIDİ’è
         aiState = EnemyAiState.MOVE; // ˆÚ“®
-        bulletName = BulletPrefabNames.HIGHTSPEEDBULLET; // ’e‚Ì‘®«İ’è
 
         // ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’è’lˆÈã‚Ì
         if (nowDistance > maxDistance)
@@ -368,7 +359,7 @@ public class StateBaseAI : TankEventHandler
         int second; // ”­ËŠÔŠu
 
         // ‘‚¢’e‚ğŒ‚‚Â“G‚Ìê‡A”­ËŠÔŠu‚ğ•ÏX
-        if (bulletName == BulletPrefabNames.HIGHTSPEEDBULLET)
+        if (aiName == EnemyName.FASTBULLET || aiName == EnemyName.FASTANDMOVE)
         {
             second = 8;
         }
