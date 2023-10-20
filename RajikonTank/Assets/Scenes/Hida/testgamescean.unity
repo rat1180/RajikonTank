@@ -5503,7 +5503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
-  enemyName: 0
+  enemyName: 1
 --- !u!1 &1671342085
 GameObject:
   m_ObjectHideFlags: 0
