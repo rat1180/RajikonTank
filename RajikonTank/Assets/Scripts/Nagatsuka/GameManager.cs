@@ -420,6 +420,7 @@ public class GameManager : MonoBehaviour
         GamePanel[INGAMEPANEL].transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
                                         ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
+       RestBullets =teamInfo[player_IDnum].tankList[0].GetRestBullet();
         GamePanel[INGAMEPANEL].transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
     }

@@ -69,11 +69,20 @@ public class StageManager : MonoBehaviour
     {
         switch (name)
         {
+            case EnemyName.TUTORIAL:
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Tutorial);//EnemyManagerの生成関数を呼び出す.
+                break;
             case EnemyName.NORMAL:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
                 break;
             case EnemyName.MOVEMENT:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Movement);//EnemyManagerの生成関数を呼び出す.
+                break;       
+            case EnemyName.FASTBULLET:
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastBullet);//EnemyManagerの生成関数を呼び出す.
+                break;
+            case EnemyName.FASTANDMOVE:
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastAndMove);//EnemyManagerの生成関数を呼び出す.
                 break;
         }
     }

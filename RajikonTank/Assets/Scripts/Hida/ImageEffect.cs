@@ -13,7 +13,7 @@ public class ImageEffect : MonoBehaviour
     void Start()
     {
         Image = GetComponent<Image>().material;
-        Image.color = new Color(1, 1, 1, 1);
+        ResetShader();
     }
 
     // Update is called once per frame
@@ -32,10 +32,12 @@ public class ImageEffect : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ImageFadeInAndOut(float fadetime,bool isfadeout)
     {
+
         float time = 0;
         int fadedirection = isfadeout ? -1 : 1;
         float end = isfadeout ? 0 : 1;
         ClearlanceNm = Image.color.a;
+
 
         while (true)
         {
@@ -61,5 +63,10 @@ public class ImageEffect : MonoBehaviour
     public void DefaultFadeInAndOut(bool isfadeout)
     {
         StartCoroutine(ImageFadeInAndOut(0,isfadeout));
+    }
+
+    public void ResetShader()
+    {
+        Image.color = new Color(1, 1, 1, 1);
     }
 }
