@@ -43,7 +43,7 @@ public class StageStart : MonoBehaviour
         if (alfaFlg)
         {
 			if(alfa>0f)	alfa -= 1;
-			image.color = new Color(image.color.r, image.color.g, image.color.b, alfa);
+			//image.color = new Color(image.color.r, image.color.g, image.color.b, alfa);
 		}
 	}
 
