@@ -22,10 +22,14 @@ public class MoveBullet : MonoBehaviour
         InitBullet();
     }
 
+    private void Awake()
+    {
+        Trail = GetComponent<TrailRenderer>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Trail = GetComponent<TrailRenderer>();
         InitBullet();
     }
 

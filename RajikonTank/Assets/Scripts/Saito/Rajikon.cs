@@ -29,6 +29,10 @@ public class Rajikon : MonoBehaviour
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ë_Ç§ëŒè€.
     [SerializeField] BulletPrefabNames NowBulletPrefabNames; // íeÇÃéÌóﬁ.
+
+
+    protected AudioSource Audio;
+
     /// <summary>
     /// èâä˙âªópä÷êî.
     /// </summary>
@@ -72,6 +76,11 @@ public class Rajikon : MonoBehaviour
         ShotPos = Turret.transform.Find("ShotPosition").gameObject;
         BulletList = transform.Find("BulletList").gameObject;
         InitBullet();
+
+        Audio = gameObject.AddComponent<AudioSource>();
+        Audio.clip = Resources.Load<AudioClip>("Sounds/Move");
+        Audio.loop = true;
+        Audio.playOnAwake = false;
     }
 
     void Update()
@@ -98,7 +107,18 @@ public class Rajikon : MonoBehaviour
 
         var rotation = RotationSpeed * Time.deltaTime;
 
-        //if (keylist != KeyList.FIRE || keylist != KeyList.NONE) GameManager.instance.PlaySE(SE_ID.Move);
+        if (keylist == KeyList.FIRE || keylist == KeyList.NONE)
+        {
+            
+            Audio.Stop();
+        }
+        else
+        {
+            if (!Audio.isPlaying)
+            {
+                Audio.Play();
+            }
+        }
 
         switch (keylist)
         {
@@ -213,5 +233,4 @@ public class Rajikon : MonoBehaviour
     {
         Tank.GetComponent<Tank>().SetPlayTrail(isPlay);
     }
-
 }
