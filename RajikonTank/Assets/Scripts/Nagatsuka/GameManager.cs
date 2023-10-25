@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     const int WINPANEL = 2;
     const int ENDGAMEPANEL = 3;
     const int DEBUGPANEL = 4;//デバック情報をまとめたパネル.
+
     #endregion
 
     [Header("ゲーム状態")]
@@ -34,8 +35,11 @@ public class GameManager : MonoBehaviour
     [Header("ゲーム中のキャンバス")]
     [SerializeField] GameObject GameCanvas;
     [SerializeField] List<GameObject> GamePanel;
+    private StageManager stageManager;
 
-    
+    private bool perfectClearFlg;//完全制覇確認フラグ.
+
+    public int OWN_player;//自身のプレイヤーID(マルチをするときにここを変更すれば良い).
 
     public int RestBullets;                  //残弾数.
 
@@ -162,7 +166,8 @@ public class GameManager : MonoBehaviour
 
         public void SetPosition(int id,Vector3 pos)
         {
-            tankList[id].gameObject.transform.position = pos;
+            Debug.Log("pos" + pos);
+            tankList[id].gameObject.transform.GetChild(GameManager.instance.OWN_player).gameObject.transform.position = pos;
             Debug.Log("SetPosition起動");
         }
     }
@@ -186,9 +191,12 @@ public class GameManager : MonoBehaviour
         GamePanel.Add(GameCanvas.transform.GetChild(WINPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(DEBUGPANEL).gameObject);
-        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
+        stageManager = this.transform.GetChild(0).gameObject.GetComponent<StageManager>();
+        stageManager.ActiveStage(NowStage);
 
         EnemysImage = GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject.transform.GetChild(3).gameObject;
+
+        perfectClearFlg = false;
     }
 
     private void Update()
@@ -225,7 +233,6 @@ public class GameManager : MonoBehaviour
     {
         ActiveGamePanel(READYGAMEPANEL);
         DrawStateStagePanel();
-        //Debug.Log("CPU数:" + teamInfo[CPU_IDnum].ReturnActiveMember());
     }
 
     /// <summary>
@@ -242,15 +249,12 @@ public class GameManager : MonoBehaviour
     private void EndGameRoop()
     {
         
-       // Debug.Log("ACTOVEEND");
-        //勝利したチームのIDを表示.
-        //GamePanel[ENDGAMEPANEL].transform.GetChild(0).gameObject.GetComponent<Text>().text = "勝利したチーム：" + WinId;
     }
 
     void EndGameWinRoop()
     {
         GamePanel[WINPANEL].transform.GetChild(1).GetComponent<Text>().text = 
-        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().Stages[NowStage].name+" Clear!!!";       
+        stageManager.Stages[NowStage].name+" Clear!!!";       
     }
     #endregion
 
@@ -404,6 +408,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゲームモードをENDGAME_WINに変更し、パネルをアクティブにする関数.
+    /// </summary>
     private void ChangeWinMode()
     {
         NowGameState = GAMESTATUS.ENDGAME_WIN;
@@ -431,7 +438,7 @@ public class GameManager : MonoBehaviour
         GamePanel[READYGAMEPANEL].SetActive(true);
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
-            this.transform.GetChild(0).gameObject.GetComponent<StageManager>().Stages[NowStage].name;
+            stageManager.Stages[NowStage].name;
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "台";
     }
@@ -455,13 +462,23 @@ public class GameManager : MonoBehaviour
 
     public void ChangeReadyMode()
     {
-        NowStage++;
-        NowGameState = GAMESTATUS.READY;
-        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
-        DrawStateStagePanel();
-        for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+        if (stageManager.Stages.Count  == NowStage + 1)
         {
-            teamInfo[i].Active();
+            //Debug.Log("完全制覇");
+            perfectClearFlg = true;
+            ChangeGameEnd();
+        }
+        else
+        {
+            Debug.Log("stagecnt" + stageManager.Stages.Count);
+            NowStage++;
+            NowGameState = GAMESTATUS.READY;
+            stageManager.ActiveStage(NowStage);
+            DrawStateStagePanel();
+            for (int i = 0; i < teamInfo.Count; i++)//リスト内を全検索して重複チェックする.
+            {
+                teamInfo[i].Active();
+            }
         }
     }
 
@@ -483,6 +500,11 @@ public class GameManager : MonoBehaviour
     {
         NowGameState = GAMESTATUS.ENDGAME;
         ActiveGamePanel(ENDGAMEPANEL);
+        if (perfectClearFlg)
+        {
+            GamePanel[ENDGAMEPANEL].transform.GetChild(1).gameObject.transform.GetChild(0).
+            gameObject.GetComponent<Text>().text = "完全制覇！";
+        }
         int cnt = 0;//死亡敵の種類をカウントする用.
         for(int i=0;i< DestroyCPU.Length; i++)
         {
@@ -496,7 +518,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ActiveEnemysImage(int cnt)
     {
-        Debug.Log("CNT" + cnt);
         int sum = 0;//敵の総撃破数カウント用.
         for (int i = 0; i < cnt; i++)
         {
@@ -538,7 +559,7 @@ public class GameManager : MonoBehaviour
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         NowStage++;
         NowGameState = GAMESTATUS.READY;
-        this.transform.GetChild(0).gameObject.GetComponent<StageManager>().ActiveStage(NowStage);
+        stageManager.ActiveStage(NowStage);
         DrawStateStagePanel();
     }
 

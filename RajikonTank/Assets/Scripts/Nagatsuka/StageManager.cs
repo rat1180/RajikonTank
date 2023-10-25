@@ -38,9 +38,7 @@ public class StageManager : MonoBehaviour
                 default:
                     Debug.LogError("ê∂ê¨Ç…ñ‚ëËî≠ê∂");
                     break;
-            }
-
-            
+            }  
         }
         spawnPoints.SetActive(false);
         GameManager.instance.NowGameState = GAMESTATUS.READY;
