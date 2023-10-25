@@ -440,7 +440,7 @@ public class GameManager : MonoBehaviour
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
             stageManager.Stages[NowStage].name;
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
-            transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "ìGêÌé‘êî:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "ë‰";
+            transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "Å~ " + teamInfo[CPU_IDnum].ReturnActiveMember();
     }
 
     #region SoundManagerä÷êî
