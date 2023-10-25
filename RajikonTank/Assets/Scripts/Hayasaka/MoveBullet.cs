@@ -104,7 +104,7 @@ public class MoveBullet : MonoBehaviour
         if (other.gameObject.tag == "Wall")
         {
             //ƒeƒXƒg
-            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
+            // EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
 
             var WallObj = other.contacts[0].normal;
             Flg = true;
