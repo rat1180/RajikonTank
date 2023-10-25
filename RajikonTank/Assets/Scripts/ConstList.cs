@@ -38,7 +38,8 @@ namespace ConstList
         PlayerDeath,
         Shot,
         Reflect,
-        BulletDestroy
+        BulletDestroy,
+        Ready
     }
 
     public enum TankPrefabNames
@@ -51,6 +52,12 @@ namespace ConstList
         Enemy_FastBullet,
         Enemy_FastAndMove,
         TankEnemy,
+    }
+
+    public enum SceneNames
+    {
+        Title,
+        GameScene
     }
 
     public enum EffectNames

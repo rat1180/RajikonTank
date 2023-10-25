@@ -85,6 +85,8 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("このプレイヤーのスポーンポイント")] private Vector3 SpawnPoint;
 
     [SerializeField, Tooltip("残弾数")] private int RemainingBulletNm;
+
+    public bool isAim;
     #endregion
 
     #endregion
@@ -283,6 +285,8 @@ public class PlayerClass : TankEventHandler
     /// </summary>
     private void PredictionAim()
     {
+        if (!isAim) return;
+
         //現在の方向を取得
         var aimvector = PossessionTank.ShotPos.transform.forward;
 

@@ -35,8 +35,8 @@ public class StageStart : MonoBehaviour
 		if (m_material)
 		{
 			// xとyの値が0 ～ 1でリピートするようにする
-			var x = Mathf.Repeat(Time.time * m_offsetSpeed.x, k_maxLength);
-			var y = Mathf.Repeat(Time.time * m_offsetSpeed.y, k_maxLength);
+			var x = Mathf.Repeat(Time.time * m_offsetSpeed.x, k_maxLength)*-1;
+			var y = 0;//Mathf.Repeat(Time.time * m_offsetSpeed.y, k_maxLength);
 			var offset = new Vector2(x, y);
 			m_material.SetTextureOffset(k_propName, offset);
 		}
@@ -78,6 +78,7 @@ public class StageStart : MonoBehaviour
     {
 		alfaFlg = true;
 
+		GameManager.instance.PlaySE(SE_ID.Ready);
 		GetComponent<ImageEffect>().DefaultFadeInAndOut(true);
 	}
 }
