@@ -22,10 +22,14 @@ public class MoveBullet : MonoBehaviour
         InitBullet();
     }
 
+    private void Awake()
+    {
+        Trail = GetComponent<TrailRenderer>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Trail = GetComponent<TrailRenderer>();
         InitBullet();
     }
 
@@ -104,7 +108,7 @@ public class MoveBullet : MonoBehaviour
         if (other.gameObject.tag == "Wall")
         {
             //ƒeƒXƒg
-            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
+            // EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
 
             var WallObj = other.contacts[0].normal;
             Flg = true;

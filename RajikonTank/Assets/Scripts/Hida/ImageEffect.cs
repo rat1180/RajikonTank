@@ -62,6 +62,7 @@ public class ImageEffect : MonoBehaviour
 
     public void DefaultFadeInAndOut(bool isfadeout)
     {
+        if (!isfadeout) Image.color = new Color(1, 1, 1, 0);
         StartCoroutine(ImageFadeInAndOut(0,isfadeout));
     }
 
