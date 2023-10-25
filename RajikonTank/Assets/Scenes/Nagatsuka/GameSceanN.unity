@@ -1038,7 +1038,7 @@ MonoBehaviour:
   NowGameState: 0
   GameCanvas: {fileID: 1377991671}
   GamePanel: []
-  OWN_player: 0
+  OWN_playerID: 0
   RestBullets: 5
   NowStage: 0
   player_IDnum: 0

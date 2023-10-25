@@ -21,11 +21,12 @@ public class GameManager : MonoBehaviour
     const int STAGE_NAME = 1;
     const int INITIAL_ENEMY_NUM = 2;
 
+    //各ゲームモードのパネル.
     const int READYGAMEPANEL = 0; 
-    const int INGAMEPANEL = 1;
-    const int WINPANEL = 2;
-    const int ENDGAMEPANEL = 3;
-    const int DEBUGPANEL = 4;//デバック情報をまとめたパネル.
+    const int INGAMEPANEL    = 1;
+    const int WINPANEL       = 2;
+    const int ENDGAMEPANEL   = 3;
+    const int DEBUGPANEL     = 4;//デバック情報をまとめたパネル.
 
     #endregion
 
@@ -38,8 +39,8 @@ public class GameManager : MonoBehaviour
     private StageManager stageManager;
 
     private bool perfectClearFlg;//完全制覇確認フラグ.
-
-    public int OWN_player;//自身のプレイヤーID(マルチをするときにここを変更すれば良い).
+    [Tooltip("自身のプレイヤーID(マルチをするときにここを変更すれば良い)")]
+    public int OWN_playerID;//.
 
     public int RestBullets;                  //残弾数.
 
@@ -59,8 +60,6 @@ public class GameManager : MonoBehaviour
     [Header("デバッグパネル確認フラグ")]
     public bool DebugFlg;                  //ONOFFでデバックの表示を切り換える.
     #endregion
-
-    
 
     #region 各チーム(陣営)のクラス(TeamInfo).
     /// <summary>
@@ -166,9 +165,8 @@ public class GameManager : MonoBehaviour
 
         public void SetPosition(int id,Vector3 pos)
         {
-            Debug.Log("pos" + pos);
-            tankList[id].gameObject.transform.GetChild(GameManager.instance.OWN_player).gameObject.transform.position = pos;
-            Debug.Log("SetPosition起動");
+            tankList[id].gameObject.transform.GetChild(GameManager.instance.OWN_playerID).gameObject.transform.position = pos;
+            //Debug.Log("SetPosition起動");
         }
     }
 
