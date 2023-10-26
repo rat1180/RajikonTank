@@ -6,10 +6,12 @@ using ConstList;
 
 public class SceneLoadClass : MonoBehaviour
 {
+
+    public bool isMove;
     // Start is called before the first frame update
     void Start()
     {
-        
+        isMove = false;
     }
 
     // Update is called once per frame
@@ -20,7 +22,9 @@ public class SceneLoadClass : MonoBehaviour
 
     public void ChangeScene(SceneNames name)
     {
+        if (isMove) return;
         SceneManager.LoadScene(name.ToString());
+        isMove = true;
     }
 
     public void GoGameScene()
