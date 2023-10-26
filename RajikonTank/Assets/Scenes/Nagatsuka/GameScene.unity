@@ -2368,6 +2368,7 @@ GameObject:
   - component: {fileID: 830708486}
   - component: {fileID: 830708485}
   - component: {fileID: 830708488}
+  - component: {fileID: 830708489}
   m_Layer: 5
   m_Name: TitleBackButton
   m_TagString: Untagged
@@ -2500,6 +2501,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 702fe42d2099d1f4c9c1627ea31c736c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMove: 0
+--- !u!114 &830708489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830708483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883690719330d3b4592a5e869755765b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &893098376

@@ -11,7 +11,7 @@ public class GamePadInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gamepad = Gamepad.current;
     }
 
     // Update is called once per frame
@@ -29,8 +29,9 @@ public class GamePadInput : MonoBehaviour
         }
 
         // マルボタンが押されたとき.
-        if (gamepad.buttonEast.wasPressedThisFrame)
+        if (gamepad.buttonEast.wasPressedThisFrame || gamepad.startButton.wasPressedThisFrame)
         {
+            Debug.Log("丸ボタン");
             GetComponent<Button>().onClick.Invoke();
         }
     }
