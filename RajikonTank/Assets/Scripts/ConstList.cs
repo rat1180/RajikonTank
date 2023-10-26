@@ -40,6 +40,7 @@ namespace ConstList
         Reflect,
         BulletDestroy,
         Ready,
+        Clear,
     }
 
     public enum BGM_ID

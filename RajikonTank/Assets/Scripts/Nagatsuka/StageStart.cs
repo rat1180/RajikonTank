@@ -69,8 +69,11 @@ public class StageStart : MonoBehaviour
     {
 		GetComponent<ImageEffect>().ResetShader();
 		GameManager.instance.NowGameState = GAMESTATUS.INGAME;
-		
 		GameManager.instance.PlayBGM(BGM_ID.Play);
+		if (GameManager.instance.NowStage == 0)
+		{
+			GameManager.instance.ActiveTutorial();
+		}
 	}
 
 	public void ChangeAlfa()
