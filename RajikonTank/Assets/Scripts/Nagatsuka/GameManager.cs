@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     const int INGAMEPANEL    = 1;
     const int WINPANEL       = 2;
     const int ENDGAMEPANEL   = 3;
-    const int DEBUGPANEL     = 4;//デバック情報をまとめたパネル.
+    const int TUTORIALPANEL  = 4;
+    const int DEBUGPANEL     = 5;//デバック情報をまとめたパネル.
 
     #endregion
 
@@ -188,6 +189,7 @@ public class GameManager : MonoBehaviour
         GamePanel.Add(GameCanvas.transform.GetChild(INGAMEPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(WINPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject);
+        GamePanel.Add(GameCanvas.transform.GetChild(TUTORIALPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(DEBUGPANEL).gameObject);
         stageManager = this.transform.GetChild(0).gameObject.GetComponent<StageManager>();
         stageManager.ActiveStage(NowStage);
@@ -229,7 +231,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ReadyRoop()
     {
-        ActiveGamePanel(READYGAMEPANEL);
+        //ActiveGamePanel(READYGAMEPANEL);
         DrawStateStagePanel();
     }
 
@@ -262,7 +264,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ActiveGamePanel(int mode)
     {
-        for(int i = 0; i < GamePanel.Count -1; i++)
+        for(int i = 0; i < GamePanel.Count -2; i++)//デバッグパネルとチュートリアルパネルを除く(-2)
         {
             if(i == mode)
             {
@@ -273,6 +275,14 @@ public class GameManager : MonoBehaviour
                 GamePanel[i].SetActive(false);
             }
         }
+    }
+    public void ActiveTutorial()
+    {
+        GamePanel[TUTORIALPANEL].SetActive(true);
+    }
+    public void CloseTutorial()
+    {
+        GamePanel[TUTORIALPANEL].SetActive(false);
     }
 
     #region 外部から呼び出す関数(Listに追加する・死亡関数).
@@ -412,6 +422,10 @@ public class GameManager : MonoBehaviour
     private void ChangeWinMode()
     {
         NowGameState = GAMESTATUS.ENDGAME_WIN;
+        StopBGM();
+        if (NowStage == 0) CloseTutorial();
+        PlaySE(SE_ID.Clear);
+        
         ActiveGamePanel(WINPANEL);
     }
 
@@ -424,7 +438,7 @@ public class GameManager : MonoBehaviour
         ActiveGamePanel(INGAMEPANEL);
         GamePanel[INGAMEPANEL].transform.GetChild(ENEMY_NUM_GROUP).gameObject.
             transform.GetChild(ENEMY_NUM).GetComponent<Text>().text =
-                                        ":" + teamInfo[CPU_IDnum].ReturnActiveMember();
+                                        ": " + teamInfo[CPU_IDnum].ReturnActiveMember();
        RestBullets =teamInfo[player_IDnum].tankList[0].GetRestBullet();
         GamePanel[INGAMEPANEL].transform.GetChild(REST_BULLETS_IMAGE).gameObject.GetComponent<Image>().sprite =
             BulletsImage[RestBullets];
@@ -432,8 +446,8 @@ public class GameManager : MonoBehaviour
 
     private void DrawStateStagePanel()
     {
-        
-        GamePanel[READYGAMEPANEL].SetActive(true);
+        ActiveGamePanel(READYGAMEPANEL);
+       // GamePanel[READYGAMEPANEL].SetActive(true);
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
             stageManager.Stages[NowStage].name;
@@ -456,13 +470,21 @@ public class GameManager : MonoBehaviour
         audioClip = soundManager.ReturnSE(id);
         return audioClip;
     }
+
+    public void PlayBGM(BGM_ID id)
+    {
+        soundManager.PlayBGM(id);
+    }
+    public void StopBGM()
+    {
+        soundManager.StopBGM();
+    }
     #endregion
 
     public void ChangeReadyMode()
     {
         if (stageManager.Stages.Count  == NowStage + 1)
         {
-            //Debug.Log("完全制覇");
             perfectClearFlg = true;
             ChangeGameEnd();
         }
@@ -497,7 +519,9 @@ public class GameManager : MonoBehaviour
     private void ChangeGameEnd()
     {
         NowGameState = GAMESTATUS.ENDGAME;
+        PlayBGM(BGM_ID.Result);
         ActiveGamePanel(ENDGAMEPANEL);
+        if (NowStage == 0) CloseTutorial();
         if (perfectClearFlg)
         {
             GamePanel[ENDGAMEPANEL].transform.GetChild(1).gameObject.transform.GetChild(0).

@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Hida/Title.unity
+    path: Assets/Scenes/Main/Title.unity
     guid: db9cce8dd9c55fc4baae931567c2e7a2
   - enabled: 1
-    path: Assets/Scenes/Nagatsuka/GameScene.unity
+    path: Assets/Scenes/Main/GameScene.unity
     guid: 6ae9697d250750d41ab115b079d6abaa
   m_configObjects: {}

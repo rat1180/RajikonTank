@@ -10,15 +10,13 @@ public class TextSwitching : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // テキストの取得
-        tutorialText = transform.GetChild(0).GetComponent<Text>();
-        tutorialText.text = "「<b>ラジタンク！</b>」へようこそ！";
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(Swiching());
+        //StartCoroutine(Swiching());
     }
 
     /// <summary>
@@ -28,5 +26,13 @@ public class TextSwitching : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         tutorialText.text = "<color=blue><b>左スティック</b></color>で移動しよう！\n" + "狙いを定めて<color=blue><b>Aボタン</b></color>で弾を撃て！";
+    }
+
+    private void OnEnable()
+    {
+        // テキストの取得
+        tutorialText = transform.GetChild(0).GetComponent<Text>();
+        tutorialText.text = "「<b>ラジタンク！</b>」へようこそ！";
+        StartCoroutine(Swiching());
     }
 }

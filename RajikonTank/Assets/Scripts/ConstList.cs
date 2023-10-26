@@ -39,7 +39,15 @@ namespace ConstList
         Shot,
         Reflect,
         BulletDestroy,
-        Ready
+        Ready,
+        Clear,
+    }
+
+    public enum BGM_ID
+    {
+        Title,
+        Play,
+        Result
     }
 
     public enum TankPrefabNames
