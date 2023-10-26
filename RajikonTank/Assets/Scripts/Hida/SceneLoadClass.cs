@@ -27,4 +27,8 @@ public class SceneLoadClass : MonoBehaviour
     {
         ChangeScene(SceneNames.GameScene);
     }
+    public void GoTitleScene()
+    {
+        ChangeScene(SceneNames.Title);
+    }
 }

@@ -527,6 +527,7 @@ public class GameManager : MonoBehaviour
             sum += DestroyCPU[i];
         }
         GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.SetActive(true);
+        GamePanel[ENDGAMEPANEL].transform.GetChild(2).gameObject.SetActive(true);//タイトルバックボタン.
         GamePanel[ENDGAMEPANEL].transform.GetChild(4).gameObject.GetComponent<Text>().text = "総撃破数:" + sum;
     }
 

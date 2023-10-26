@@ -57,8 +57,7 @@ namespace ConstList
     public enum SceneNames
     {
         Title,
-        GameScene,
-        MargeScene
+        GameScene
     }
 
     public enum EffectNames
