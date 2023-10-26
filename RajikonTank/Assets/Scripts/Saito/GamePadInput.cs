@@ -17,13 +17,19 @@ public class GamePadInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GamePadPushButton();
     }
 
     public void GamePadPushButton()
     {
+        if (gamepad == null)
+        {
+            Debug.Log("null");
+            return;
+        }
+
         // ƒ}ƒ‹ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«.
-        if (gamepad.buttonSouth.wasPressedThisFrame)
+        if (gamepad.buttonEast.wasPressedThisFrame)
         {
             GetComponent<Button>().onClick.Invoke();
         }
