@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using ConstList;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -220,10 +221,26 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        ErrorFunction();
+
         if (DebugFlg) CheckDebug();
         else GamePanel[DEBUGPANEL].SetActive(false);
     }
     #endregion
+
+    void ErrorFunction()
+    {
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard.escapeKey.wasPressedThisFrame)
+        {
+#if UNITY_EDITOR //UnityEditorで起動しているとき.
+
+            UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else //ビルド環境.
+    Application.Quit();//ゲームプレイ終了
+#endif
+        }
+    }
 
     #region Gameのステータス毎に動かすRoop関数
     /// <summary>
