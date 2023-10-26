@@ -293,8 +293,21 @@ public class PlayerClass : TankEventHandler
         AimObject.SetActive(false);
         if(Physics.Raycast(PossessionTank.Tank.transform.position,aimvector,out RaycastHit hit))
         {
+            Vector3 pos;
 
-            AimObject.transform.position = new Vector3(hit.point.x, 3, hit.point.z);
+            //着弾位置のおおよその位置にエイムする
+            if (Vector3.Distance(hit.point, PossessionTank.ShotPos.transform.position) >= 7)
+            {
+                pos = PossessionTank.ShotPos.transform.position + aimvector * 7;
+                pos.y = 5;
+            }
+            else
+            {
+                //着弾位置にエイムする
+                pos = new Vector3(hit.point.x, 5, hit.point.z);
+            }
+            AimObject.transform.position = pos;
+
             //AimObject.transform.LookAt(Camera.main.transform);
             AimObject.SetActive(true);
         }
