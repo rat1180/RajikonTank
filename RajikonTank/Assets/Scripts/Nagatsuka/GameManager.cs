@@ -438,7 +438,7 @@ public class GameManager : MonoBehaviour
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
             stageManager.Stages[NowStage].name;
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
-            transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "“GíÔ”:" + teamInfo[CPU_IDnum].ReturnActiveMember() + "‘ä";
+            transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "~ " + teamInfo[CPU_IDnum].ReturnActiveMember();
     }
 
     #region SoundManagerŠÖ”
@@ -506,7 +506,7 @@ public class GameManager : MonoBehaviour
         int cnt = 0;//€–S“G‚Ìí—Ş‚ğƒJƒEƒ“ƒg‚·‚é—p.
         for(int i=0;i< DestroyCPU.Length; i++)
         {
-            if (DestroyCPU[i] == 0)
+            if (DestroyCPU[i] != 0)
             {
                 cnt++;
             }
@@ -516,6 +516,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ActiveEnemysImage(int cnt)
     {
+        Debug.Log("cnt" + cnt);
         int sum = 0;//“G‚Ì‘Œ‚”j”ƒJƒEƒ“ƒg—p.
         for (int i = 0; i < cnt; i++)
         {

@@ -54,6 +54,8 @@ public class StageManager : MonoBehaviour
         if (createFlg)
         {
             GameManager.instance.teamInfo[GameManager.instance.player_IDnum].SetPosition(0,position);
+            GameManager.instance.teamInfo[GameManager.instance.player_IDnum].
+                tankList[GameManager.instance.OWN_playerID].SetPlayTrail(false);
         }
         else
         {

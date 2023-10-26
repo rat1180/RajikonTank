@@ -48,8 +48,11 @@ MonoBehaviour:
   PlayerInputScript: {fileID: 0}
   GameManagerInstance: {fileID: 0}
   MaxBulletNm: 5
+  AimObject: {fileID: 0}
+  AimObjectPrefabName: Others/AimObject
   PossessionTank: {fileID: 0}
   isControl: 0
   TeamID: 0
   SpawnPoint: {x: 0, y: 0, z: 0}
   RemainingBulletNm: 0
+  isAim: 1
