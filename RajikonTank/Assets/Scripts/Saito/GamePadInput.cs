@@ -29,8 +29,9 @@ public class GamePadInput : MonoBehaviour
         }
 
         // マルボタンが押されたとき.
-        if (gamepad.buttonEast.wasPressedThisFrame)
+        if (gamepad.buttonEast.wasPressedThisFrame || gamepad.startButton.wasPressedThisFrame)
         {
+            Debug.Log("丸ボタン");
             GetComponent<Button>().onClick.Invoke();
         }
     }

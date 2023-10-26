@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
 
     void Start()
     {
-        
+        gamepad = Gamepad.current;
     }
 
     void Update()
@@ -134,7 +134,7 @@ public class PlayerInput : MonoBehaviour
 
     void RookieMode()
     {
-        if (gamepad.rightTrigger.wasPressedThisFrame)
+        if (gamepad.rightTrigger.wasPressedThisFrame || gamepad.buttonEast.wasPressedThisFrame)
         {
             sendkey = KeyList.FIRE;
         }
