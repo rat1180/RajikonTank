@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
 
     Keyboard keyboard = Keyboard.current;
     Gamepad gamepad = Gamepad.current;
+
     float Threshold = 0.8f;  // 閾値の設定.
 
     bool LeftStickLeft;    // 左スティックを左に倒した時.
