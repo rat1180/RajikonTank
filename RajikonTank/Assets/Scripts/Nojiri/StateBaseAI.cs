@@ -8,6 +8,7 @@ public class StateBaseAI : TankEventHandler
 {
     public EnemyName aiName = EnemyName.NORMAL;   //“G‘®«‚Ìİ’è
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT;   //“G‚Ì‰Šú‘JˆÚ
+    public int maxDistance; // UŒ‚‰Â”\”ÍˆÍ
 
     private Rajikon rajikon;           // RajikonƒNƒ‰ƒX
     private CPUInput cpuInput;         // CPUInputƒNƒ‰ƒX
@@ -323,8 +324,7 @@ public class StateBaseAI : TankEventHandler
     /// ˆÚ“®•‚‘¬’e“Gİ’è
     /// </summary>
     private void FastAndMoveEnemy()
-    {
-        const int maxDistance = 15; // UŒ‚‰Â”\”ÍˆÍ
+    { 
 
         aiName = EnemyName.FASTANDMOVE; // GameManager‚É‘—‚éIDİ’è
         aiState = EnemyAiState.MOVE; // ˆÚ“®
@@ -361,11 +361,11 @@ public class StateBaseAI : TankEventHandler
         // ‘‚¢’e‚ğŒ‚‚Â“G‚Ìê‡A”­ËŠÔŠu‚ğ•ÏX
         if (aiName == EnemyName.FASTBULLET || aiName == EnemyName.FASTANDMOVE)
         {
-            second = 8;
+            second = 5;
         }
         else
         {
-            second = 5;
+            second = 3;
         }
             yield return new WaitForSeconds(second);
         isAttack = false;
