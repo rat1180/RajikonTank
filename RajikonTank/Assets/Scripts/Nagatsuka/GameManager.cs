@@ -456,6 +456,11 @@ public class GameManager : MonoBehaviour
         audioClip = soundManager.ReturnSE(id);
         return audioClip;
     }
+
+    public void PlayBGM(BGM_ID id)
+    {
+        soundManager.PlayBGM(id);
+    }
     #endregion
 
     public void ChangeReadyMode()
@@ -497,6 +502,7 @@ public class GameManager : MonoBehaviour
     private void ChangeGameEnd()
     {
         NowGameState = GAMESTATUS.ENDGAME;
+        PlayBGM(BGM_ID.Result);
         ActiveGamePanel(ENDGAMEPANEL);
         if (perfectClearFlg)
         {

@@ -69,16 +69,17 @@ public class StageStart : MonoBehaviour
     {
 		GetComponent<ImageEffect>().ResetShader();
 		GameManager.instance.NowGameState = GAMESTATUS.INGAME;
-		//Debug.Log("”ñ•\Ž¦‚É‚È‚½‚æ");
-		//anim.Stop();
-		//this.gameObject.transform.parent.gameObject.SetActive(false);
+		
+		GameManager.instance.PlayBGM(BGM_ID.Play);
 	}
 
 	public void ChangeAlfa()
     {
 		alfaFlg = true;
-
-		GameManager.instance.PlaySE(SE_ID.Ready);
 		GetComponent<ImageEffect>().DefaultFadeInAndOut(true);
+	}
+	public void PlayHoragai()
+    {
+		GameManager.instance.PlaySE(SE_ID.Ready);
 	}
 }

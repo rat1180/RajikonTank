@@ -8,6 +8,8 @@ public class SoundManager : MonoBehaviour
     [Header("SEリスト")]
     [SerializeField] List<AudioClip> SEList = new List<AudioClip>();
 
+    [SerializeField] List<AudioClip> BGMList = new List<AudioClip>();
+
     AudioSource audioSource;
 
     #region Unityイベント(Start)
@@ -45,5 +47,17 @@ public class SoundManager : MonoBehaviour
     public AudioClip ReturnSE(SE_ID id)
     {
         return SEList[(int)id];
+    }
+
+
+    public void StopBGM()
+    {
+        audioSource.Stop();
+    }
+
+    public void PlayBGM(BGM_ID id)
+    {
+        audioSource.clip = BGMList[(int)id];
+        audioSource.Play();
     }
 }
