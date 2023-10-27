@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using ConstList;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -216,14 +217,30 @@ public class GameManager : MonoBehaviour
                 EndGameWinRoop();
                 break;
             default:
-                Debug.Log("エラー:予期せぬゲームモード");
+                //Debug.Log("エラー:予期せぬゲームモード");
                 break;
         }
+
+        ErrorFunction();
 
         if (DebugFlg) CheckDebug();
         else GamePanel[DEBUGPANEL].SetActive(false);
     }
     #endregion
+
+    void ErrorFunction()
+    {
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard.escapeKey.wasPressedThisFrame)
+        {
+#if UNITY_EDITOR //UnityEditorで起動しているとき.
+
+            UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else //ビルド環境.
+    Application.Quit();//ゲームプレイ終了
+#endif
+        }
+    }
 
     #region Gameのステータス毎に動かすRoop関数
     /// <summary>
@@ -254,7 +271,7 @@ public class GameManager : MonoBehaviour
     void EndGameWinRoop()
     {
         GamePanel[WINPANEL].transform.GetChild(1).GetComponent<Text>().text = 
-        stageManager.Stages[NowStage].name+" Clear!!!";       
+        stageManager.Stage[NowStage].name+" Clear!!!";       
     }
     #endregion
 
@@ -450,7 +467,7 @@ public class GameManager : MonoBehaviour
        // GamePanel[READYGAMEPANEL].SetActive(true);
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
-            stageManager.Stages[NowStage].name;
+            stageManager.Stage[NowStage].name;
         GamePanel[READYGAMEPANEL].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "× " + teamInfo[CPU_IDnum].ReturnActiveMember();
     }
@@ -483,14 +500,14 @@ public class GameManager : MonoBehaviour
 
     public void ChangeReadyMode()
     {
-        if (stageManager.Stages.Count  == NowStage + 1)
+        if (stageManager.Stage.Count  == NowStage + 1)
         {
             perfectClearFlg = true;
             ChangeGameEnd();
         }
         else
         {
-            Debug.Log("stagecnt" + stageManager.Stages.Count);
+            Debug.Log("stagecnt" + stageManager.Stage.Count);
             NowStage++;
             NowGameState = GAMESTATUS.READY;
             stageManager.ActiveStage(NowStage);
