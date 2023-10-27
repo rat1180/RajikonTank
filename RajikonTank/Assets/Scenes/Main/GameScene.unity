@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &7290881
 MonoBehaviour:
@@ -760,6 +760,7 @@ GameObject:
   - component: {fileID: 262835565}
   - component: {fileID: 262835567}
   - component: {fileID: 262835566}
+  - component: {fileID: 262835568}
   m_Layer: 5
   m_Name: EnemyNum
   m_TagString: Untagged
@@ -830,6 +831,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262835564}
   m_CullTransparentMesh: 1
+--- !u!114 &262835568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262835564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &268557975
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,7 +2538,7 @@ MonoBehaviour:
   - {fileID: 1703804317}
   - {fileID: 1302886658}
   - {fileID: 759122133}
-  - {fileID: 0}
+  - {fileID: 1111787570}
   tanks:
   - {fileID: 2880195042615375983, guid: 8e709d0f68b99ee499b13f8b053052b6, type: 3}
   - {fileID: 8572637675443589868, guid: a94dcbfd96c21234f83d0a6edef35ce5, type: 3}
@@ -3490,6 +3506,7 @@ GameObject:
   - component: {fileID: 1091161488}
   - component: {fileID: 1091161490}
   - component: {fileID: 1091161489}
+  - component: {fileID: 1091161491}
   m_Layer: 5
   m_Name: StageName
   m_TagString: Untagged
@@ -3559,6 +3576,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091161487}
   m_CullTransparentMesh: 1
+--- !u!114 &1091161491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091161487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1111787569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3620,6 +3652,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c65e57d67786b734b9079b794b308474, type: 3}
+--- !u!1 &1111787570 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 613869871993535653, guid: c65e57d67786b734b9079b794b308474, type: 3}
+  m_PrefabInstance: {fileID: 1111787569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1115757600
 GameObject:
   m_ObjectHideFlags: 0
@@ -3930,6 +3967,7 @@ GameObject:
   - component: {fileID: 1218908350}
   - component: {fileID: 1218908352}
   - component: {fileID: 1218908351}
+  - component: {fileID: 1218908353}
   m_Layer: 5
   m_Name: EnemyNumText
   m_TagString: Untagged
@@ -3999,6 +4037,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218908349}
   m_CullTransparentMesh: 1
+--- !u!114 &1218908353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218908349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1224836918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5739,7 +5792,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774581431}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6483,7 +6536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2035955679
 RectTransform:
   m_ObjectHideFlags: 0
