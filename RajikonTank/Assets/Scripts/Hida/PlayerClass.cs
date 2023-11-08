@@ -299,12 +299,12 @@ public class PlayerClass : TankEventHandler
             if (Vector3.Distance(hit.point, PossessionTank.ShotPos.transform.position) >= 7)
             {
                 pos = PossessionTank.ShotPos.transform.position + aimvector * 7;
-                pos.y = 5;
+                pos.y = 2;
             }
             else
             {
                 //’…’eˆÊ’u‚ÉƒGƒCƒ€‚·‚é
-                pos = new Vector3(hit.point.x, 5, hit.point.z);
+                pos = new Vector3(hit.point.x, 2, hit.point.z);
             }
             AimObject.transform.position = pos;
 

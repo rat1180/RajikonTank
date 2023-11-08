@@ -356,16 +356,16 @@ public class StateBaseAI : TankEventHandler
     // w’è•b”‚²‚Æ‚ÉUŒ‚ˆ—‚ğÀs‚·‚éƒ^ƒCƒ}[
     private IEnumerator AttackTimer()
     {
-        int second; // ”­ËŠÔŠu
+        float second; // ”­ËŠÔŠu
 
         // ‘‚¢’e‚ğŒ‚‚Â“G‚Ìê‡A”­ËŠÔŠu‚ğ•ÏX
         if (aiName == EnemyName.FASTBULLET || aiName == EnemyName.FASTANDMOVE)
         {
-            second = 5;
+            second = Random.Range(3, 5);
         }
         else
         {
-            second = 3;
+            second = Random.Range(1,3);
         }
             yield return new WaitForSeconds(second);
         isAttack = false;

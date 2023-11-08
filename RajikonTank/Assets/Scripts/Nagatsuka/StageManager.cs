@@ -15,7 +15,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] bool createFlg;//Playerを生成したかを判定する.
 
     public GameObject Stages;//Stagesをヒエラルキーから入れる.
-    List<GameObject> Stage;
+    public List<GameObject> Stage;
     [SerializeField] GameObject[] tanks;    //テスト用プレファブ.
 
     [SerializeField] EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する.

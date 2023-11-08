@@ -30,7 +30,7 @@ public class MoveQuickBullet : MoveBullet
         TestStartPos = new Vector3(1, 0, 0);
         gameObject.SetActive(false);
         ReflectCount = 1;
-        Speed = 12.0f;
+        Speed = 15.0f;
         StartRotation(TestTarget, TestStartPos);
     }
     //void OnCollisionEnter(Collision other)
