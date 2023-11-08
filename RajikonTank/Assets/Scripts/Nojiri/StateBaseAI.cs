@@ -9,6 +9,7 @@ public class StateBaseAI : TankEventHandler
     public EnemyName aiName = EnemyName.NORMAL;   //敵属性の設定
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT;   //敵の初期遷移
     public int maxDistance; // 攻撃可能範囲
+    public Vector3[] movePos;
 
     private Rajikon rajikon;           // Rajikonクラス
     private CPUInput cpuInput;         // CPUInputクラス
@@ -110,7 +111,7 @@ public class StateBaseAI : TankEventHandler
     }
     #endregion
 
-    #region 
+    #region 敵共通処理
     /// <summary>
     /// 敵共通メソッド
     /// Rayに触れたオブジェクトによるStateの割り当て
@@ -155,6 +156,10 @@ public class StateBaseAI : TankEventHandler
             }
             else
             {
+                // EnemyがMovePointを向いているかどうか判定
+                // 向いていたら前進、向いていない場合旋回
+                // 到着したら次の地点に目標を変える
+
                 aiState = EnemyAiState.WAIT;   // 待機
             }
         }
@@ -373,13 +378,20 @@ public class StateBaseAI : TankEventHandler
     #endregion
 
     #region 行動遷移ごとのメソッド
+    public int i = 0;
+
     /// <summary>
     /// 待機処理
     /// 変数の初期化
     /// </summary>
     private void Wait()
     {
-        cpuInput.moveveckey = KeyList.NONE;
+        cpuInput.moveveckey = KeyList.NONE; // 初期状態
+
+        //movePos[0] = new Vector3(-5, 0, 0);
+        //movePos[1] = new Vector3( 5, 0, 0);
+
+        //cpuInput.sendtarget = movePos[i]; // 指定の方向を向く
     }
 
     /// <summary>

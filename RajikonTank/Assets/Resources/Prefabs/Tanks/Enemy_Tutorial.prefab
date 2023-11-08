@@ -542,6 +542,10 @@ MonoBehaviour:
   aiName: 0
   aiState: 0
   maxDistance: 0
+  movePos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!82 &-1981396441651951564
 AudioSource:
   m_ObjectHideFlags: 0
