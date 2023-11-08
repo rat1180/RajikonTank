@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - Wall
   - Tank
+  - Bom
   layers:
   - Default
   - TransparentFX
