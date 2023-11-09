@@ -614,6 +614,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 537d8c2ae16ae074684d90b766496dd3, type: 3}
   - {fileID: 8300000, guid: 5681b3ea13ceafe4ab509d1d758f0efa, type: 3}
   - {fileID: 8300000, guid: 8b04c6dd4dfe7cd41b4cae9f78a0afe3, type: 3}
+  - {fileID: 8300000, guid: 8b04c6dd4dfe7cd41b4cae9f78a0afe3, type: 3}
   BGMList:
   - {fileID: 8300000, guid: cfb4f9dd5806cd349a1195f54239ab0e, type: 3}
   - {fileID: 8300000, guid: fa50ed8d8e6d7804fa4e5e9d95d963d4, type: 3}
@@ -809,6 +810,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883690719330d3b4592a5e869755765b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1239076461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239076463}
+  - component: {fileID: 1239076462}
+  m_Layer: 0
+  m_Name: ResorceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1239076462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239076461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8361ee97bc33ee545a09f81123ee3a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1239076463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239076461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 554.1637, y: 378.40048, z: -105.24286}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1403358929
 GameObject:
   m_ObjectHideFlags: 0

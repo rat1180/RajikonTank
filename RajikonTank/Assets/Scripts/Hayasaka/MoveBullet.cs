@@ -25,6 +25,7 @@ public class MoveBullet : MonoBehaviour
     private void Awake()
     {
         Trail = GetComponent<TrailRenderer>();
+        Rb = this.transform.GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
@@ -46,7 +47,6 @@ public class MoveBullet : MonoBehaviour
     }
     public virtual void InitBullet()
     {
-        Rb = this.transform.GetComponent<Rigidbody>();
         TestTarget = new Vector3(10, 0, 5);
         TestStartPos = new Vector3(1, 0, 0);
         gameObject.SetActive(false);

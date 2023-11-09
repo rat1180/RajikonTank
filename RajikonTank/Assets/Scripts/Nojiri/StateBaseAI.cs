@@ -9,28 +9,32 @@ public class StateBaseAI : TankEventHandler
     public EnemyName aiName = EnemyName.NORMAL;   //敵属性の設定
     [SerializeField] private EnemyAiState aiState = EnemyAiState.WAIT;   //敵の初期遷移
     public int maxDistance; // 攻撃可能範囲
+    public Vector3[] movePos;
+    public bool patrolMode = false;   // 巡回モードON/OFF
 
-    private Rajikon rajikon;           // Rajikonクラス
-    private CPUInput cpuInput;         // CPUInputクラス
-    private GameObject player;         // プレイヤー情報
-    private GameObject enemy;          // エネミー情報
-    private GameObject grandChild;     // 孫オブジェクト
+    private Rajikon rajikon;          // Rajikonクラス
+    private CPUInput cpuInput;        // CPUInputクラス
+    private GameObject player;        // プレイヤー情報
+    private GameObject enemy;         // エネミー情報
+    private GameObject grandChild;    // 孫オブジェクト
 
-    private Quaternion lookAngle;      // Playerがいる方向
-    private Vector3 enemyPos;          // 敵(自分)の位置
-    private Vector3 playerPos;         // プレイヤーの位置
+    private Quaternion lookAngle;     // Targetがいる方向
+    private Vector3 enemyPos;         // 敵(自分)の位置
+    private Vector3 playerPos;        // プレイヤーの位置
+    private Vector3[] patrolPos = new Vector3[2];  // 巡回する位置
 
-    private string playerTag;          // Playerのtag
-    private float nowDistance;         // プレイヤーとの距離
-    private bool isInit   = false;     // 初期化状態確認
-    private bool isAttack = false;     // 攻撃間隔用フラグ
-    private bool isTimer  = false;     // タイマーフラグ
-    private bool canAttack = true;     // 攻撃可否フラグ
-    private const int rayLength = 50;  // Rayの長さ
+    private string playerTag;         // Playerのtag
+    private float nowDistance;        // プレイヤーとの距離
+    private bool isInit   = false;    // 初期化状態確認
+    private bool isAttack = false;    // 攻撃間隔用フラグ
+    private bool isTimer  = false;    // タイマーフラグ
+    private bool canAttack = true;    // 攻撃可否フラグ
+    private const int rayLength = 50; // Rayの長さ
 
     public enum EnemyAiState // 行動パターン
     {
         WAIT,                // 待機
+        PATROL,              // 巡回
         MOVE,                // 移動
         TURN,                // 旋回
         ATTACK,              // 攻撃
@@ -47,9 +51,9 @@ public class StateBaseAI : TankEventHandler
 
         // ゲームオブジェクトで生成されたPlayerを取得
         player = GameManager.instance.teamInfo[GameManager.instance.player_IDnum].tankList[0].gameObject.transform.Find("Tank").gameObject;
-        playerTag = player.tag; // tagを取得
+        playerTag = player.tag; // Tag取得
 
-        enemy = rajikon.Tank.transform.gameObject;
+        enemy = rajikon.Tank.transform.gameObject; // 敵情報取得
     }
 
     // Update is called once per frame
@@ -110,7 +114,7 @@ public class StateBaseAI : TankEventHandler
     }
     #endregion
 
-    #region 
+    #region 敵共通処理
     /// <summary>
     /// 敵共通メソッド
     /// Rayに触れたオブジェクトによるStateの割り当て
@@ -155,7 +159,16 @@ public class StateBaseAI : TankEventHandler
             }
             else
             {
-                aiState = EnemyAiState.WAIT;   // 待機
+                // patrolModeがONの時、敵を巡回させる
+                // 巡回地点に到着したら次の巡回地点に目標を変える
+                if (patrolMode)
+                {
+                    aiState = EnemyAiState.PATROL;
+                }
+                else
+                {
+                    aiState = EnemyAiState.WAIT;   // 待機
+                }
             }
         }
         else
@@ -240,6 +253,9 @@ public class StateBaseAI : TankEventHandler
             case EnemyAiState.WAIT:
                 Wait();
                 break;
+            case EnemyAiState.PATROL:
+                Patrol();
+                break;
             case EnemyAiState.MOVE:
                 Move();
                 break;
@@ -267,7 +283,8 @@ public class StateBaseAI : TankEventHandler
     {
         aiName = EnemyName.TUTORIAL; // GameManagerに送るID設定
 
-        aiState = EnemyAiState.WAIT; // 待機
+        //aiState = EnemyAiState.WAIT; // 待機
+        aiState = EnemyAiState.PATROL; // テスト用
         canAttack = false; // 攻撃不可
     }
     #endregion
@@ -379,7 +396,26 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Wait()
     {
-        cpuInput.moveveckey = KeyList.NONE;
+        cpuInput.moveveckey = KeyList.NONE; // 初期状態
+    }
+
+    /// <summary>
+    /// 巡回用メソッド
+    /// patrolModeがTrueの時に呼ばれる
+    /// 配列内の座標に向かって順番に移動する
+    /// </summary>
+    private void Patrol()
+    {
+        int i = 0;
+
+        patrolPos[0] = new Vector3(0, 0,  5);
+        patrolPos[1] = new Vector3(0, 0, -5);
+
+        cpuInput.sendtarget = patrolPos[i]; // 指定の方向を向く
+
+        // 指定の位置へ移動
+        float enemyPatrolPos = VectorCalc(patrolPos[i]);
+        ConversionKey(enemyPatrolPos); // キーボード変換
     }
 
     /// <summary>
@@ -390,7 +426,7 @@ public class StateBaseAI : TankEventHandler
     private void Move()
     {
         Debug.Log("Move実行");
-        float enemyMovePos = VectorCalc(); // Playerまでの角度を受け取る
+        float enemyMovePos = VectorCalc(playerPos); // Playerまでの角度を受け取る
 
         ConversionKey(enemyMovePos); // キーボード変換
     }
@@ -442,23 +478,23 @@ public class StateBaseAI : TankEventHandler
 
     #region ベクトル変換
     /// <summary>
-    /// EnemyからPlayerのいる角度を計算
-    /// 求めた角度を8方向に分割し、Vector2(-1～1, -1～1)に変換
+    /// EnemyからTargetのいる角度を計算
+    /// 戻り値：現在の角度からTargetまでの角度
     /// </summary>
-    private float VectorCalc()
+    private float VectorCalc(Vector3 target)
     {
-        Vector3 relativePos = playerPos - enemyPos; // EnemyからPlayerへの相対ベクトル
-        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Playerに向いた角度
+        Vector3 relativePos = target - enemyPos; // EnemyからPlayerへの相対ベクトル
+        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Targetに向いた角度
         float rotateAngle = Quaternion.Angle(enemy.transform.localRotation,lookAngle); // 現在の角度からPlayerまでの間の角度
 
-        return rotateAngle; // Playerまでの角度を返す
+        return rotateAngle; // Targetまでの角度を返す
     }
 
     /// <summary>
     /// キーボード変換メソッド
     /// 受け取った角度の大きさに応じてキーボード変換
     /// </summary>
-    /// <param name="index">現在の角度からPlayerまでの角度0～1、0～-1を受け取る</param>
+    /// <param name="index">現在の角度からTargetまでの角度を受け取る</param>
     private void ConversionKey(float index)
     {
         const int forwardZero = 0;

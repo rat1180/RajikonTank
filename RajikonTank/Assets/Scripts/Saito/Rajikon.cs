@@ -19,6 +19,9 @@ public class Rajikon : MonoBehaviour
     [SerializeField] int FalseBullet;         // 撃てる弾の数.
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // 累積回転角度.
+    private float TankAngle;                  // タンクの角度.
+    private float TurretAngle;                // タレットの角度.
+    [SerializeField] float Interpolation;     // タンクの角度回転の補間 ※値が小さいほど滑らかに回転する.
 
     public bool isFixedTurret;      // タレットを固定するか true:固定 false:解除.
 
@@ -29,7 +32,6 @@ public class Rajikon : MonoBehaviour
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // 狙う対象.
     [SerializeField] BulletPrefabNames NowBulletPrefabNames; // 弾の種類.
-
 
     protected AudioSource Audio;
 
@@ -81,6 +83,7 @@ public class Rajikon : MonoBehaviour
         Audio.clip = Resources.Load<AudioClip>("Sounds/Move");
         Audio.loop = true;
         Audio.playOnAwake = false;
+        Interpolation = 0.02f;
     }
 
     void Update()
@@ -89,6 +92,12 @@ public class Rajikon : MonoBehaviour
         MoveInput(PlayerInput.KeyInput());
         if(isFixedTurret == false) LookTarget();
         TargetUpdate();
+
+        // プレイヤーから右スティックの角度を取得
+        float rightStickAngle = PlayerInput.SetRightStickAngle();
+
+        // タレットの向きを変更
+        TurretAim(rightStickAngle);
     }
 
     public void MoveInput(KeyList inputkey)
@@ -140,6 +149,30 @@ public class Rajikon : MonoBehaviour
             case KeyList.ACCELE:
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
+            case KeyList.W:
+                ForwardMove(0f); 
+                break;
+            case KeyList.S:
+                ForwardMove(180f); 
+                break;
+            case KeyList.A:
+                ForwardMove(270f); 
+                break;
+            case KeyList.D:
+                ForwardMove(90f);
+                break;
+            case KeyList.WA:
+                ForwardMove(315f);
+                break;
+            case KeyList.WD:
+                ForwardMove(45f);
+                break;
+            case KeyList.SA:
+                ForwardMove(225f);
+                break;
+            case KeyList.SD:
+                ForwardMove(125f);
+                break;
             case KeyList.FIRE:
                 Check();
                 break;
@@ -147,9 +180,27 @@ public class Rajikon : MonoBehaviour
 
                 break;
         }
+        var TankRot = Quaternion.Euler(Tank.transform.rotation.x, TankAngle, Tank.transform.rotation.z);
+        Tank.transform.rotation = Quaternion.Lerp(Tank.transform.rotation, TankRot, Interpolation);
 
         // 累積回転角度をもとに回転させる
-        Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
+        //Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
+    }
+
+    protected virtual void TurretAim(float angle)
+    {
+        // タレットを右スティックの角度に向ける
+        var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
+        Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, Interpolation);
+    }
+
+    /// <summary>
+    /// タンクを指定した向きに進ませる処理.
+    /// </summary>
+    void ForwardMove(float angle)
+    {
+        TankAngle = angle;
+        Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
     }
 
     /// <summary>

@@ -27,7 +27,7 @@ public class StageManager : MonoBehaviour
         ChindCnt = spawnPoints.transform.childCount;//子供の数を取得する.
         TeamID teamID;                              //ID取得用.
         EnemyName enemyName;                        //CPUの場合名前も取得.
-        for (int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
+        for (int i = 0; i < ChindCnt; i++)          //子オブジェクトの数分ループしてタンクを生成する.
         {
             teamID = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
             enemyName = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().enemyName;//ID取得.
@@ -57,13 +57,16 @@ public class StageManager : MonoBehaviour
         if (createFlg)
         {
             GameManager.instance.teamInfo[GameManager.instance.player_IDnum].SetPosition(0,position);
+            //GameManager.instance.teamInfo[GameManager.instance.player_IDnum].SetRotation(0, child);
             GameManager.instance.teamInfo[GameManager.instance.player_IDnum].
                 tankList[GameManager.instance.OWN_playerID].SetPlayTrail(false);
         }
         else
         {
             GameObject tank;
-            tank = Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
+            tank = Instantiate(tanks[PLAYER_NUM], position,Quaternion.identity);
+            //tank.transform.LookAt(child.transform.position);
+
             tank.GetComponent<PlayerClass>().InitPlayer(PlayerClass.InitMode.NATURAL);
             createFlg = true;
         }
