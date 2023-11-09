@@ -33,7 +33,11 @@ public class StageManager : MonoBehaviour
             enemyName = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().enemyName;//ID取得.
             switch (teamID) {
                 case TeamID.player:
-                    CreateTank(spawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
+                    Debug.Log("向き" + spawnPoints.transform.GetChild(i).gameObject.transform.forward);
+                    Quaternion quaternion;
+                    quaternion = spawnPoints.transform.GetChild(i).gameObject.transform.rotation;
+                    CreateTank(spawnPoints.transform.GetChild(i).gameObject.transform.position,
+                               spawnPoints.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject);    //タンク生成関数.
                     break;
                 case TeamID.CPU:
                     CreateTank(enemyName, spawnPoints.transform.GetChild(i).gameObject.transform.position);    //タンク生成関数.
@@ -51,19 +55,22 @@ public class StageManager : MonoBehaviour
     /// Playerタンクを生成する関数
     /// 引数にIDと生成する座標を指定.
     /// </summary>
-    void CreateTank(Vector3 position)
+    void CreateTank(Vector3 position,GameObject child)
     {
 
         if (createFlg)
         {
             GameManager.instance.teamInfo[GameManager.instance.player_IDnum].SetPosition(0,position);
+            //GameManager.instance.teamInfo[GameManager.instance.player_IDnum].SetRotation(0, forward);
             GameManager.instance.teamInfo[GameManager.instance.player_IDnum].
                 tankList[GameManager.instance.OWN_playerID].SetPlayTrail(false);
         }
         else
         {
             GameObject tank;
-            tank = Instantiate(tanks[PLAYER_NUM], position, Quaternion.identity);
+            tank = Instantiate(tanks[PLAYER_NUM], position,Quaternion.identity);
+            //tank.transform.LookAt(child.transform.position);
+
             tank.GetComponent<PlayerClass>().InitPlayer(PlayerClass.InitMode.NATURAL);
             createFlg = true;
         }

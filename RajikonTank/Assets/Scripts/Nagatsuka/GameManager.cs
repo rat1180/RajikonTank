@@ -170,6 +170,11 @@ public class GameManager : MonoBehaviour
             tankList[id].gameObject.transform.GetChild(GameManager.instance.OWN_playerID).gameObject.transform.position = pos;
             //Debug.Log("SetPosition‹N“®");
         }
+        public void SetRotation(int id, GameObject child)
+        {
+            tankList[id].gameObject.transform.LookAt(child.transform.position);
+            //Debug.Log("SetPosition‹N“®");
+        }
     }
 
     #endregion
