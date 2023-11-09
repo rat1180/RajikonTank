@@ -19,6 +19,15 @@ public class PlayerInput : MonoBehaviour
 
     float Threshold = 0.8f;  // 閾値の設定.
 
+    bool W_Key;
+    bool S_Key;
+    bool A_Key;
+    bool D_Key;
+    bool Up_Key;
+    bool Down_Key;
+
+    bool Space_Key;
+
     bool LeftStickLeft;    // 左スティックを左に倒した時.
     bool LeftStickRight;   // 左スティックを右に倒した時.
     bool LeftStickUp;      // 左スティックを前に倒した時.
@@ -81,58 +90,112 @@ public class PlayerInput : MonoBehaviour
                 case Controller.ROOKIE:
                     RookieMode();
                     break;
+                case Controller.NORMAL:
+                    NormalMode();
+                    break;
                 case Controller.RAJICON:
                     RajikonMode();
                     break;
             }
         }
-        
-        
-        if(keyboard != null && gamepad == null)
-        {
-            var wkey = keyboard.wKey.isPressed;
-            var skey = keyboard.sKey.isPressed;
-            var upkey = keyboard.upArrowKey.isPressed;
-            var downkey = keyboard.downArrowKey.isPressed;
 
-            if (keyboard.spaceKey.wasPressedThisFrame)
-            {
-                sendkey = KeyList.FIRE;
-            }
-            else if (wkey && upkey)
-            {
-                sendkey = KeyList.ACCELE;
-            }
-            else if (skey && downkey)
-            {
-                sendkey = KeyList.BACK;
-            }
-            else if (skey && upkey)
-            {
-                sendkey = KeyList.LEFTHIGHSPEEDROTATION;
-            }
-            else if (wkey && downkey)
-            {
-                sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
-            }
-            else if (skey || upkey)
-            {
-                sendkey = KeyList.LEFTROTATION;
-            }
-            else if (wkey || downkey)
-            {
-                sendkey = KeyList.RIGHTROTATION;
-            }
-            else
-            {
-                sendkey = KeyList.NONE;
-            }
+
+        if (keyboard != null && gamepad == null)
+        {
+            W_Key = keyboard.wKey.isPressed;
+            S_Key = keyboard.sKey.isPressed;
+            A_Key = keyboard.aKey.isPressed;
+            D_Key = keyboard.dKey.isPressed;
+            Up_Key = keyboard.upArrowKey.isPressed;
+            Down_Key = keyboard.downArrowKey.isPressed;
+
+            Space_Key = keyboard.spaceKey.wasPressedThisFrame;
+
+            RookieMode();
+
+            //    if (Space_Key)
+            //    {
+            //        sendkey = KeyList.FIRE;
+            //    }
+            //    else if (W_Key && Up_Key)
+            //    {
+            //        sendkey = KeyList.ACCELE;
+            //    }
+            //    else if (S_Key && Down_Key)
+            //    {
+            //        sendkey = KeyList.BACK;
+            //    }
+            //    else if (S_Key && Up_Key)
+            //    {
+            //        sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            //    }
+            //    else if (W_Key && Down_Key)
+            //    {
+            //        sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            //    }
+            //    else if (S_Key || Up_Key)
+            //    {
+            //        sendkey = KeyList.LEFTROTATION;
+            //    }
+            //    else if (W_Key || Down_Key)
+            //    {
+            //        sendkey = KeyList.RIGHTROTATION;
+            //    }
+            //    else
+            //    {
+            //        sendkey = KeyList.NONE;
+            //    }
         }
 
-        return sendkey;
+            return sendkey;
+    }
+    
+    
+    void RookieMode()
+    {
+        if (Space_Key)
+        {
+            sendkey = KeyList.FIRE;
+        }
+        else if(W_Key && A_Key)
+        {
+            sendkey = KeyList.LEFTUP;
+        }
+        else if (W_Key && D_Key)
+        {
+            sendkey = KeyList.RIGHTUP;
+        }
+        else if (S_Key && A_Key)
+        {
+            sendkey = KeyList.LEFTDOWN;
+        }
+        else if (S_Key && D_Key)
+        {
+            sendkey = KeyList.RIGHTDOWN;
+        }
+        else if (W_Key || Up_Key)
+        {
+            sendkey = KeyList.W;
+        }
+        else if (S_Key || Down_Key)
+        {
+            sendkey = KeyList.S;
+        }
+        else if (A_Key)
+        {
+            sendkey = KeyList.A;
+        }
+        else if (D_Key)
+        {
+            sendkey = KeyList.D;
+        }
+        else
+        {
+            sendkey = KeyList.NONE;
+        }
     }
 
-    void RookieMode()
+    void NormalMode()
     {
         if (gamepad.rightTrigger.wasPressedThisFrame || gamepad.buttonEast.wasPressedThisFrame)
         {
