@@ -16,6 +16,17 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
+        //SEÅEBGMÇÃì«Ç›çûÇ›.
+        SEList[(int)SE_ID.Start] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.Move] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.EnemyDeath] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.PlayerDeath] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.Reflect] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.BulletDestroy] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.Ready] = (AudioClip)Resources.Load("Sounds/SE/Start");
+        SEList[(int)SE_ID.Clear] = (AudioClip)Resources.Load("Sounds/SE/Start");
+
     }
     #endregion
 
