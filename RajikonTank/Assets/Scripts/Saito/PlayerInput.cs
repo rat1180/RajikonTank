@@ -46,11 +46,13 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
+        if (gamepad == null) return;
         RightStickInput.action.Enable();
     }
 
     private void OnDisable()
     {
+        if (gamepad == null) return;
         RightStickInput.action.Disable();
     }
 
@@ -61,6 +63,7 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
+        if (gamepad == null) return;
         gamepad = Gamepad.current;
         RightStickValue = Gamepad.current.rightStick.ReadValue();
         InformationStick();
