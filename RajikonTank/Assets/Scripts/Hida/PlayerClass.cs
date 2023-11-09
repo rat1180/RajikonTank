@@ -53,7 +53,8 @@ public class PlayerClass : TankEventHandler
     [System.Serializable]
     public class DebugModeSettings
     {
-
+        public string DebugTankName;
+        public string DebugBulletName;
     }
 
     #endregion
@@ -84,6 +85,8 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("このプレイヤーのスポーンポイント")] private Vector3 SpawnPoint;
 
     [SerializeField, Tooltip("残弾数")] private int RemainingBulletNm;
+
+    [SerializeField, Tooltip("デバッグモード時に使用する値")] public DebugModeSettings DebugSetting;
 
     public bool isAim;
     #endregion
