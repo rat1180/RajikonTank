@@ -6,11 +6,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    Vector2 LeftStickInput;
-    Vector2 RightStickInput;
+    Vector2 LeftStickVector;
+    Vector2 RightStickVector;
+    [SerializeField] InputActionReference RightStickInput;
+    Vector2 RightStickValue;
 
-    public KeyList sendkey;    // 押されたキーの情報を送る変数.
-    public Vector3 sendtarget; // 狙っている場所を送る変数
+    public KeyList sendkey;        // 押されたキーの情報を送る変数.
+    public RightStickList RightStickSend; // 右スティックの情報を送る変数.
+    public Vector3 sendtarget;     // 狙っている場所を送る変数.
 
     [SerializeField] Controller NowController;
 
@@ -33,19 +36,33 @@ public class PlayerInput : MonoBehaviour
     bool LeftStickUp;      // 左スティックを前に倒した時.
     bool LeftStickDown;    // 左スティックを後ろに倒した時.
 
+    bool RightStickLeft;   // 右スティックを左に倒した時.
+    bool RightStickRight;  // 右スティックを右に倒した時.
     bool RightStickUp;     // 右スティックを前に倒した時.
     bool RightStickDown;   // 右スティックを後ろに倒した時.
 
     bool RightTrigger2;    // 右トリガーの下.
     bool ButtonEast;       // 東(○)のボタンを押した時.
 
+    private void OnEnable()
+    {
+        RightStickInput.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        RightStickInput.action.Disable();
+    }
+
     void Start()
     {
-        gamepad = Gamepad.current;
+        
     }
 
     void Update()
     {
+        gamepad = Gamepad.current;
+        RightStickValue = Gamepad.current.rightStick.ReadValue();
         InformationStick();
     }
 
@@ -54,13 +71,15 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     void InformationStick()
     {
-        LeftStickLeft = LeftStickInput.x <= -Threshold;   // 左スティックを左に倒した時.
-        LeftStickRight = LeftStickInput.x >= Threshold;   // 左スティックを右に倒した時.
-        LeftStickUp = LeftStickInput.y >= Threshold;      // 左スティックを前に倒した時.
-        LeftStickDown = LeftStickInput.y <= -Threshold;   // 左スティックを後ろに倒した時.
+        LeftStickLeft = LeftStickVector.x <= -Threshold;   // 左スティックを左に倒した時.
+        LeftStickRight = LeftStickVector.x >= Threshold;   // 左スティックを右に倒した時.
+        LeftStickUp = LeftStickVector.y >= Threshold;      // 左スティックを前に倒した時.
+        LeftStickDown = LeftStickVector.y <= -Threshold;   // 左スティックを後ろに倒した時.
 
-        RightStickUp = RightStickInput.y >= Threshold;    // 右スティックを前に倒した時.
-        RightStickDown = RightStickInput.y <= -Threshold; // 右スティックを後ろに倒した時.
+        RightStickLeft = RightStickVector.x <= -Threshold; // 右スティックを左に倒した時.
+        RightStickRight = RightStickVector.x >= Threshold; // 右スティックを右に倒した時.
+        RightStickUp = RightStickVector.y >= Threshold;    // 右スティックを前に倒した時.
+        RightStickDown = RightStickVector.y <= -Threshold; // 右スティックを後ろに倒した時.
 
         RightTrigger2 = gamepad.rightTrigger.wasPressedThisFrame;
         ButtonEast = gamepad.buttonEast.wasPressedThisFrame;
@@ -88,8 +107,8 @@ public class PlayerInput : MonoBehaviour
         if (gamepad != null)
         {
             Debug.Log("ゲームパッドが接続されました");
-            LeftStickInput = gamepad.leftStick.ReadValue();
-            RightStickInput = gamepad.rightStick.ReadValue();
+            LeftStickVector = gamepad.leftStick.ReadValue();
+            RightStickVector = gamepad.rightStick.ReadValue();
 
             switch (NowController)
             {
@@ -121,6 +140,19 @@ public class PlayerInput : MonoBehaviour
         }
 
             return sendkey;
+    }
+
+    public float SetRightStickAngle()
+    {
+        float angle = 0f;
+
+        if (RightStickValue != Vector2.zero)
+        {
+            angle = Mathf.Atan2(RightStickValue.x, RightStickValue.y) * Mathf.Rad2Deg;
+        }
+        Debug.Log(angle);
+        return angle;
+        
     }
     
     
@@ -245,6 +277,27 @@ public class PlayerInput : MonoBehaviour
         else
         {
             sendkey = KeyList.NONE;
+        }
+
+        if (RightStickUp)
+        {
+            RightStickSend = RightStickList.UP;
+        }
+        else if (RightStickDown)
+        {
+            RightStickSend = RightStickList.DOWN;
+        }
+        else if (RightStickLeft)
+        {
+            RightStickSend = RightStickList.LEFT;
+        }
+        else if (RightStickRight)
+        {
+            RightStickSend = RightStickList.RIGHT;
+        }
+        else
+        {
+            RightStickSend = RightStickList.NONE;
         }
     }
 
