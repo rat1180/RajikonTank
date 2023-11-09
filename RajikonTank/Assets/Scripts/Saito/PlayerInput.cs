@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
     Keyboard keyboard = Keyboard.current;
     Gamepad gamepad = Gamepad.current;
 
-    float Threshold = 0.8f;  // 閾値の設定.
+    float Threshold = 0.2f;  // 閾値の設定.
 
     bool W_Key;
     bool S_Key;
@@ -35,6 +35,9 @@ public class PlayerInput : MonoBehaviour
 
     bool RightStickUp;     // 右スティックを前に倒した時.
     bool RightStickDown;   // 右スティックを後ろに倒した時.
+
+    bool RightTrigger2;    // 右トリガーの下.
+    bool ButtonEast;       // 東(○)のボタンを押した時.
 
     void Start()
     {
@@ -58,6 +61,9 @@ public class PlayerInput : MonoBehaviour
 
         RightStickUp = RightStickInput.y >= Threshold;    // 右スティックを前に倒した時.
         RightStickDown = RightStickInput.y <= -Threshold; // 右スティックを後ろに倒した時.
+
+        RightTrigger2 = gamepad.rightTrigger.wasPressedThisFrame;
+        ButtonEast = gamepad.buttonEast.wasPressedThisFrame;
     }
 
     /// <summary>
@@ -88,13 +94,13 @@ public class PlayerInput : MonoBehaviour
             switch (NowController)
             {
                 case Controller.ROOKIE:
-                    RookieMode();
+                    Gamepad_RookieMode();
                     break;
                 case Controller.NORMAL:
-                    NormalMode();
+                    Gamepad_NormalMode();
                     break;
                 case Controller.RAJICON:
-                    RajikonMode();
+                    Gamepad_RajikonMode();
                     break;
             }
         }
@@ -111,47 +117,14 @@ public class PlayerInput : MonoBehaviour
 
             Space_Key = keyboard.spaceKey.wasPressedThisFrame;
 
-            RookieMode();
-
-            //    if (Space_Key)
-            //    {
-            //        sendkey = KeyList.FIRE;
-            //    }
-            //    else if (W_Key && Up_Key)
-            //    {
-            //        sendkey = KeyList.ACCELE;
-            //    }
-            //    else if (S_Key && Down_Key)
-            //    {
-            //        sendkey = KeyList.BACK;
-            //    }
-            //    else if (S_Key && Up_Key)
-            //    {
-            //        sendkey = KeyList.LEFTHIGHSPEEDROTATION;
-            //    }
-            //    else if (W_Key && Down_Key)
-            //    {
-            //        sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
-            //    }
-            //    else if (S_Key || Up_Key)
-            //    {
-            //        sendkey = KeyList.LEFTROTATION;
-            //    }
-            //    else if (W_Key || Down_Key)
-            //    {
-            //        sendkey = KeyList.RIGHTROTATION;
-            //    }
-            //    else
-            //    {
-            //        sendkey = KeyList.NONE;
-            //    }
+            KeyBode_RookieMode();
         }
 
             return sendkey;
     }
     
     
-    void RookieMode()
+    void KeyBode_RookieMode()
     {
         if (Space_Key)
         {
@@ -159,19 +132,19 @@ public class PlayerInput : MonoBehaviour
         }
         else if(W_Key && A_Key)
         {
-            sendkey = KeyList.LEFTUP;
+            sendkey = KeyList.WA;
         }
         else if (W_Key && D_Key)
         {
-            sendkey = KeyList.RIGHTUP;
+            sendkey = KeyList.WD;
         }
         else if (S_Key && A_Key)
         {
-            sendkey = KeyList.LEFTDOWN;
+            sendkey = KeyList.SA;
         }
         else if (S_Key && D_Key)
         {
-            sendkey = KeyList.RIGHTDOWN;
+            sendkey = KeyList.SD;
         }
         else if (W_Key || Up_Key)
         {
@@ -195,9 +168,89 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void NormalMode()
+    void KeyBoad_NormalMode()
     {
-        if (gamepad.rightTrigger.wasPressedThisFrame || gamepad.buttonEast.wasPressedThisFrame)
+        if (Space_Key)
+        {
+            sendkey = KeyList.FIRE;
+        }
+        else if (W_Key && Up_Key)
+        {
+            sendkey = KeyList.ACCELE;
+        }
+        else if (S_Key && Down_Key)
+        {
+            sendkey = KeyList.BACK;
+        }
+        else if (S_Key && Up_Key)
+        {
+            sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+        }
+        else if (W_Key && Down_Key)
+        {
+            sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+        }
+        else if (S_Key || Up_Key)
+        {
+            sendkey = KeyList.LEFTROTATION;
+        }
+        else if (W_Key || Down_Key)
+        {
+            sendkey = KeyList.RIGHTROTATION;
+        }
+        else
+        {
+            sendkey = KeyList.NONE;
+        }
+    }
+
+    void Gamepad_RookieMode()
+    {
+        if (RightTrigger2 || ButtonEast)
+        {
+            sendkey = KeyList.FIRE;
+        }
+        else if (LeftStickUp && LeftStickLeft)
+        {
+            sendkey = KeyList.WA;
+        }
+        else if (LeftStickUp && LeftStickRight)
+        {
+            sendkey = KeyList.WD;
+        }
+        else if (LeftStickDown && LeftStickLeft)
+        {
+            sendkey = KeyList.SA;
+        }
+        else if (LeftStickDown && LeftStickRight)
+        {
+            sendkey = KeyList.SD;
+        }
+        else if (LeftStickUp)
+        {
+            sendkey = KeyList.W;
+        }
+        else if (LeftStickDown)
+        {
+            sendkey = KeyList.S;
+        }
+        else if (LeftStickLeft)
+        {
+            sendkey = KeyList.A;
+        }
+        else if (LeftStickRight)
+        {
+            sendkey = KeyList.D;
+        }
+        else
+        {
+            sendkey = KeyList.NONE;
+        }
+    }
+
+    void Gamepad_NormalMode()
+    {
+        if (RightTrigger2 || ButtonEast)
         {
             sendkey = KeyList.FIRE;
         }
@@ -223,9 +276,9 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void RajikonMode()
+    void Gamepad_RajikonMode()
     {
-        if (gamepad.rightTrigger.wasPressedThisFrame)
+        if (RightTrigger2)
         {
             sendkey = KeyList.FIRE;
         }
