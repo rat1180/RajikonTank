@@ -37,7 +37,7 @@ public class MoveBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) BulletDestroy();
+        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) gameObject.SetActive(false);
 
         if (!Flg)
         {
