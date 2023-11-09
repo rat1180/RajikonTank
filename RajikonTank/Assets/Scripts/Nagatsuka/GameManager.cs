@@ -281,8 +281,11 @@ public class GameManager : MonoBehaviour
     void EndGameWinRoop()
     {
         GamePanel[(int)Panels.WIN].transform.GetChild(1).GetComponent<Text>().text =
-        stageManager.Stage[NowStage].name + " Clear!!!";    
+        //stageManager.Stage[NowStage].name + " Clear!!!";
+        //stageManager.Stage.name + " Clear!!!";
+        (StageNames)NowStage + " Clear!!!";
     }
+     
     #endregion
 
     /// <summary>
@@ -474,8 +477,8 @@ public class GameManager : MonoBehaviour
     {
         ActiveGamePanel((int)Panels.READYGAME);
         GamePanel[(int)Panels.READYGAME].transform.GetChild(STATE_STAGE_PANEL).gameObject.
-            transform.GetChild(STAGE_NAME).GetComponent<Text>().text = 
-            stageManager.Stage[NowStage].name;
+            transform.GetChild(STAGE_NAME).GetComponent<Text>().text =
+            (StageNames)NowStage + "";
         GamePanel[(int)Panels.READYGAME].transform.GetChild(STATE_STAGE_PANEL).gameObject.
             transform.GetChild(INITIAL_ENEMY_NUM).GetComponent<Text>().text = "敵戦車数 × " + teamInfo[CPU_IDnum].ReturnActiveMember();
     }
@@ -511,7 +514,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ChangeReadyMode()
     {
-        if (stageManager.Stage.Count  == NowStage + 1)//ステージが最終ステージだった場合、ゲームを終了する.
+        //if (stageManager.Stage.Count  == NowStage + 1)//ステージが最終ステージだった場合、ゲームを終了する.
+        if ((int)StageNames.Stage10 == NowStage + 1)//ステージが最終ステージだった場合、ゲームを終了する.
         {
             perfectClearFlg = true;
             ChangeGameEnd();

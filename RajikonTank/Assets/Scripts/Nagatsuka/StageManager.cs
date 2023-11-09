@@ -14,8 +14,9 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] bool createFlg;//Playerを生成したかを判定する.
 
-    public GameObject Stages;//Stagesをヒエラルキーから入れる.
-    public List<GameObject> Stage;
+    //public GameObject Stages;//Stagesをヒエラルキーから入れる.
+    //public List<GameObject> Stage;
+    public GameObject Stage;//private
     [SerializeField] GameObject[] tanks;    //テスト用プレファブ.
 
     [SerializeField] EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する.
@@ -101,26 +102,24 @@ public class StageManager : MonoBehaviour
     public void ActiveStage(int stage)
     {
         GameObject spawnPoints;
-        for (int i = 0; i < Stage.Count; i++)
-        {
-            if(i == stage)
-            {
-                Stage[i].SetActive(true);
-                spawnPoints = Stage[i].transform.GetChild(SPOWN_POINTS).gameObject;
-                GetSpawnID(spawnPoints);
-            }
-            else
-            {
-                Stage[i].SetActive(false);
-            }
-        }
-    }
-
-    private void Awake()
-    {
-        for (int i = 0; i < Stages.transform.childCount; i++)
-        {
-            Stage.Add(Stages.transform.GetChild(i).gameObject);
-        }
+        GameObject previousStage;//前回のステージ破棄用.
+        previousStage = Stage;
+        Destroy(previousStage);
+        Stage = Instantiate((ResorceManager.Instance.GetStageResorce((StageNames)stage)));
+        spawnPoints = Stage.transform.GetChild(SPOWN_POINTS).gameObject;
+        GetSpawnID(spawnPoints);
+        //for (int i = 0; i < Stage.Count; i++)
+        //{
+        //    if(i == stage)
+        //    {
+        //        Stage[i].SetActive(true);
+        //        spawnPoints = Stage[i].transform.GetChild(SPOWN_POINTS).gameObject;
+        //        GetSpawnID(spawnPoints);
+        //    }
+        //    else
+        //    {
+        //        Stage[i].SetActive(false);
+        //    }
+        //}
     }
 }

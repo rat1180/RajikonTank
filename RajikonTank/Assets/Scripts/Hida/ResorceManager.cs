@@ -14,6 +14,7 @@ public class ResorceManager : MonoBehaviour
     Dictionary<TankPrefabNames, GameObject> Tanks;
     Dictionary<SE_ID, AudioClip> SEs;
     Dictionary<EffectNames, GameObject> Effects;
+    Dictionary<StageNames, GameObject> Stages;
     Dictionary<OtherPrefabNames, UnityEngine.Object> Others;
 
     //Bullet用生成フォルダへのパス
@@ -24,6 +25,8 @@ public class ResorceManager : MonoBehaviour
     const string SEGenerateFolderName = "Sounds/SE/";
     //エフェクト用フォルダへのパス
     const string EffectObjectFolderName = "Effects/";
+    //ステージ用フォルダへのパス.
+    const string StageGenerateFolderName = "Stages/";
     //その他用フォルダへのパス
     const string OtherGenerateFolderName = "Prefabs/Others/";
 
@@ -65,6 +68,7 @@ public class ResorceManager : MonoBehaviour
         LoadTanks();
         LoadSEs();
         LoadEffects();
+        LoadStages();
         LoadOthers();
     }
 
@@ -127,6 +131,21 @@ public class ResorceManager : MonoBehaviour
             var prefabobj = FolderObjectFinder.GetResorceGameObject(EffectObjectFolderName + name.ToString());
 
             Effects.Add(name, prefabobj);
+        }
+    }
+
+    void LoadStages()
+    {
+        //初期化
+        Stages = new Dictionary<StageNames, GameObject>();
+
+        //名前分繰り返し
+        foreach (StageNames name in Enum.GetValues(typeof(StageNames)))
+        {
+            //生成対象を探索
+            var prefabobj = FolderObjectFinder.GetResorceGameObject(StageGenerateFolderName + name.ToString());
+
+            Stages.Add(name, prefabobj);
         }
     }
 
@@ -197,6 +216,19 @@ public class ResorceManager : MonoBehaviour
         else
         {
             Debug.LogWarning("リソース取得エラー：入力されたEffectNameがリストにありません");
+            return new GameObject();
+        }
+    }
+
+    public GameObject GetStageResorce(StageNames name)
+    {
+        if (Stages.ContainsKey(name))
+        {
+            return Stages[name];
+        }
+        else
+        {
+            Debug.LogWarning("リソース取得エラー：入力されたStageNameがリストにありません");
             return new GameObject();
         }
     }
