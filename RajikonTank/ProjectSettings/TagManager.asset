@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - Tank
   - Bom
+  - ExpZone
+  - BreakWall
   layers:
   - Default
   - TransparentFX
