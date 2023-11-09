@@ -21,7 +21,7 @@ public class ResorceManager : MonoBehaviour
     //Tank用フォルダへのパス
     const string TankGenerateFolderName = "Tanks/";
     //SE用フォルダへのパス
-    const string SEGenerateFolderName = "Sounds/AlengeSEandBGM/";
+    const string SEGenerateFolderName = "Sounds/SE/";
     //エフェクト用フォルダへのパス
     const string EffectObjectFolderName = "Effects/";
     //その他用フォルダへのパス
