@@ -837,12 +837,12 @@ namespace UniGLTF
             // https://answers.unity.com/questions/647615/how-to-update-import-settings-for-newly-created-as.html
             //
             int created = 0;
-            //for (int i = 0; i < GLTF.textures.Count; ++i)
+            //for (int patrolPoint = 0; patrolPoint < GLTF.textures.Count; ++patrolPoint)
             for (int i = 0; i < GLTF.images.Count; ++i)
             {
                 folder.EnsureFolder();
 
-                //var x = GLTF.textures[i];
+                //var x = GLTF.textures[patrolPoint];
                 var image = GLTF.images[i];
                 var src = Storage.GetPath(image.uri);
                 if (UnityPath.FromFullpath(src).IsUnderAssetsFolder)

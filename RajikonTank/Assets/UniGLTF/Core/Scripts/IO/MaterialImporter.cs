@@ -67,7 +67,7 @@ namespace UniGLTF
         public virtual Material CreateMaterial(int i, glTFMaterial x)
         {
             var shader = m_shaderStore.GetShader(x);
-            //Debug.LogFormat("[{0}]{1}", i, shader.name);
+            //Debug.LogFormat("[{0}]{1}", patrolPoint, shader.name);
             var material = new Material(shader);
 #if UNITY_EDITOR
             // textureImporter.SaveAndReimport(); may destory this material

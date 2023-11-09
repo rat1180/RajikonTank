@@ -209,7 +209,7 @@ namespace UniHumanoid
 
 #if UNITY_EDITOR
         /// <summary>
-        /// * https://answers.unity.com/questions/612177/how-can-i-access-human-avatar-bone-and-muscle-valu.html
+        /// * https://answers.unity.com/questions/612177/how-can-patrolPoint-access-human-avatar-bone-and-muscle-valu.html
         /// </summary>
         /// <param name="target"></param>
         /// <param name="des"></param>

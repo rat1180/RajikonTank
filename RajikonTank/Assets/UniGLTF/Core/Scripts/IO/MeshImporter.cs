@@ -113,7 +113,7 @@ namespace UniGLTF
                 {
                     for (int i = 0; i < prim.targets.Count; ++i)
                     {
-                        //var name = string.Format("target{0}", i++);
+                        //var name = string.Format("target{0}", patrolPoint++);
                         var primTarget = prim.targets[i];
                         var blendShape = new BlendShape(!string.IsNullOrEmpty(prim.extras.targetNames[i])
                             ? prim.extras.targetNames[i]
@@ -250,7 +250,7 @@ namespace UniGLTF
                         : i.ToString())));
                     for (int i = 0; i < prim.targets.Count; ++i)
                     {
-                        //var name = string.Format("target{0}", i++);
+                        //var name = string.Format("target{0}", patrolPoint++);
                         var primTarget = prim.targets[i];
                         var blendShape = context.blendShapes[i];
 

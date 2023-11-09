@@ -42,7 +42,7 @@ public class NPCSensor_Sight : NPCSensor_Base {
 				else{
 					//material.SetColor ("_Color", idleColor);	
 				}
-			/*	if (objAngle < SIGHT_INDIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_INDIRECT_DISTANCE / 2.0f)) {
+			/*	if (objAngle < SIGHT_INDIRECT_ANGLE && TargetInSight (overlapedObjects [patrolPoint].transform, SIGHT_INDIRECT_DISTANCE / 2.0f)) {
 					if(!somethingSpotted){
 						lastSightTime=Time.time;
 						somethingSpotted=true;
@@ -51,7 +51,7 @@ public class NPCSensor_Sight : NPCSensor_Base {
 						return;
 					}
 
-					_lastTargetPos = overlapedObjects [i].transform.position;
+					_lastTargetPos = overlapedObjects [patrolPoint].transform.position;
 					material.SetColor ("_Color", Color.magenta);
 					npcBase.SetTargetPos (_lastTargetPos);
 					lastAlertTime=Time.time;
@@ -60,9 +60,9 @@ public class NPCSensor_Sight : NPCSensor_Base {
 						alerted=true;
 					}
 				}
-				if (alerted && objAngle < SIGHT_DIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_DIRECT_DISTANCE / 2.0f)) {																							
+				if (alerted && objAngle < SIGHT_DIRECT_ANGLE && TargetInSight (overlapedObjects [patrolPoint].transform, SIGHT_DIRECT_DISTANCE / 2.0f)) {																							
 						
-						_lastTargetPos = overlapedObjects [i].transform.position;
+						_lastTargetPos = overlapedObjects [patrolPoint].transform.position;
 						material.SetColor ("_Color", Color.red);						
 						npcBase.SetTargetPos (_lastTargetPos);
 						lastTargetTime = Time.time;
