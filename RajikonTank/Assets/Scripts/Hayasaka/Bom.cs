@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Bom : MonoBehaviour
 {
-    float ExpTime;
-    bool ColFlg;
-    bool EffFlg;
-    public GameObject EXPZ;
-    public GameObject ExpObj;
-    // Start is called before the first frame update
+    float ExpTime; // 爆発までの待機時間
+    bool ColFlg;   // 爆弾とタンクの接触判定
+    bool EffFlg;   // 爆発エフェクト一回で止めるフラグ
+
+    public GameObject EXPZ; 　// 爆風の当たり判定オブジェクト
+    public GameObject ExpObj; // エフェクトのオブジェクト
+  
+    /// <summary>
+    /// 初期化
+    /// </summary>
     void InitBom()
     {
         ExpTime = 5.0f;
@@ -27,28 +31,47 @@ public class Bom : MonoBehaviour
     {
         InitBom();
     }
-    // Update is called once per frame
     void Update()
+    {
+        CountExp();
+    }
+    /// <summary>
+    /// 爆発までの時間を計る関数
+    /// </summary>
+    void CountExp()
     {
         ExpTime -= Time.deltaTime;
 
-        if(ExpTime < 0.0f || ColFlg)
+        if (ExpTime < 0.0f || ColFlg)
         {
-            if (!EffFlg)
-            {
-                EffFlg = true;
-                Instantiate(ExpObj, this.transform.position, Quaternion.identity);
-            }
-            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            this.gameObject.GetComponent<SphereCollider>().enabled = false;
-            EXPZ.SetActive(true);
-            Invoke("BomDes", 2);
+            Explosion();
         }
     }
+    /// <summary>
+    /// 爆発させる関数
+    /// </summary>
+    void Explosion()
+    {
+        if (!EffFlg)
+        {
+            EffFlg = true;
+            Instantiate(ExpObj, this.transform.position, Quaternion.identity);
+        }
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.GetComponent<SphereCollider>().enabled = false;
+        EXPZ.SetActive(true);
+        Invoke("BomDes", 2);
+    }
+    /// <summary>
+    /// 爆弾を非表示に
+    /// </summary>
     void BomDes()
     {
         this.gameObject.SetActive(false);
     }
+    /// <summary>
+    /// タンクとの当たり判定
+    /// </summary>
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Tank")

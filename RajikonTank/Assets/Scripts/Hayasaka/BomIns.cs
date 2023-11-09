@@ -5,20 +5,26 @@ using UnityEngine;
 public class BomIns : MonoBehaviour
 {
     GameObject Boms;
+    public bool InsFlg = false;
     // Start is called before the first frame update
     void Start()
     {
-        Boms = (GameObject)Resources.Load("Prefabs/Bom");
-        Instantiate(Boms, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        // スペースキーで生成
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("au");
-            
+            if (!InsFlg)
+            {
+                InsFlg = true;
+                Debug.Log("au");
+                Boms = (GameObject)Resources.Load("Prefabs/Bom");
+                Instantiate(Boms);
+            }
         }
     }
 }

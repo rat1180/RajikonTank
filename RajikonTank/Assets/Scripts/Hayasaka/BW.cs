@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BW : MonoBehaviour
 {
+    // ”š•—‚Å”j‰ó
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "ExpZone")
