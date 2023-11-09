@@ -29,6 +29,15 @@ namespace ConstList
         RIGHTHIGHSPEEDROTATION,
     }
 
+    public enum RightStickList
+    {
+        NONE,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+    }
+
     // ゲームパッドの操作モード.
     public enum Controller
     {
