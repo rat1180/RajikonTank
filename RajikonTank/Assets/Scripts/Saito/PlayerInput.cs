@@ -68,7 +68,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (GameManager.instance != null)
         {
-            if (GameManager.instance.NowGameState != GAMESTATUS.INGAME) return new Vector3(0, 0, 0);
+            //if (GameManager.instance.NowGameState != GAMESTATUS.INGAME) return new Vector3(0, 0, 0);
         }
 
         return sendtarget;
@@ -82,7 +82,7 @@ public class PlayerInput : MonoBehaviour
     {
         if(GameManager.instance != null)
         {
-            if (GameManager.instance.NowGameState != GAMESTATUS.INGAME) return KeyList.NONE;
+            //if (GameManager.instance.NowGameState != GAMESTATUS.INGAME) return KeyList.NONE;
         }
 
         if (gamepad != null)

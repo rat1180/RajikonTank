@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
         GamePanel.Add(GameCanvas.transform.GetChild(TUTORIALPANEL).gameObject);
         GamePanel.Add(GameCanvas.transform.GetChild(DEBUGPANEL).gameObject);
         stageManager = this.transform.GetChild(0).gameObject.GetComponent<StageManager>();
-        stageManager.ActiveStage(NowStage);
+        //stageManager.ActiveStage(NowStage);
 
         EnemysImage = GameCanvas.transform.GetChild(ENDGAMEPANEL).gameObject.transform.GetChild(3).gameObject;
 
