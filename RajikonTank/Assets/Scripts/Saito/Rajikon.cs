@@ -154,16 +154,16 @@ public class Rajikon : MonoBehaviour
             case KeyList.D:
                 ForwardMove(90f);
                 break;
-            case KeyList.LEFTUP:
+            case KeyList.WA:
                 ForwardMove(315f);
                 break;
-            case KeyList.RIGHTUP:
+            case KeyList.WD:
                 ForwardMove(45f);
                 break;
-            case KeyList.LEFTDOWN:
+            case KeyList.SA:
                 ForwardMove(225f);
                 break;
-            case KeyList.RIGHTDOWN:
+            case KeyList.SD:
                 ForwardMove(125f);
                 break;
             case KeyList.FIRE:
