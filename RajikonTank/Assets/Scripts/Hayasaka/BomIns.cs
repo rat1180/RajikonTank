@@ -8,7 +8,8 @@ public class BomIns : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Boms = (GameObject)Resources.Load("Prefabs/Bom");
+        Instantiate(Boms, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
     }
 
     // Update is called once per frame
@@ -17,8 +18,7 @@ public class BomIns : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             Debug.Log("au");
-            Boms = (GameObject)Resources.Load("Prefabs/Bom");
-            Instantiate(Boms, new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity, this.gameObject.transform);
+            
         }
     }
 }
