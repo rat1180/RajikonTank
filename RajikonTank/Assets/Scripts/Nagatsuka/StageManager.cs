@@ -27,7 +27,7 @@ public class StageManager : MonoBehaviour
         ChindCnt = spawnPoints.transform.childCount;//子供の数を取得する.
         TeamID teamID;                              //ID取得用.
         EnemyName enemyName;                        //CPUの場合名前も取得.
-        for (int i = 0; i < ChindCnt; i++)           //子オブジェクトの数分ループしてタンクを生成する.
+        for (int i = 0; i < ChindCnt; i++)          //子オブジェクトの数分ループしてタンクを生成する.
         {
             teamID = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;//ID取得.
             enemyName = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().enemyName;//ID取得.
