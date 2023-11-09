@@ -19,6 +19,8 @@ public class Rajikon : MonoBehaviour
     [SerializeField] int FalseBullet;         // Œ‚‚Ä‚é’e‚Ì”.
     [SerializeField] List<GameObject> Bullets;
     private float RotationAngle;              // —İÏ‰ñ“]Šp“x.
+    private float TankAngle;                  // ƒ^ƒ“ƒN‚ÌŠp“x.
+    [SerializeField] float Interpolation;     // ƒ^ƒ“ƒN‚ÌŠp“x‰ñ“]‚Ì•âŠÔ ¦’l‚ª¬‚³‚¢‚Ù‚ÇŠŠ‚ç‚©‚É‰ñ“]‚·‚é.
 
     public bool isFixedTurret;      // ƒ^ƒŒƒbƒg‚ğŒÅ’è‚·‚é‚© true:ŒÅ’è false:‰ğœ.
 
@@ -29,7 +31,6 @@ public class Rajikon : MonoBehaviour
     [SerializeField] MoveBullet MoveBullet;
     [SerializeField] GameObject Target;       // ‘_‚¤‘ÎÛ.
     [SerializeField] BulletPrefabNames NowBulletPrefabNames; // ’e‚Ìí—Ş.
-
 
     protected AudioSource Audio;
 
@@ -81,6 +82,7 @@ public class Rajikon : MonoBehaviour
         Audio.clip = Resources.Load<AudioClip>("Sounds/Move");
         Audio.loop = true;
         Audio.playOnAwake = false;
+        Interpolation = 0.02f;
     }
 
     void Update()
@@ -140,6 +142,30 @@ public class Rajikon : MonoBehaviour
             case KeyList.ACCELE:
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
+            case KeyList.W:
+                ForwardMove(0f); 
+                break;
+            case KeyList.S:
+                ForwardMove(180f); 
+                break;
+            case KeyList.A:
+                ForwardMove(270f); 
+                break;
+            case KeyList.D:
+                ForwardMove(90f);
+                break;
+            case KeyList.LEFTUP:
+                ForwardMove(315f);
+                break;
+            case KeyList.RIGHTUP:
+                ForwardMove(45f);
+                break;
+            case KeyList.LEFTDOWN:
+                ForwardMove(225f);
+                break;
+            case KeyList.RIGHTDOWN:
+                ForwardMove(125f);
+                break;
             case KeyList.FIRE:
                 Check();
                 break;
@@ -147,9 +173,20 @@ public class Rajikon : MonoBehaviour
 
                 break;
         }
+        var TankRot = Quaternion.Euler(Tank.transform.rotation.x, TankAngle, Tank.transform.rotation.z);
+        Tank.transform.rotation = Quaternion.Lerp(Tank.transform.rotation, TankRot, Interpolation);
 
         // —İÏ‰ñ“]Šp“x‚ğ‚à‚Æ‚É‰ñ“]‚³‚¹‚é
-        Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
+        //Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
+    }
+
+    /// <summary>
+    /// ƒ^ƒ“ƒN‚ğw’è‚µ‚½Œü‚«‚Éi‚Ü‚¹‚éˆ—.
+    /// </summary>
+    void ForwardMove(float angle)
+    {
+        TankAngle = angle;
+        Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
     }
 
     /// <summary>

@@ -11,6 +11,10 @@ namespace ConstList
         D,
         S,
         W,
+        LEFTUP,
+        RIGHTUP,
+        LEFTDOWN,
+        RIGHTDOWN,
         UPARROW,
         LEFTARROW,
         RIGHTARROW,
@@ -24,9 +28,11 @@ namespace ConstList
         RIGHTHIGHSPEEDROTATION,
     }
 
+    // ゲームパッドの操作モード.
     public enum Controller
     {
         ROOKIE,
+        NORMAL,
         RAJICON,
     }
 
