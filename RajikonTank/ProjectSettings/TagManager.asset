@@ -7,6 +7,9 @@ TagManager:
   - Bullet
   - Wall
   - Tank
+  - Bom
+  - ExpZone
+  - BreakWall
   layers:
   - Default
   - TransparentFX
