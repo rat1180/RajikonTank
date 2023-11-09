@@ -162,7 +162,9 @@ namespace ConstList
         /// <returns></returns>
         public static UnityEngine.Object GetResorceObject(string name)
         {
-            var obj = Resources.Load(DefalutGenerateFolderName + name);
+            var obj = Resources.Load(name);
+
+            Debug.Log(name);
 
             if (obj != null) return obj;
             else
@@ -227,7 +229,7 @@ namespace ConstList
             var prefabobj = ResorceManager.Instance.GetBulletResorce(bulletname);
 
             //弾を親オブジェクト基準で生成
-            var obj = UnityEngine.Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation, parentobject.transform);
+            var obj = UnityEngine.Object.Instantiate(prefabobj, Vector3.zero, parentobject.transform.rotation, parentobject.transform);
 
             //エラーチェック
             if (obj == null)

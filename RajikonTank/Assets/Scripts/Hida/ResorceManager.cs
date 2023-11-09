@@ -14,18 +14,18 @@ public class ResorceManager : MonoBehaviour
     Dictionary<TankPrefabNames, GameObject> Tanks;
     Dictionary<SE_ID, AudioClip> SEs;
     Dictionary<EffectNames, GameObject> Effects;
-    Dictionary<OtherPrefabNames, GameObject> Others;
+    Dictionary<OtherPrefabNames, UnityEngine.Object> Others;
 
     //Bullet用生成フォルダへのパス
     const string BulletGenerateFolderName = "Bullets/";
     //Tank用フォルダへのパス
     const string TankGenerateFolderName = "Tanks/";
     //SE用フォルダへのパス
-    const string SEGenerateFolderName = "Tanks/";
+    const string SEGenerateFolderName = "Sounds/AlengeSEandBGM/";
     //エフェクト用フォルダへのパス
     const string EffectObjectFolderName = "Effects/";
     //その他用フォルダへのパス
-    const string OtherGenerateFolderName = "Others/";
+    const string OtherGenerateFolderName = "Prefabs/Others/";
 
     private void Awake()
     {
@@ -64,6 +64,8 @@ public class ResorceManager : MonoBehaviour
         LoadBullets();
         LoadTanks();
         LoadSEs();
+        LoadEffects();
+        LoadOthers();
     }
 
     #region ロード関数
@@ -110,6 +112,36 @@ public class ResorceManager : MonoBehaviour
             var prefabobj = FolderObjectFinder.GetResorceObject(SEGenerateFolderName + name.ToString());
 
             SEs.Add(name, (AudioClip)prefabobj);
+        }
+    }
+
+    void LoadEffects()
+    {
+        //初期化
+        Effects = new Dictionary<EffectNames, GameObject>();
+
+        //弾の名前分繰り返し
+        foreach (EffectNames name in Enum.GetValues(typeof(EffectNames)))
+        {
+            //生成対象を探索
+            var prefabobj = FolderObjectFinder.GetResorceGameObject(EffectObjectFolderName + name.ToString());
+
+            Effects.Add(name, prefabobj);
+        }
+    }
+
+    void LoadOthers()
+    {
+        //初期化
+        Others = new Dictionary<OtherPrefabNames, UnityEngine.Object>();
+
+        //弾の名前分繰り返し
+        foreach (OtherPrefabNames name in Enum.GetValues(typeof(OtherPrefabNames)))
+        {
+            //生成対象を探索
+            var prefabobj = FolderObjectFinder.GetResorceObject(OtherGenerateFolderName + name.ToString());
+
+            Others.Add(name, prefabobj);
         }
     }
 
@@ -169,7 +201,7 @@ public class ResorceManager : MonoBehaviour
         }
     }
 
-    public GameObject GetOtherResorce(OtherPrefabNames name)
+    public UnityEngine.Object GetOtherResorce(OtherPrefabNames name)
     {
         if (Others.ContainsKey(name))
         {
@@ -178,7 +210,7 @@ public class ResorceManager : MonoBehaviour
         else
         {
             Debug.LogWarning("リソース取得エラー：入力されたOtherPrefabNameがリストにありません");
-            return new GameObject();
+            return new UnityEngine.Object();
         }
     }
 

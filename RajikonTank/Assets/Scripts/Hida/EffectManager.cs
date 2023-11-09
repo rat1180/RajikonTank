@@ -13,11 +13,6 @@ using ConstList;
 /// </summary>
 public class EffectManager : MonoBehaviour
 {
-    #region ’è”
-
-    const string EffectObjectFolderName = "Effects/";
-
-    #endregion
 
     #region •Ï”
 
