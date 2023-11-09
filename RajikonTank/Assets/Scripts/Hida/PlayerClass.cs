@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using ConstList;
 using TankClassInfomations;
 using UnityEngine.InputSystem;
@@ -71,8 +72,6 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("最大弾数(デフォルト値は5)")] private int MaxBulletNm = 5;
 
     [SerializeField, Tooltip("狙っている場所を表示するオブジェクト")] private GameObject AimObject;
-
-    [SerializeField, Tooltip("照準オブジェクトの名前")] private string AimObjectPrefabName = "Others/AimObject";
     #endregion
 
     #region デバッグ用表示
@@ -185,7 +184,8 @@ public class PlayerClass : TankEventHandler
 
     private void InitPredictionAim()
     {
-        AimObject = Instantiate(FolderObjectFinder.GetResorceObject(AimObjectPrefabName));
+        //AimObject = Instantiate(FolderObjectFinder.GetResorceGameObject(AimObjectPrefabName));
+        AimObject = Instantiate((GameObject)ResorceManager.Instance.GetOtherResorce(OtherPrefabNames.AimObject));
         AimObject.transform.parent = gameObject.transform;
         AimObject.transform.position = gameObject.transform.position;
         AimObject.SetActive(false);
