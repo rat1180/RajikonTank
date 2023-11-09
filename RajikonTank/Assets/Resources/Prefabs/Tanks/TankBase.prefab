@@ -386,14 +386,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 0}
   EventHandler: {fileID: 0}
-  MoveSpeed: 5
+  MoveSpeed: 2
   RotationSpeed: 70
   TurretSpeed: 50
   MaxBulletNum: 5
   isFirBullet: 
   FalseBullet: 0
   Bullets: []
+  Interpolation: 0
   isFixedTurret: 0
+  isTurretAim: 1
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}

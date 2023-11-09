@@ -21,7 +21,7 @@ public class PlayerInput : MonoBehaviour
     Gamepad gamepad = Gamepad.current;
 
     float Threshold = 0.2f;  // è‡’l‚ÌÝ’è.
-    float angle;
+    protected float angle;
 
     bool W_Key;
     bool S_Key;
@@ -148,11 +148,11 @@ public class PlayerInput : MonoBehaviour
 
     public float SetRightStickAngle()
     {
-        if (RightStickValue != Vector2.zero)
+        Debug.Log(RightStickValue.magnitude);
+        if (RightStickValue != Vector2.zero && RightStickValue.magnitude > 0.8f)
         {
             angle = Mathf.Atan2(RightStickValue.x, RightStickValue.y) * Mathf.Rad2Deg;
         }
-        Debug.Log(angle);
         return angle;
         
     }
