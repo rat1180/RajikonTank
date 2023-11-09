@@ -89,7 +89,8 @@ public class EffectManager : MonoBehaviour
 
         //列挙体の名前基準でフォルダーを探索し、プレファブを返す
         foreach(var effectname in Enum.GetValues(typeof(EffectNames))){
-            EffectList.Add(FolderObjectFinder.GetResorceObject(EffectObjectFolderName + effectname));
+            //EffectList.Add(FolderObjectFinder.GetResorceGameObject(EffectObjectFolderName + effectname));
+            EffectList.Add(ResorceManager.Instance.GetEffectResorce((EffectNames)effectname));
         }
     }
 

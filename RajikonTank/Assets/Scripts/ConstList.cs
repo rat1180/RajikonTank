@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace ConstList
@@ -105,6 +106,11 @@ namespace ConstList
         Real3ReflectBullet
     }
 
+    public enum OtherPrefabNames
+    {
+        AimObject,
+    }
+
     /// <summary>
     /// ゲームの現在の状態を表す列挙体
     /// </summary>
@@ -133,7 +139,7 @@ namespace ConstList
         /// </summary>
         /// <param name="objectname"></param>
         /// <returns></returns>
-        public static GameObject GetResorceObject(string objectname)
+        public static GameObject GetResorceGameObject(string objectname)
         {
             var obj = (GameObject)Resources.Load(DefalutGenerateFolderName+objectname);
 
@@ -147,13 +153,30 @@ namespace ConstList
                 return new GameObject();
             }
         }
+
+        /// <summary>
+        /// 種類を問わず、名前指定で探索する
+        /// エラーが怖いので必要なければGameObject指定のGetResorceGameObjectを使うこと
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static UnityEngine.Object GetResorceObject(string name)
+        {
+            var obj = Resources.Load(DefalutGenerateFolderName + name);
+
+            if (obj != null) return obj;
+            else
+            {
+                Debug.LogError("リソースファイルに\"" + name + "\"が見つかりませんでした");
+                //返した先でエラーが起こらないように中身が空のオブジェクトを返す
+                return new UnityEngine.Object();
+            }
+        }
     }
 
     //弾を生成する関数を持つstaticクラス
     public static class BulletGenerateClass
     {
-        //Bullet用生成フォルダへのパス
-        const string GenerateFolderName = "Bullets/";
 
         /// <summary>
         /// 弾を生成する
@@ -170,13 +193,13 @@ namespace ConstList
         public static bool BulletInstantiate(GameObject tank,GameObject parentobject,string bulletname,int bulletnm)
         {
             //生成対象を探索
-            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + bulletname);
+            var prefabobj = ResorceManager.Instance.GetBulletResorce((BulletPrefabNames)Enum.Parse(typeof(BulletPrefabNames), bulletname));
 
             //生成数まで繰り返す
             for (int i = 0; i < bulletnm; i++)
             {
                 //弾を親オブジェクト基準で生成
-                var obj = Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation,parentobject.transform);
+                var obj = UnityEngine.Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation,parentobject.transform);
 
                 //エラーチェック
                 if (obj == null)
@@ -201,10 +224,10 @@ namespace ConstList
         public static GameObject BulletInstantiateOne(GameObject parentobject, BulletPrefabNames bulletname)
         {
             //生成対象を探索
-            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + bulletname);
+            var prefabobj = ResorceManager.Instance.GetBulletResorce(bulletname);
 
             //弾を親オブジェクト基準で生成
-            var obj = Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation, parentobject.transform);
+            var obj = UnityEngine.Object.Instantiate(prefabobj, parentobject.transform.position, parentobject.transform.rotation, parentobject.transform);
 
             //エラーチェック
             if (obj == null)
@@ -218,9 +241,6 @@ namespace ConstList
 
     public static class TankGenerateClass
     {
-        //Tank用フォルダへのパス
-        const string GenerateFolderName = "Tanks/";
-
         /// <summary>
         /// タンクを生成する
         /// タンクの種類をTankPrefabNamesの中から選んで引数に入れること
@@ -230,10 +250,10 @@ namespace ConstList
         public static GameObject TankInstantiate(TankPrefabNames tankname)
         {
             //生成対象を探索
-            var prefabobj = FolderObjectFinder.GetResorceObject(GenerateFolderName + tankname);
+            var prefabobj = ResorceManager.Instance.GetTankResorce(tankname);
 
             //タンクを生成
-            var obj = Object.Instantiate(prefabobj);
+            var obj = UnityEngine.Object.Instantiate(prefabobj);
 
             //ターゲットオブジェクトを生成
             //var target = GameObject.CreatePrimitive(PrimitiveType.Cube);

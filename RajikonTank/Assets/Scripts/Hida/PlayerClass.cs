@@ -185,7 +185,8 @@ public class PlayerClass : TankEventHandler
 
     private void InitPredictionAim()
     {
-        AimObject = Instantiate(FolderObjectFinder.GetResorceObject(AimObjectPrefabName));
+        //AimObject = Instantiate(FolderObjectFinder.GetResorceGameObject(AimObjectPrefabName));
+        //AimObject = ResorceManager.Instance.GetOtherResorce((OtherPrefabNames)AimObjectPrefabName);
         AimObject.transform.parent = gameObject.transform;
         AimObject.transform.position = gameObject.transform.position;
         AimObject.SetActive(false);
