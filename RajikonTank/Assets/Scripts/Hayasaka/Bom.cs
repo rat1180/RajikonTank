@@ -16,7 +16,7 @@ public class Bom : MonoBehaviour
     /// </summary>
     void InitBom()
     {
-        ExpTime = 5.0f;
+        ExpTime = 20.0f;
         ColFlg = false;
         EffFlg = false;
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -25,7 +25,7 @@ public class Bom : MonoBehaviour
     }
     private void OnDisable()
     {
-        InitBom();
+        //InitBom();
     }
     void Start()
     {

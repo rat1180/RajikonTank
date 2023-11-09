@@ -138,6 +138,7 @@ namespace ConstList
     public enum OtherPrefabNames
     {
         AimObject,
+        Bom,
     }
 
     /// <summary>

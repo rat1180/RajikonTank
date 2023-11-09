@@ -350,6 +350,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b2555d409a26ae42bd755ce81669f75, type: 3}
+--- !u!4 &82666434 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6720234698585265110, guid: 4b2555d409a26ae42bd755ce81669f75, type: 3}
+  m_PrefabInstance: {fileID: 82666433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &91401110
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,11 +596,10 @@ MonoBehaviour:
   GameCanvas: {fileID: 1377991671}
   GamePanel: []
   OWN_playerID: 0
-  RestBullets: 5
+  WaitEnemyImage: 0
   NowStage: 0
   player_IDnum: 0
   CPU_IDnum: 0
-  DestroyCPU: 0000000000000000000000000000000000000000
   BulletsImage:
   - {fileID: -1603283486, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
   - {fileID: 31076913, guid: d3275dd4feb8c0843a063936f3fd0a64, type: 3}
@@ -2557,6 +2561,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 4
   enemyName: 0
+  position:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!65 &761466213
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2665,8 +2672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createFlg: 0
-  Stages: {fileID: 834663787}
-  Stage: []
+  Stage: {fileID: 0}
   tanks:
   - {fileID: 2880195042615375983, guid: 8e709d0f68b99ee499b13f8b053052b6, type: 3}
   - {fileID: 8572637675443589868, guid: a94dcbfd96c21234f83d0a6edef35ce5, type: 3}
@@ -2936,7 +2942,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 905334340}
+  - {fileID: 82666434}
   - {fileID: 394597987}
   - {fileID: 1703804318}
   - {fileID: 1302886659}
@@ -3168,6 +3174,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 4
   enemyName: 0
+  position:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!65 &898222936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3231,11 +3240,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 898222933}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &905334340 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6038740885611724947, guid: 4b2555d409a26ae42bd755ce81669f75, type: 3}
-  m_PrefabInstance: {fileID: 82666433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &914459144
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,6 +3605,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   enemyName: 0
+  position:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!65 &1062651300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5295,6 +5302,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 4
   enemyName: 0
+  position:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!65 &1514654330
 BoxCollider:
   m_ObjectHideFlags: 0
