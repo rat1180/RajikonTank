@@ -2324,11 +2324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c37e1954d3c0084d8bcc16f6b23ff79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createFlg: 0
-  Stage: {fileID: 0}
-  tanks:
-  - {fileID: 2880195042615375983, guid: 8e709d0f68b99ee499b13f8b053052b6, type: 3}
-  - {fileID: 8572637675443589868, guid: a94dcbfd96c21234f83d0a6edef35ce5, type: 3}
+  playerTank: {fileID: 2880195042615375983, guid: 8e709d0f68b99ee499b13f8b053052b6, type: 3}
   enemyManager: {fileID: 1155289959}
 --- !u!1 &822075494
 GameObject:
