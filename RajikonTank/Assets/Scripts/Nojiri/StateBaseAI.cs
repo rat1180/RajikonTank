@@ -18,10 +18,9 @@ public class StateBaseAI : TankEventHandler
     private GameObject enemy;         // エネミー情報
     private GameObject grandChild;    // 孫オブジェクト
 
-    private Quaternion lookAngle;     // Targetがいる方向
     private Vector3 enemyPos;         // 敵(自分)の位置
     private Vector3 playerPos;        // プレイヤーの位置
-    private Vector3[] patrolPos = new Vector3[2];  // 巡回する位置
+    //private Vector3[] patrolPoints;      // 巡回する位置
 
     private string playerTag;         // Playerのtag
     private float nowDistance;        // プレイヤーとの距離
@@ -30,6 +29,7 @@ public class StateBaseAI : TankEventHandler
     private bool isTimer  = false;    // タイマーフラグ
     private bool canAttack = true;    // 攻撃可否フラグ
     private const int rayLength = 50; // Rayの長さ
+    private int points = 0;      // 巡回地点の番号
 
     public enum EnemyAiState // 行動パターン
     {
@@ -135,6 +135,9 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
+        // タイマー実行
+        StartCoroutine(AiTimer());
+
         fireDirection = (playerPos - enemyPos).normalized;
 
         // Rayを飛ばす処理(発射位置, 方向, 衝突したオブジェクト情報, 長さ(記載なし：無限))
@@ -176,8 +179,6 @@ public class StateBaseAI : TankEventHandler
             aiState = EnemyAiState.WAIT;   // 待機
             Debug.LogError("Rayが当たりませんでした。");
         }
-
-        StartCoroutine(AiTimer());
     }
 
     /// <summary>
@@ -283,8 +284,7 @@ public class StateBaseAI : TankEventHandler
     {
         aiName = EnemyName.TUTORIAL; // GameManagerに送るID設定
 
-        //aiState = EnemyAiState.WAIT; // 待機
-        aiState = EnemyAiState.PATROL; // テスト用
+        aiState = EnemyAiState.WAIT; // 待機
         canAttack = false; // 攻撃不可
     }
     #endregion
@@ -406,16 +406,47 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Patrol()
     {
-        int i = 0;
+        float minDistance = 1.5f;
+        int maxArray;
 
-        patrolPos[0] = new Vector3(0, 0,  5);
-        patrolPos[1] = new Vector3(0, 0, -5);
+        // 巡回地点取得
+        Vector3[] patrolPoints = EnemyManager.instance.MovePointsArray;
 
-        cpuInput.sendtarget = patrolPos[i]; // 指定の方向を向く
+        // 配列に要素が入っていない時
+        if (patrolPoints == null)
+        {
+            Debug.LogError("patrolPointsに要素が入っていません");
+            return;
+        }
 
-        // 指定の位置へ移動
-        float enemyPatrolPos = VectorCalc(patrolPos[i]);
-        ConversionKey(enemyPatrolPos); // キーボード変換
+        // 配列の最大要素数取得
+        maxArray = patrolPoints.Length - 1;
+
+        // 指定の方向を向く
+        cpuInput.sendtarget = patrolPoints[points];
+
+        // patrolPointsに対しての8分割した角度取得
+        int patorolPosDiv = VectorConversion(patrolPoints[points]);
+
+        // 移動処理
+        ConversionKey(patorolPosDiv);
+
+        // 2点間の距離計算
+        float pos = Vector3.Distance(patrolPoints[points], enemyPos);
+
+        // 巡回地点に接近した時、次の巡回地点に変更
+        if(pos < minDistance)
+        {
+            // 巡回地点を回り終わった時、初めの巡回地点に戻る
+            if(points < maxArray)
+            {
+                points++;
+            }
+            else
+            {
+                points = 0;
+            }
+        }
     }
 
     /// <summary>
@@ -426,7 +457,7 @@ public class StateBaseAI : TankEventHandler
     private void Move()
     {
         Debug.Log("Move実行");
-        float enemyMovePos = VectorCalc(playerPos); // Playerまでの角度を受け取る
+        int enemyMovePos = VectorConversion(playerPos); // Playerまでの角度を受け取る
 
         ConversionKey(enemyMovePos); // キーボード変換
     }
@@ -460,9 +491,10 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void EnemyDeath()
     {
-        GameManager.instance.DeathTank(TeamID.CPU,aiName); // GameManagerに死亡処理送信
+        // GameManagerに死亡処理送信
+        GameManager.instance.DeathTank(TeamID.CPU,aiName);
 
-        Destroy(gameObject); // 敵削除
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -478,76 +510,71 @@ public class StateBaseAI : TankEventHandler
 
     #region ベクトル変換
     /// <summary>
-    /// EnemyからTargetのいる角度を計算
-    /// 戻り値：現在の角度からTargetまでの角度
+    /// ベクトル変換メソッド
+    /// 敵からTargetへの角度を0～7に変換
     /// </summary>
-    private float VectorCalc(Vector3 target)
+    /// <param name="Target"></param>
+    /// <returns></returns>
+    private int VectorConversion(Vector3 Target)
     {
-        Vector3 relativePos = target - enemyPos; // EnemyからPlayerへの相対ベクトル
-        lookAngle = Quaternion.LookRotation(relativePos.normalized);  // Targetに向いた角度
-        float rotateAngle = Quaternion.Angle(enemy.transform.localRotation,lookAngle); // 現在の角度からPlayerまでの間の角度
+        // EnemyからTargetへの相対ベクトル取得
+        float vectorX = Target.x - enemyPos.x;
+        float vectorZ = Target.z - enemyPos.z;
 
-        return rotateAngle; // Targetまでの角度を返す
+        // 敵からTargetに対しての角度
+        float Radian = Mathf.Atan2(vectorZ, vectorX) * Mathf.Rad2Deg;
+
+        // 計算で出た角度が-180～180なため、0～360に変換
+        if (Radian < 0)
+        {
+            Radian += 360;
+        }
+
+        // 360度を8分割(実際は0～8の9分割)
+        int Division = Mathf.RoundToInt(Radian / 45.0f);
+
+        // 8と0が被るため修正
+        if (Division == 8) Division = 0;
+
+        return Division;
     }
 
     /// <summary>
     /// キーボード変換メソッド
-    /// 受け取った角度の大きさに応じてキーボード変換
+    /// 受け取った角度に応じてキーボード変換
     /// </summary>
     /// <param name="index">現在の角度からTargetまでの角度を受け取る</param>
-    private void ConversionKey(float index)
+    private void ConversionKey(int index)
     {
-        const int forwardZero = 0;
-        const int forwardAngle  = 20;    // 前方角度
-        const int backwardAngle = 160;   // 後方角度
-        const float leftAngle   = -0.5f; // 左前後確認用
-        const float rightAngle  = 0.5f;  // 右前後確認用
-
-        if (index < forwardAngle) // Playerが前方角度内にいるとき
+        switch (index)
         {
-            cpuInput.moveveckey = KeyList.ACCELE;
-        }
-        else if(index >= forwardAngle && index <= backwardAngle) // Playerが中方角度内にいるとき
-        {
-            // 左にいるとき
-            if (lookAngle.y < forwardZero && lookAngle.y < leftAngle)
-            {
-                // 前方後方の近さによって回る向きを変える
-                if (lookAngle.y > leftAngle)
-                {
-                    cpuInput.moveveckey = KeyList.LEFTROTATION;
-                    Debug.Log("左前方");
-                }
-                else if(lookAngle.y < leftAngle)
-                {
-                    cpuInput.moveveckey = KeyList.RIGHTROTATION;
-                    Debug.Log("左後方");
-                }
-            }
-
-            // 右にいるとき
-            if (lookAngle.y > forwardZero)
-            {
-                // 前方後方の近さによって回る向きを変える
-                if (lookAngle.y < rightAngle)
-                {
-                    cpuInput.moveveckey = KeyList.RIGHTROTATION;
-                    Debug.Log("右前方");
-                }
-                else if(lookAngle.y >= rightAngle)
-                {
-                    cpuInput.moveveckey = KeyList.LEFTROTATION;
-                    Debug.Log("右後方");
-                }
-            }
-        }
-        else if(index > backwardAngle) // Playerが後方角度内にいるとき
-        {
-            cpuInput.moveveckey = KeyList.BACK;
-        }
-        else
-        {
-            cpuInput.moveveckey = KeyList.NONE;
+            case 0:
+                cpuInput.moveveckey = KeyList.D;   // 右
+                break;
+            case 1:
+                cpuInput.moveveckey = KeyList.WD;  // 右上
+                break;
+            case 2:
+                cpuInput.moveveckey = KeyList.W;   // 上
+                break;
+            case 3:
+                cpuInput.moveveckey = KeyList.WA;  // 左上
+                break;
+            case 4:
+                cpuInput.moveveckey = KeyList.A;   // 左
+                break;
+            case 5:
+                cpuInput.moveveckey = KeyList.SA;  // 左下
+                break;
+            case 6:
+                cpuInput.moveveckey = KeyList.S;   // 下
+                break;
+            case 7:
+                cpuInput.moveveckey = KeyList.SD;  // 右下
+                break;
+            default:
+                Debug.LogError("patrolPosDivエラー");
+                break;
         }
     }
     #endregion

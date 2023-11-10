@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
         for (int i = 0; i < MAXBULLET; i++)
         {
             Bullets[i] = (GameObject)Resources.Load("Prefabs/Bullets/Real3ReflectBullet");
-            //BulletRb[i] = Bullets[i].transform.GetComponent<Rigidbody>();
+            //BulletRb[points] = Bullets[points].transform.GetComponent<Rigidbody>();
 
             Instantiate(Bullets[i], new Vector3(0.0f, 0.0f, 1.0f + i), Quaternion.identity, this.gameObject.transform);
 

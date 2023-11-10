@@ -503,6 +503,7 @@ MonoBehaviour:
   isFirBullet: 
   FalseBullet: 0
   Bullets: []
+  Interpolation: 0
   isFixedTurret: 0
   Tank: {fileID: 0}
   Turret: {fileID: 0}
@@ -542,6 +543,8 @@ MonoBehaviour:
   aiName: 1
   aiState: 0
   maxDistance: 0
+  movePos: []
+  patrolMode: 1
 --- !u!82 &1856191903739696014
 AudioSource:
   m_ObjectHideFlags: 0
