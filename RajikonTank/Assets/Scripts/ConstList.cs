@@ -88,7 +88,9 @@ namespace ConstList
     {
         Effect_Tank_Deth,
         Effect_Bullet_Fire,
-        Effect_Bullet_Hit
+        Effect_Bullet_Hit,
+        Effect_Bom,
+        Effect_BW
     }
 
     /// <summary>
