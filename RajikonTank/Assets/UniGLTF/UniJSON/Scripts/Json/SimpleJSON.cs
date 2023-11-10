@@ -72,7 +72,7 @@
  * - Extracted the binary serialization code into a seperate extension file. All classes are now declared
  *   as "partial" so an extension file can even add a new virtual or abstract method / interface to
  *   JSONNode and override it in the concrete type classes. It's of course a hacky approach which is
- *   generally not recommended, but patrolPoint wanted to keep everything tightly packed.
+ *   generally not recommended, but points wanted to keep everything tightly packed.
  * - Added a static CreateOrGet method to the JSONNull class. Since this class is immutable it could
  *   be reused without major problems. If you have a lot null fields in your data it will help reduce
  *   the memory / garbage overhead. I also added a static setting (reuseSameInstance) to JSONNull

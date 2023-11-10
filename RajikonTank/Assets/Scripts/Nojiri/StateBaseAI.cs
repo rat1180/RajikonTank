@@ -20,7 +20,7 @@ public class StateBaseAI : TankEventHandler
 
     private Vector3 enemyPos;         // 敵(自分)の位置
     private Vector3 playerPos;        // プレイヤーの位置
-    private Vector3[] patrolPos;      // 巡回する位置
+    //private Vector3[] patrolPoints;      // 巡回する位置
 
     private string playerTag;         // Playerのtag
     private float nowDistance;        // プレイヤーとの距離
@@ -29,7 +29,7 @@ public class StateBaseAI : TankEventHandler
     private bool isTimer  = false;    // タイマーフラグ
     private bool canAttack = true;    // 攻撃可否フラグ
     private const int rayLength = 50; // Rayの長さ
-    private int patrolPoint = 0;      // 巡回地点の番号
+    private int points = 0;      // 巡回地点の番号
 
     public enum EnemyAiState // 行動パターン
     {
@@ -407,46 +407,44 @@ public class StateBaseAI : TankEventHandler
     private void Patrol()
     {
         float minDistance = 1.5f;
+        int maxArray;
 
         // 巡回地点取得
-        patrolPos = EnemyManager.instance.PatrolPositionGet();
+        Vector3[] patrolPoints = EnemyManager.instance.MovePointsArray;
 
         // 配列に要素が入っていない時
-        if (patrolPos == null)
+        if (patrolPoints == null)
         {
-            Debug.LogError("patrolPosに要素が入っていません");
+            Debug.LogError("patrolPointsに要素が入っていません");
             return;
         }
 
-        // 巡回地点取得
-        patrolPos = EnemyManager.instance.PatrolPositionGet();
-
-        // Nullを除いた配列の要素数
-        int maxArray = patrolPos.Length - 1;
+        // 配列の最大要素数取得
+        maxArray = patrolPoints.Length - 1;
 
         // 指定の方向を向く
-        cpuInput.sendtarget = patrolPos[patrolPoint];
+        cpuInput.sendtarget = patrolPoints[points];
 
-        // patrolPosに対しての8分割した角度取得
-        int patorolPosDiv = VectorConversion(patrolPos[patrolPoint]);
+        // patrolPointsに対しての8分割した角度取得
+        int patorolPosDiv = VectorConversion(patrolPoints[points]);
 
         // 移動処理
         ConversionKey(patorolPosDiv);
 
         // 2点間の距離計算
-        float pos = Vector3.Distance(patrolPos[patrolPoint], enemyPos);
+        float pos = Vector3.Distance(patrolPoints[points], enemyPos);
 
         // 巡回地点に接近した時、次の巡回地点に変更
         if(pos < minDistance)
         {
             // 巡回地点を回り終わった時、初めの巡回地点に戻る
-            if(patrolPoint < maxArray)
+            if(points < maxArray)
             {
-                patrolPoint++;
+                points++;
             }
             else
             {
-                patrolPoint = 0;
+                points = 0;
             }
         }
     }

@@ -5,8 +5,8 @@ using ConstList;
 
 public class EnemyManager : MonoBehaviour
 {
-    public static EnemyManager instance;   // 参照用
-    private Vector3[] enemyMovePos;        // 敵巡回用の位置情報配列
+    public static EnemyManager instance;              // 参照用
+    public Vector3[] MovePointsArray { get; set; }   // 巡回用の位置情報配列
 
     private void Awake()
     {
@@ -34,9 +34,13 @@ public class EnemyManager : MonoBehaviour
     /// <param name="points">巡回位置の配列</param>
     public void PatrolPositionSet(Vector3[] points)
     {
-        // 要素数と巡回位置の保存
-        enemyMovePos = new Vector3[points.Length];
-        enemyMovePos = points;
+        // 要素数と位置のコピー
+        MovePointsArray = new Vector3[points.Length];
+
+        for(int i = 0; i < points.Length; i++)
+        {
+            MovePointsArray[i] = points[i];
+        }
     }
     #endregion
 
@@ -48,9 +52,9 @@ public class EnemyManager : MonoBehaviour
     /// PatrolPositionSet実行後、返り値：位置情報配列
     /// </summary>
     /// <returns></returns>
-    public Vector3[] PatrolPositionGet()
-    {
-        return enemyMovePos;
-    }
+    //public Vector3[] PatrolPositionGet()
+    //{
+    //    return MovePointsArray;
+    //}
     #endregion
 }
