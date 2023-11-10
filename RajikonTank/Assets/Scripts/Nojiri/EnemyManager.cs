@@ -27,6 +27,16 @@ public class EnemyManager : MonoBehaviour
         enemyChildObj.transform.position = getSpawnPos;   // 受け取った初期位置に設定
     }
 
+    public void SpawnEnemy(Vector3 getSpawnPos, TankPrefabNames spawnName,Vector3[] points)
+    {
+        PatrolPositionSet(points);
+        GameObject enemyChildObj;
+        enemyChildObj = TankGenerateClass.TankInstantiate(spawnName); // タンク生成
+        enemyChildObj.transform.parent = this.transform;  // 生成した敵を子オブジェクトに追加
+        enemyChildObj.transform.position = getSpawnPos;   // 受け取った初期位置に設定
+        enemyChildObj.GetComponent<StateBaseAI>().SetPatrolPoint(points);
+    }
+
     /// <summary>
     /// 外部から巡回位置の配列を取得
     /// 送られた位置情報を保存

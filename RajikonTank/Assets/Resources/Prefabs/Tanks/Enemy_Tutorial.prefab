@@ -505,6 +505,7 @@ MonoBehaviour:
   Bullets: []
   Interpolation: 0
   isFixedTurret: 0
+  isTurretAim: 0
   Tank: {fileID: 0}
   Turret: {fileID: 0}
   ShotPos: {fileID: 0}
@@ -524,7 +525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8121bd209640b574c9048ce948a9dd3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RightStickInput: {fileID: 0}
   sendkey: 0
+  RightStickSend: 0
   sendtarget: {x: 0, y: 0, z: 0}
   NowController: 0
   moveveckey: 0
@@ -548,6 +551,7 @@ MonoBehaviour:
   - {x: 0.00000021437957, y: 0.000000013293448, z: 0.000010871139}
   - {x: 2.6705452e+23, y: 8.172482e+20, z: 0}
   patrolMode: 0
+  patrolPoints: []
 --- !u!82 &-1981396441651951564
 AudioSource:
   m_ObjectHideFlags: 0

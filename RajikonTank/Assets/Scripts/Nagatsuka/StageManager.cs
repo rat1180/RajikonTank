@@ -23,6 +23,7 @@ public class StageManager : MonoBehaviour
     [Tooltip("Enemysを入れる"), SerializeField]
     EnemyManager enemyManager;//このオブジェクトの子供要素にCPUを生成する.
 
+        
     /// <summary>
     /// SpawnPointsの子要素を取得し、IDに応じてタンクを生成する.
     /// </summary>
@@ -35,13 +36,14 @@ public class StageManager : MonoBehaviour
         {
             teamID = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().teamID;      //チームID取得.
             enemyName = spawnPoints.transform.GetChild(i).gameObject.GetComponent<SpawnPoint>().enemyName;//名前取得.
+
             switch (teamID)
             {
                 case TeamID.player:
                     CreateTank(spawnPoints.transform.GetChild(i).gameObject.transform.position);            //タンク生成関数.
                     break;
                 case TeamID.CPU:
-                    CreateTank(enemyName, spawnPoints.transform.GetChild(i).gameObject.transform.position); //タンク生成関数.
+                    CreateTank(enemyName, spawnPoints.transform.GetChild(i).gameObject.transform.position, spawnPoints.transform.GetChild(i).gameObject); //タンク生成関数.
                     break;
                 default:
                     Debug.LogError("生成に問題発生");
@@ -94,18 +96,20 @@ public class StageManager : MonoBehaviour
     /// 敵生成用のCreateTank
     /// 敵の名前と座標を引数に指定された敵を生成する
     /// </summary>
-    void CreateTank(EnemyName name, Vector3 position)
+    void CreateTank(EnemyName name, Vector3 position,GameObject spawnpoint)
     {
         switch (name)
         {
             case EnemyName.TUTORIAL:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Tutorial);//EnemyManagerの生成関数を呼び出す.
+
                 break;
             case EnemyName.NORMAL:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
                 break;
             case EnemyName.MOVEMENT:
-                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Movement);//EnemyManagerの生成関数を呼び出す.
+                var points = spawnpoint.GetComponent<SpawnPoint>().position;//巡回取得.
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Movement,points);//EnemyManagerの生成関数を呼び出す.
                 break;
             case EnemyName.FASTBULLET:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastBullet);//EnemyManagerの生成関数を呼び出す.
