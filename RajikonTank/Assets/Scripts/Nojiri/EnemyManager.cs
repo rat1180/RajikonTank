@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
         enemyChildObj.transform.position = getSpawnPos;   // 受け取った初期位置に設定
     }
 
-    public void SpawnEnemy(Vector3 getSpawnPos, TankPrefabNames spawnName,Vector3[] points)
+    public void SpawnEnemy(Vector3 getSpawnPos, TankPrefabNames spawnName,List<Vector3> points)
     {
         PatrolPositionSet(points);
         GameObject enemyChildObj;
@@ -42,12 +42,12 @@ public class EnemyManager : MonoBehaviour
     /// 送られた位置情報を保存
     /// </summary>
     /// <param name="points">巡回位置の配列</param>
-    public void PatrolPositionSet(Vector3[] points)
+    public void PatrolPositionSet(List<Vector3> points)
     {
         // 要素数と位置のコピー
-        MovePointsArray = new Vector3[points.Length];
+        MovePointsArray = new Vector3[points.Count];
 
-        for(int i = 0; i < points.Length; i++)
+        for(int i = 0; i < points.Count; i++)
         {
             MovePointsArray[i] = points[i];
         }

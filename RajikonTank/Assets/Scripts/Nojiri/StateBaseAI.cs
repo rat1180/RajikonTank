@@ -20,7 +20,7 @@ public class StateBaseAI : TankEventHandler
 
     private Vector3 enemyPos;         // 敵(自分)の位置
     private Vector3 playerPos;        // プレイヤーの位置
-    public Vector3[] patrolPoints;      // 巡回する位置
+    public List<Vector3> patrolPoints;      // 巡回する位置
 
     private string playerTag;         // Playerのtag
     private float nowDistance;        // プレイヤーとの距離
@@ -420,7 +420,7 @@ public class StateBaseAI : TankEventHandler
         }
 
         // 配列の最大要素数取得
-        maxArray = patrolPoints.Length - 1;
+        maxArray = patrolPoints.Count - 1;
 
         // 指定の方向を向く
         cpuInput.sendtarget = patrolPoints[points];
@@ -447,7 +447,7 @@ public class StateBaseAI : TankEventHandler
         }
     }
 
-    public void SetPatrolPoint(Vector3[] points)
+    public void SetPatrolPoint(List<Vector3> points)
     {
         patrolPoints = points;
     }
