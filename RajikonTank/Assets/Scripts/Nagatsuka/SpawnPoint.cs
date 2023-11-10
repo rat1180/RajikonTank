@@ -14,16 +14,16 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
-        if (this.transform.childCount == 0)
+        if (this.transform.childCount != 0)
         {
-            //Debug.Log("子要素ないよ");
-        }
-        else if (enemyName == EnemyName.MOVEMENT)//往復する敵の場合は2点間を参照する
-        {
-            for(int i=0;i< this.transform.childCount; i++)
+            if (enemyName == EnemyName.MOVEMENT)//往復する敵の場合は2点間を参照する
             {
-                position.Add(transform.GetChild(i).gameObject.transform.position);
+                for (int i = 0; i < this.transform.childCount; i++)
+                {
+                    position.Add(transform.GetChild(i).gameObject.transform.position);
+                }
             }
         }
+        
     }
 }
