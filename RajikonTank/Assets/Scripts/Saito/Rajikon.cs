@@ -196,9 +196,13 @@ public class Rajikon : MonoBehaviour
         //Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
     }
 
+    /// <summary>
+    /// タンクのタレットを右スティックで狙える処理.
+    /// </summary>
+    /// <param name="angle"></param>
     private void TurretAim(float angle)
     {
-        // タレットを右スティックの角度に向ける
+        // タレットを右スティックの角度に向ける.
         var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
         Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, Interpolation);
     }
@@ -294,6 +298,9 @@ public class Rajikon : MonoBehaviour
         Tank.GetComponent<Tank>().SetPlayTrail(isPlay);
     }
 
+    /// <summary>
+    /// 爆弾の生成.
+    /// </summary>
     void GenerateBomb()
     {
         if (MaxBombNum != 0)
@@ -323,7 +330,6 @@ public class Rajikon : MonoBehaviour
     /// <returns></returns>
     IEnumerator BombRecoveryTime(float recoverytime)
     {
-        isBombRecovery = true;
         AddBomb(1);
         yield return new WaitForSeconds(recoverytime);
         isBombRecovery = false;
