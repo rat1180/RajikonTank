@@ -122,8 +122,9 @@ namespace ConstList
         TUTORIAL,         // —ûK“G
         NORMAL,           // ’Êí“G
         MOVEMENT,         // ˆÚ“®“G
-        FASTBULLET,       // ‚‘¬’e“G
-        FASTANDMOVE,      // ‚‘¬’e‚ÆˆÚ“®“G
+        FAST_BULLET,      // ‚‘¬’e“G
+        FAST_AND_MOVE,    // ‚‘¬’e‚ÆˆÚ“®“G
+        BOMBER,           // ’n—‹“G
         COUNT             // “G‚ÌŽí—Þ”
     }
 

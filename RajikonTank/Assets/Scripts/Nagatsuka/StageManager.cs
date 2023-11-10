@@ -111,10 +111,10 @@ public class StageManager : MonoBehaviour
                 List<Vector3> points = spawnpoint.GetComponent<SpawnPoint>().position;//„‰ñæ“¾.
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Movement,points);//EnemyManager‚Ì¶¬ŠÖ”‚ğŒÄ‚Ño‚·.
                 break;
-            case EnemyName.FASTBULLET:
+            case EnemyName.FAST_BULLET:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastBullet);//EnemyManager‚Ì¶¬ŠÖ”‚ğŒÄ‚Ño‚·.
                 break;
-            case EnemyName.FASTANDMOVE:
+            case EnemyName.FAST_AND_MOVE:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastAndMove);//EnemyManager‚Ì¶¬ŠÖ”‚ğŒÄ‚Ño‚·.
                 break;
         }
