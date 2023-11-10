@@ -103,12 +103,13 @@ public class MoveBullet : MonoBehaviour
         this.gameObject.SetActive(false);
         Flg = false;
     }
-    void OnCollisionEnter(Collision other)  
+    void OnCollisionEnter(Collision other)
     {
+        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) return;
         if (other.gameObject.tag == "Wall")
         {
             //ƒeƒXƒg
-             EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
+            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
 
             var WallObj = other.contacts[0].normal;
             Flg = true;
@@ -128,7 +129,7 @@ public class MoveBullet : MonoBehaviour
         }
 
         //add.h
-        if(other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Bullet")
         {
             EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
             BulletDestroy();
