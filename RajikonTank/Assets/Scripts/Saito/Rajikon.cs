@@ -18,6 +18,8 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<bool> isFirBullet;  // 弾を発射しているか.
     [SerializeField] int FalseBullet;         // 撃てる弾の数.
     [SerializeField] List<GameObject> Bullets;
+    [SerializeField] int MaxBombNum;          // 爆弾の最大数.
+    [SerializeField] bool isBombRecovery;     // 爆弾を増やすか.
     private float RotationAngle;              // 累積回転角度.
     private float TankAngle;                  // タンクの角度.
     private float TurretAngle;                // タレットの角度.
@@ -73,7 +75,7 @@ public class Rajikon : MonoBehaviour
 
     void Start()
     {
-        
+
         Tank = transform.Find("Tank").gameObject;
         Turret = Tank.transform.Find("Turret").gameObject;
         ShotPos = Turret.transform.Find("ShotPosition").gameObject;
@@ -91,7 +93,7 @@ public class Rajikon : MonoBehaviour
     {
         if (PlayerInput == null) return;
         MoveInput(PlayerInput.KeyInput());
-        if(isFixedTurret == false) LookTarget();
+        if (isFixedTurret == false) LookTarget();
         TargetUpdate();
 
         // プレイヤーから右スティックの角度を取得
@@ -100,6 +102,8 @@ public class Rajikon : MonoBehaviour
 
         // タレットの向きを変更
         if (isTurretAim == true) TurretAim(rightStickAngle);
+
+        if (isBombRecovery == false)StartCoroutine(BombRecoveryTime(3.0f));
     }
 
     public void MoveInput(KeyList inputkey)
@@ -114,13 +118,13 @@ public class Rajikon : MonoBehaviour
 
     private void Move(KeyList keylist)
     {
-       // Debug.Log(keylist);
+        // Debug.Log(keylist);
 
         var rotation = RotationSpeed * Time.deltaTime;
 
         if (keylist == KeyList.FIRE || keylist == KeyList.NONE)
         {
-            
+
             Audio.Stop();
         }
         else
@@ -152,13 +156,13 @@ public class Rajikon : MonoBehaviour
                 Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
                 break;
             case KeyList.W:
-                ForwardMove(0f); 
+                ForwardMove(0f);
                 break;
             case KeyList.S:
-                ForwardMove(180f); 
+                ForwardMove(180f);
                 break;
             case KeyList.A:
-                ForwardMove(270f); 
+                ForwardMove(270f);
                 break;
             case KeyList.D:
                 ForwardMove(90f);
@@ -177,6 +181,9 @@ public class Rajikon : MonoBehaviour
                 break;
             case KeyList.FIRE:
                 Check();
+                break;
+            case KeyList.PLANT:
+                GenerateBomb();
                 break;
             default:
 
@@ -243,9 +250,9 @@ public class Rajikon : MonoBehaviour
 
     void Check()
     {
-        for(int i = 0; i < Bullets.Count; i++)
+        for (int i = 0; i < Bullets.Count; i++)
         {
-            if(Bullets[i].activeSelf == false)
+            if (Bullets[i].activeSelf == false)
             {
                 Bullets[i].gameObject.SetActive(true);
                 Bullets[i].GetComponent<MoveBullet>().StartRotation(ShotPos.transform.forward, ShotPos.transform.position);
@@ -255,7 +262,7 @@ public class Rajikon : MonoBehaviour
 
                 return;
             }
-            
+
         }
     }
 
@@ -285,5 +292,40 @@ public class Rajikon : MonoBehaviour
     public void SetPlayTrail(bool isPlay)
     {
         Tank.GetComponent<Tank>().SetPlayTrail(isPlay);
+    }
+
+    void GenerateBomb()
+    {
+        if (MaxBombNum != 0)
+        {
+            // 爆弾の生成.
+            var bomb = ResorceManager.Instance.GetOtherResorce(OtherPrefabNames.Bomb);
+            Instantiate(bomb, Tank.transform.position, Quaternion.identity);
+            AddBomb(-1);
+        }
+        else
+        {
+            Debug.Log("爆弾を生成できません");
+        }
+    }
+
+    // 爆弾を減らしたり増やしたりする処理.
+    public void AddBomb(int addnum)
+    {
+        isBombRecovery = true;
+        MaxBombNum += addnum;
+    }
+
+    /// <summary>
+    /// 爆弾が再び置けるようになるまでの時間.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    IEnumerator BombRecoveryTime(float recoverytime)
+    {
+        isBombRecovery = true;
+        AddBomb(1);
+        yield return new WaitForSeconds(recoverytime);
+        isBombRecovery = false;
     }
 }
