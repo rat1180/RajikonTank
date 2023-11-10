@@ -32,7 +32,7 @@ public class TP_Projectile : MonoBehaviour {
         }
         else if(collision.gameObject.tag == "Finish")
         {
-            //This is to detect if the proyectile collides with the world, i used this tag because it is standard in Unity (To prevent asset importing issues)
+            //This is to detect if the proyectile collides with the world, points used this tag because it is standard in Unity (To prevent asset importing issues)
             DestroyProyectile();
         }
     }

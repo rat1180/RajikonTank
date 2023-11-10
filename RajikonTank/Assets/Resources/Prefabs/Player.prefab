@@ -49,7 +49,6 @@ MonoBehaviour:
   GameManagerInstance: {fileID: 0}
   MaxBulletNm: 5
   AimObject: {fileID: 0}
-  AimObjectPrefabName: Others/AimObject
   PossessionTank: {fileID: 0}
   isControl: 0
   TeamID: 0

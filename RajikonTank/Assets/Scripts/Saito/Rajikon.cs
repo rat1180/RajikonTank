@@ -24,6 +24,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] float Interpolation;     // タンクの角度回転の補間 ※値が小さいほど滑らかに回転する.
 
     public bool isFixedTurret;      // タレットを固定するか true:固定 false:解除.
+    [SerializeField] bool isTurretAim; // タレットでエイムするか.
 
     public GameObject Tank;
     [SerializeField] GameObject Turret;
@@ -96,8 +97,9 @@ public class Rajikon : MonoBehaviour
         // プレイヤーから右スティックの角度を取得
         float rightStickAngle = PlayerInput.SetRightStickAngle();
 
+
         // タレットの向きを変更
-        TurretAim(rightStickAngle);
+        if (isTurretAim == true) TurretAim(rightStickAngle);
     }
 
     public void MoveInput(KeyList inputkey)
@@ -187,7 +189,7 @@ public class Rajikon : MonoBehaviour
         //Tank.transform.rotation = Quaternion.AngleAxis(RotationAngle, transform.up);
     }
 
-    protected virtual void TurretAim(float angle)
+    private void TurretAim(float angle)
     {
         // タレットを右スティックの角度に向ける
         var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);

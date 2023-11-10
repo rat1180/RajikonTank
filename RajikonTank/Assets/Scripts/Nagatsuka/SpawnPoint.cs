@@ -10,14 +10,20 @@ public class SpawnPoint : MonoBehaviour
     public EnemyName enemyName;//CPUの場合名前も指定.
 
     [Header("移動する敵の2点")]
-    public Vector3[] position = new Vector3[2];
+    public List<Vector3> position = new List<Vector3>();
 
-    private void Start()
+    private void Awake()
     {
-        //if (enemyName == EnemyName.MOVEMENT)//往復する敵の場合は2点間を参照する
-        //{
-        //    position[0] = transform.GetChild(0).gameObject.transform.position;
-        //    position[1] = transform.GetChild(1).gameObject.transform.position;
-        //}
+        if (this.transform.childCount == 0)
+        {
+            //Debug.Log("子要素ないよ");
+        }
+        else if (enemyName == EnemyName.MOVEMENT)//往復する敵の場合は2点間を参照する
+        {
+            for(int i=0;i< this.transform.childCount; i++)
+            {
+                position.Add(transform.GetChild(i).gameObject.transform.position);
+            }
+        }
     }
 }
