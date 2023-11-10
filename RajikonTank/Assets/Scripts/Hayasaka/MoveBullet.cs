@@ -106,7 +106,7 @@ public class MoveBullet : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) return;
-        if (other.gameObject.tag == "Wall")
+        if (other.gameObject.tag == "Wall" || other.gameObject.tag == "BreakWall")
         {
             //ƒeƒXƒg
             EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bullet_Hit, transform.position);
