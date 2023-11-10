@@ -21,6 +21,7 @@ namespace ConstList
         RIGHTARROW,
         DOWNARROW,
         FIRE,
+        PLANT,
         ACCELE,
         BACK,
         LEFTROTATION,
@@ -140,7 +141,7 @@ namespace ConstList
     public enum OtherPrefabNames
     {
         AimObject,
-        Bom,
+        Bomb,
     }
 
     /// <summary>
