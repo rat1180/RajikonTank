@@ -386,7 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 0}
   EventHandler: {fileID: 0}
-  MoveSpeed: 2
+  MoveSpeed: 4
   RotationSpeed: 70
   TurretSpeed: 50
   MaxBulletNum: 5
