@@ -42,8 +42,10 @@ public class PlayerInput : MonoBehaviour
     bool RightStickUp;     // 右スティックを前に倒した時.
     bool RightStickDown;   // 右スティックを後ろに倒した時.
 
+    bool LeftTrigger2;     // 左トリガーの下. 
     bool RightTrigger2;    // 右トリガーの下.
     bool ButtonEast;       // 東(○)のボタンを押した時.
+    bool ButtonSouth;      // 南(×)のボタンを押した時.
 
     private void OnEnable()
     {
@@ -85,8 +87,10 @@ public class PlayerInput : MonoBehaviour
         RightStickUp = RightStickVector.y >= Threshold;    // 右スティックを前に倒した時.
         RightStickDown = RightStickVector.y <= -Threshold; // 右スティックを後ろに倒した時.
 
+        LeftTrigger2 = gamepad.leftTrigger.wasPressedThisFrame;
         RightTrigger2 = gamepad.rightTrigger.wasPressedThisFrame;
         ButtonEast = gamepad.buttonEast.wasPressedThisFrame;
+        ButtonSouth = gamepad.buttonSouth.wasPressedThisFrame;
     }
 
     /// <summary>
@@ -243,6 +247,10 @@ public class PlayerInput : MonoBehaviour
         if (RightTrigger2 || ButtonEast)
         {
             sendkey = KeyList.FIRE;
+        }
+        else if (LeftTrigger2 || ButtonSouth)
+        {
+            sendkey = KeyList.PLANT;
         }
         else if (LeftStickUp && LeftStickLeft)
         {

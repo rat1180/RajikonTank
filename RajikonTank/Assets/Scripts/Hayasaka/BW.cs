@@ -9,6 +9,7 @@ public class BW : MonoBehaviour
     {
         if (other.gameObject.tag == "ExpZone")
         {
+            EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_BW, transform.position);
             Destroy(this.gameObject);
         }
     }

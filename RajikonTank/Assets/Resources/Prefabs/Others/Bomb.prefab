@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 1925377320019279802}
   - component: {fileID: 1925377320019279797}
   m_Layer: 0
-  m_Name: Bom
+  m_Name: Bomb
   m_TagString: Bom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,3 +210,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EXPZ: {fileID: 1925377319885737263}
   ExpObj: {fileID: 725748389856807714, guid: 7ed5f6ac8a5e66648a81b25d2f88cb14, type: 3}
+  DefMat: {fileID: 2100000, guid: 5bc95a0cdd90add40984d8d9ff3c067a, type: 2}
+  RedMat: {fileID: 2100000, guid: 892f8fba14af89c40b3c4f5967465728, type: 2}

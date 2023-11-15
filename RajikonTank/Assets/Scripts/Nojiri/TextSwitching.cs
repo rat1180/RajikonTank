@@ -13,7 +13,7 @@ public class TextSwitching : MonoBehaviour
     IEnumerator Swiching()
     {
         yield return new WaitForSeconds(4);
-        tutorialText.text = "<color=blue><b>左スティック</b></color>で移動しよう！\n" + "狙いを定めて<color=blue><b>〇ボタン</b></color>で弾を撃て！";
+        tutorialText.text = "<color=blue><b>左スティック</b></color>で移動しよう！\n" + "狙いを定めて<color=blue><b>R2ボタン</b></color>で弾を撃て！";
     }
 
     private void OnEnable()

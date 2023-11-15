@@ -98,6 +98,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     void CreateTank(EnemyName name, Vector3 position,GameObject spawnpoint)
     {
+        List<Vector3> points;
         switch (name)
         {
             case EnemyName.TUTORIAL:
@@ -108,14 +109,15 @@ public class StageManager : MonoBehaviour
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Normal);//EnemyManagerの生成関数を呼び出す.
                 break;
             case EnemyName.MOVEMENT:
-                List<Vector3> points = spawnpoint.GetComponent<SpawnPoint>().position;//巡回取得.
+                points = spawnpoint.GetComponent<SpawnPoint>().position;//巡回取得.
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_Movement,points);//EnemyManagerの生成関数を呼び出す.
                 break;
-            case EnemyName.FASTBULLET:
+            case EnemyName.FAST_BULLET:
                 enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastBullet);//EnemyManagerの生成関数を呼び出す.
                 break;
-            case EnemyName.FASTANDMOVE:
-                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastAndMove);//EnemyManagerの生成関数を呼び出す.
+            case EnemyName.FAST_AND_MOVE:
+                points = spawnpoint.GetComponent<SpawnPoint>().position;//巡回取得.
+                enemyManager.SpawnEnemy(position, TankPrefabNames.Enemy_FastAndMove,points);//EnemyManagerの生成関数を呼び出す.
                 break;
         }
     }

@@ -21,6 +21,7 @@ namespace ConstList
         RIGHTARROW,
         DOWNARROW,
         FIRE,
+        PLANT,
         ACCELE,
         BACK,
         LEFTROTATION,
@@ -102,7 +103,9 @@ namespace ConstList
     {
         Effect_Tank_Deth,
         Effect_Bullet_Fire,
-        Effect_Bullet_Hit
+        Effect_Bullet_Hit,
+        Effect_Bom,
+        Effect_BW
     }
 
     /// <summary>
@@ -122,8 +125,9 @@ namespace ConstList
         TUTORIAL,         // —ûK“G
         NORMAL,           // ’Êí“G
         MOVEMENT,         // ˆÚ“®“G
-        FASTBULLET,       // ‚‘¬’e“G
-        FASTANDMOVE,      // ‚‘¬’e‚ÆˆÚ“®“G
+        FAST_BULLET,      // ‚‘¬’e“G
+        FAST_AND_MOVE,    // ‚‘¬’e‚ÆˆÚ“®“G
+        BOMBER,           // ’n—‹“G
         COUNT             // “G‚Ìí—Ş”
     }
 
@@ -138,7 +142,7 @@ namespace ConstList
     public enum OtherPrefabNames
     {
         AimObject,
-        Bom,
+        Bomb,
     }
 
     /// <summary>
