@@ -30,6 +30,11 @@ public class Tank : MonoBehaviour
         HitObj(other);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        HitObj(other);
+    }
+
     //add.h
     void HitObj(Collision other)
     {
@@ -47,8 +52,17 @@ public class Tank : MonoBehaviour
 
                 //Rajikon.gameObject.SetActive(false);
                 break;
-            case "Tank":
+        }
+    }
 
+    void HitObj(Collider other)
+    {
+        HitObjTag = other.gameObject.tag;
+
+        switch (HitObjTag)
+        {
+            case "ExpZone":
+                Rajikon.GetComponent<Rajikon>().TankHit();
                 break;
         }
     }
