@@ -138,7 +138,10 @@ public class GameManager : MonoBehaviour
     const int STAGE_NAME = 1;
     const int INITIAL_ENEMY_NUM = 2;
 
-    //各ゲームモードのパネル.
+    /// <summary>
+    /// 各ゲームモードのパネル
+    /// GameManagerでしか使わないため、ConstListに追加しない.
+    /// </summary>
     enum Panels {
         READYGAME,
         INGAME,
