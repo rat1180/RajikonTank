@@ -147,7 +147,8 @@ public class StateBaseAI : TankEventHandler
 
             if (hitObj.tag == playerTag && hitObj == player) // Playerと自分の間に遮蔽物がないとき
             {
-                EnemyNameTransition(); // 敵の名前によって処理を変更
+                // 敵の名前によって処理を変更
+                EnemyNameTransition();
 
                 // falseの場合、攻撃遷移へ移行しない
                 if (!canAttack)
@@ -197,11 +198,14 @@ public class StateBaseAI : TankEventHandler
             case EnemyName.MOVEMENT:
                 MoveEnemy();
                 break;
-            case EnemyName.FASTBULLET:
+            case EnemyName.FAST_BULLET:
                 FastBulletEnemy();
                 break;
-            case EnemyName.FASTANDMOVE:
+            case EnemyName.FAST_AND_MOVE:
                 FastAndMoveEnemy();
+                break;
+            case EnemyName.BOMBER:
+                BomerEnemy();
                 break;
             default:
                 break;
@@ -307,7 +311,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void MoveEnemy()
     {
-        const int maxDistance = 10; // 攻撃可能範囲
+        maxDistance = 10; // 攻撃可能範囲
 
         aiName = EnemyName.MOVEMENT; // GameManagerに送るID設定
         aiState = EnemyAiState.MOVE; // 移動
@@ -330,7 +334,7 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void FastBulletEnemy()
     {
-        aiName = EnemyName.FASTBULLET; // GameManagerに送るID設定
+        aiName = EnemyName.FAST_BULLET; // GameManagerに送るID設定
 
         canAttack = true; // 攻撃可
     }
@@ -343,7 +347,7 @@ public class StateBaseAI : TankEventHandler
     private void FastAndMoveEnemy()
     { 
 
-        aiName = EnemyName.FASTANDMOVE; // GameManagerに送るID設定
+        aiName = EnemyName.FAST_AND_MOVE; // GameManagerに送るID設定
         aiState = EnemyAiState.MOVE; // 移動
 
         // プレイヤーとの距離が一定値以上の時
@@ -355,6 +359,15 @@ public class StateBaseAI : TankEventHandler
         {
             canAttack = true; // 攻撃可
         }
+    }
+    #endregion
+
+    #region 地雷敵
+    private void BomerEnemy()
+    {
+        const int maxDistance = 10; // 攻撃可能範囲
+
+        aiName = EnemyName.BOMBER; // GameManagerに送るID設定
     }
     #endregion
 
@@ -376,7 +389,7 @@ public class StateBaseAI : TankEventHandler
         float second; // 発射間隔
 
         // 早い弾を撃つ敵の場合、発射間隔を変更
-        if (aiName == EnemyName.FASTBULLET || aiName == EnemyName.FASTANDMOVE)
+        if (aiName == EnemyName.FAST_BULLET || aiName == EnemyName.FAST_AND_MOVE)
         {
             second = Random.Range(3, 5);
         }
@@ -409,9 +422,6 @@ public class StateBaseAI : TankEventHandler
         float minDistance = 3f;
         int maxArray;
 
-        // 巡回地点取得
-        //Vector3[] patrolPoints = EnemyManager.instance.MovePointsArray;
-
         // 配列に要素が入っていない時
         if (patrolPoints == null)
         {
@@ -432,24 +442,19 @@ public class StateBaseAI : TankEventHandler
         ConversionKey(patorolPosDiv);
 
         // 2点間の距離計算
-        float pos = Vector3.Distance(patrolPoints[points], enemyPos);
+        float PointToDistance = Vector3.Distance(patrolPoints[points], enemyPos);
 
         // 巡回地点に接近した時、次の巡回地点に変更
-        if(pos < minDistance)
+        if(PointToDistance < minDistance)
         {
             points++;
         }
-        Debug.Log("distance" + pos);
+
         // 巡回地点を回り終わった時、初めの巡回地点に戻る
         if (points > maxArray)
         {
             points = 0;
         }
-    }
-
-    public void SetPatrolPoint(List<Vector3> points)
-    {
-        patrolPoints = points;
     }
 
     /// <summary>
@@ -579,6 +584,17 @@ public class StateBaseAI : TankEventHandler
                 Debug.LogError("patrolPosDivエラー");
                 break;
         }
+    }
+    #endregion
+
+    #region 外部用メソッド
+    /// <summary>
+    /// 送られた巡回位置リストを取得
+    /// </summary>
+    /// <param name="points">巡回する位置情報リスト</param>
+    public void SetPatrolPoint(List<Vector3> points)
+    {
+        patrolPoints = points;
     }
     #endregion
 }

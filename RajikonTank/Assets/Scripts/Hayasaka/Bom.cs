@@ -122,7 +122,7 @@ public class Bom : MonoBehaviour
     /// </summary>
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Tank")
+        if(other.gameObject.tag == "Bullet")
         {
             ColFlg = true;
         }

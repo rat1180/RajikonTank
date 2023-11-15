@@ -115,9 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 4
   enemyName: 4
-  position:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  position: []
 --- !u!1 &2015441016
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,9 +743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 4
   enemyName: 4
-  position:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  position: []
 --- !u!1 &6100673262954720757
 GameObject:
   m_ObjectHideFlags: 0
