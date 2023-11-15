@@ -286,8 +286,6 @@ public class StateBaseAI : TankEventHandler
     #region ƒ`ƒ…[ƒgƒŠƒAƒ‹“G‘JˆÚ
     private void TutorialEnemy()
     {
-        aiName = EnemyName.TUTORIAL; // GameManager‚É‘—‚éIDİ’è
-
         aiState = EnemyAiState.WAIT; // ‘Ò‹@
         canAttack = false; // UŒ‚•s‰Â
     }
@@ -299,8 +297,6 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalEnemy()
     {
-        aiName = EnemyName.NORMAL; // GameManager‚É‘—‚éIDİ’è
-
         canAttack = true; // UŒ‚‰Â
     }
     #endregion
@@ -313,18 +309,9 @@ public class StateBaseAI : TankEventHandler
     {
         maxDistance = 10; // UŒ‚‰Â”\”ÍˆÍ
 
-        aiName = EnemyName.MOVEMENT; // GameManager‚É‘—‚éIDİ’è
         aiState = EnemyAiState.MOVE; // ˆÚ“®
 
-        // ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’è’lˆÈã‚Ì
-        if (nowDistance > maxDistance)
-        {
-            canAttack = false; // UŒ‚•s‰Â
-        }
-        else
-        {
-            canAttack = true; // UŒ‚‰Â
-        }
+        AttackChange();   // UŒ‚‰Â”\‚©‚Ç‚¤‚©
     }
     #endregion
 
@@ -334,8 +321,6 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void FastBulletEnemy()
     {
-        aiName = EnemyName.FAST_BULLET; // GameManager‚É‘—‚éIDİ’è
-
         canAttack = true; // UŒ‚‰Â
     }
     #endregion
@@ -345,11 +330,32 @@ public class StateBaseAI : TankEventHandler
     /// ˆÚ“®•‚‘¬’e“Gİ’è
     /// </summary>
     private void FastAndMoveEnemy()
-    { 
+    {
+        maxDistance = 25;  // UŒ‚‰Â”\”ÍˆÍ
 
-        aiName = EnemyName.FAST_AND_MOVE; // GameManager‚É‘—‚éIDİ’è
         aiState = EnemyAiState.MOVE; // ˆÚ“®
 
+        AttackChange();    // UŒ‚‰Â”\‚©‚Ç‚¤‚©
+    }
+    #endregion
+
+    /// <summary>
+    /// ’n—‹“Gİ’è
+    /// Šî–{“®ì‚ÍˆÚ“®“G‚Ì“¯‚¶
+    /// </summary>
+    #region ’n—‹“G
+    private void BomerEnemy()
+    {
+        maxDistance = 5; // UŒ‚‰Â”\”ÍˆÍ
+
+        aiState = EnemyAiState.MOVE; // ˆÚ“®
+
+        AttackChange();  // UŒ‚‰Â”\‚©‚Ç‚¤‚©
+    }
+
+    // UŒ‚‰Â”\ƒtƒ‰ƒO‚ÌØ‚è‘Ö‚¦
+    private void AttackChange()
+    {
         // ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’è’lˆÈã‚Ì
         if (nowDistance > maxDistance)
         {
@@ -359,15 +365,6 @@ public class StateBaseAI : TankEventHandler
         {
             canAttack = true; // UŒ‚‰Â
         }
-    }
-    #endregion
-
-    #region ’n—‹“G
-    private void BomerEnemy()
-    {
-        const int maxDistance = 10; // UŒ‚‰Â”\”ÍˆÍ
-
-        aiName = EnemyName.BOMBER; // GameManager‚É‘—‚éIDİ’è
     }
     #endregion
 
