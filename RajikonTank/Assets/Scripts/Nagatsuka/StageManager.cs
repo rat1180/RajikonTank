@@ -123,4 +123,15 @@ public class StageManager : MonoBehaviour
     }
     #endregion
 
+  public  void AllDestoroy()
+    {
+        Debug.LogWarning("‚æ‚ñ‚¾");
+        for (int i = 0; i < enemyManager.transform.childCount; i++)
+        {
+            Destroy(enemyManager.transform.GetChild(i).gameObject);
+            GameManager.instance.teamInfo[GameManager.instance.CPU_IDnum].MemberDeath();
+        }
+        GameManager.instance.ChangeReadyMode();
+    }
+
 }

@@ -232,6 +232,7 @@ public class GameManager : MonoBehaviour
         }
 
         ErrorFunction();
+        
 
         if (DebugFlg) CheckDebug();
         else GamePanel[(int)Panels.DEBUG].SetActive(false);
@@ -253,6 +254,10 @@ public class GameManager : MonoBehaviour
 #endif
         }
     }
+
+   
+
+
 
     #region Gameのステータス毎に動かすRoop関数
     /// <summary>
@@ -637,6 +642,11 @@ public class GameManager : MonoBehaviour
         //teamInfo[1].MemberDeath();
         //PlaySE(SE_ID.Move);
         soundManager.PlaySE(soundManager.ReturnSE(SE_ID.Move));
+    }
+
+    public void AllEnemyDestroy()
+    {
+        stageManager.AllDestoroy();
     }
     #endregion
 }
