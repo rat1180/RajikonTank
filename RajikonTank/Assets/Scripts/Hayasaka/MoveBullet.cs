@@ -39,10 +39,7 @@ public class MoveBullet : MonoBehaviour
     {
         if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) gameObject.SetActive(false);
 
-        if (!Flg)
-        {
-            Moving();
-        }
+        Moving();
         Direction = Rb.velocity;
     }
     public virtual void InitBullet()
