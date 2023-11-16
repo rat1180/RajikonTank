@@ -519,7 +519,7 @@ public class GameManager : MonoBehaviour
     public void ChangeReadyMode()
     {
         //if (stageManager.Stage.Count  == NowStage + 1)//ステージが最終ステージだった場合、ゲームを終了する.
-        if ((int)StageNames.Stage10 == NowStage + 1)//ステージが最終ステージだった場合、ゲームを終了する.
+        if ((int)StageNames.Stage10 == NowStage)//ステージが最終ステージだった場合、ゲームを終了する.
         {
             perfectClearFlg = true;
             ChangeGameEnd();
