@@ -150,6 +150,10 @@ public class PlayerInput : MonoBehaviour
             return sendkey;
     }
 
+    /// <summary>
+    /// 右スティックの倒している方向を度数に変える処理.
+    /// </summary>
+    /// <returns></returns>
     public float SetRightStickAngle()
     {
         Debug.Log(RightStickValue.magnitude);
