@@ -251,7 +251,7 @@ public class PlayerClass : TankEventHandler
             if (AimObject != null) PredictionAim();
 
             //’n—‹”‚ğŠÇ—
-
+            BombControl();
         }
     }
 
