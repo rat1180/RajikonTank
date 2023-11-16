@@ -76,6 +76,7 @@ namespace ConstList
         Enemy_Movement,
         Enemy_FastBullet,
         Enemy_FastAndMove,
+        Enemy_Bomber,
         TankEnemy,
     }
 
