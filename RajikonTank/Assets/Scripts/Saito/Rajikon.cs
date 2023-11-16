@@ -11,9 +11,9 @@ public class Rajikon : MonoBehaviour
     //add.h
     [SerializeField, Header("タンクのイベントを通知するスクリプト")] TankEventHandler EventHandler;
 
-    [SerializeField] float MoveSpeed;         // 移動する速さ.
-    [SerializeField] float RotationSpeed;     // 回転する速さ.
-    [SerializeField] float TurretSpeed;       // タレットの回転速さ.
+    [SerializeField] float MoveSpeed;         // 移動速度.
+    [SerializeField] float RotationSpeed;     // タンクの回転速度.
+    [SerializeField] float TurretSpeed;       // タレットの回転速度.
     [SerializeField] int MaxBulletNum;        // 弾の最大数.
     [SerializeField] List<bool> isFirBullet;  // 弾を発射しているか.
     [SerializeField] int FalseBullet;         // 撃てる弾の数.
@@ -37,6 +37,8 @@ public class Rajikon : MonoBehaviour
     [SerializeField] BulletPrefabNames NowBulletPrefabNames; // 弾の種類.
 
     protected AudioSource Audio;
+
+    float RightStickAngle;
 
     /// <summary>
     /// 初期化用関数.
@@ -96,12 +98,11 @@ public class Rajikon : MonoBehaviour
         if (isFixedTurret == false) LookTarget();
         TargetUpdate();
 
-        // プレイヤーから右スティックの角度を取得
-        float rightStickAngle = PlayerInput.SetRightStickAngle();
-
+        // プレイヤーから右スティックの角度を取得.
+        RightStickAngle = PlayerInput.SetRightStickAngle();
 
         // タレットの向きを変更
-        if (isTurretAim == true) TurretAim(rightStickAngle);
+        if (isTurretAim == true) TurretAim(RightStickAngle);
 
         if (isBombRecovery == false)StartCoroutine(BombRecoveryTime(3.0f));
     }
@@ -202,9 +203,12 @@ public class Rajikon : MonoBehaviour
     /// <param name="angle"></param>
     private void TurretAim(float angle)
     {
-        // タレットを右スティックの角度に向ける.
-        var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
-        Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, Interpolation);
+        if(PlayerInput.isRightStickAngle() == true)
+        {
+            // タレットを右スティックの角度に向ける.
+            var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
+            Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, TurretSpeed * Time.deltaTime);
+        }
     }
 
     /// <summary>
