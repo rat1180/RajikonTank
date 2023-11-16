@@ -137,16 +137,16 @@ public class Rajikon : MonoBehaviour
 
         switch (keylist)
         {
-            case KeyList.LEFTROTATION:
+            case KeyList.LEFT_ROTATION:
                 RotationAngle -= rotation;
                 break;
-            case KeyList.RIGHTROTATION:
+            case KeyList.RIGHT_ROTATION:
                 RotationAngle += rotation;
                 break;
-            case KeyList.LEFTHIGHSPEEDROTATION:
+            case KeyList.LEFT_HIGHSPEED_ROTATION:
                 RotationAngle -= rotation * 1.5f;
                 break;
-            case KeyList.RIGHTHIGHSPEEDROTATION:
+            case KeyList.RIGHT_HIGHSPEED_ROTATION:
                 RotationAngle += rotation * 1.5f;
                 break;
             case KeyList.BACK:

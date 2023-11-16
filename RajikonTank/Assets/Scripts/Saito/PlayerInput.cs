@@ -20,7 +20,7 @@ public class PlayerInput : MonoBehaviour
     Keyboard keyboard = Keyboard.current;
     Gamepad gamepad = Gamepad.current;
 
-    float Threshold = 0.2f;  // ËáílÇÃê›íË.
+    float Threshold = 0.1f;  // ËáílÇÃê›íË.
     protected float angle;
 
     bool W_Key;
@@ -243,19 +243,19 @@ public class PlayerInput : MonoBehaviour
         }
         else if (S_Key && Up_Key)
         {
-            sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
         }
         else if (W_Key && Down_Key)
         {
-            sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
         }
         else if (S_Key || Up_Key)
         {
-            sendkey = KeyList.LEFTROTATION;
+            sendkey = KeyList.LEFT_ROTATION;
         }
         else if (W_Key || Down_Key)
         {
-            sendkey = KeyList.RIGHTROTATION;
+            sendkey = KeyList.RIGHT_ROTATION;
         }
         else
         {
@@ -348,11 +348,11 @@ public class PlayerInput : MonoBehaviour
         }
         else if (LeftStickLeft)
         {
-            sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
         }
         else if (LeftStickRight)
         {
-            sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
         }
         else
         {
@@ -376,19 +376,19 @@ public class PlayerInput : MonoBehaviour
         }
         else if (LeftStickDown && RightStickUp)
         {
-            sendkey = KeyList.LEFTHIGHSPEEDROTATION;
+            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
         }
         else if (LeftStickUp && RightStickDown)
         {
-            sendkey = KeyList.RIGHTHIGHSPEEDROTATION;
+            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
         }
         else if (LeftStickDown || RightStickUp)
         {
-            sendkey = KeyList.LEFTROTATION;
+            sendkey = KeyList.LEFT_ROTATION;
         }
         else if (LeftStickUp || RightStickDown)
         {
-            sendkey = KeyList.RIGHTROTATION;
+            sendkey = KeyList.RIGHT_ROTATION;
         }
         else
         {
