@@ -43,6 +43,7 @@ public class Bom : MonoBehaviour
     }
     void Update()
     {
+        if (GameManager.instance.NowGameState != ConstList.GAMESTATUS.INGAME) Destroy(gameObject);
         CountExp();
     }
     /// <summary>

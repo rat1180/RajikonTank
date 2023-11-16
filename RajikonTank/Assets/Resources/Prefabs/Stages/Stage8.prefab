@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
-  enemyName: 1
+  enemyName: 5
   position: []
 --- !u!1 &3150563401557270242
 GameObject:
@@ -1400,7 +1400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 4
-  enemyName: 1
+  enemyName: 5
   position: []
 --- !u!1 &6988253218228003245
 GameObject:
