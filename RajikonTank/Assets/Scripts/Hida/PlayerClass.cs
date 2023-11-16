@@ -71,6 +71,12 @@ public class PlayerClass : TankEventHandler
 
     [SerializeField, Tooltip("最大弾数(デフォルト値は5)")] private int MaxBulletNm = 5;
 
+    [SerializeField, Tooltip("最大地雷数（デフォルト値は1）")] private int MaxBombNm = 1;
+
+    [SerializeField, Tooltip("地雷の回復間隔(デフォルト値は8秒)")] private float RecoveryBombTime = 8.0f;
+
+    [SerializeField, Tooltip("現在地雷を回復中かどうか")] private bool isRecoveryBomb;
+
     [SerializeField, Tooltip("狙っている場所を表示するオブジェクト")] private GameObject AimObject;
 
     [SerializeField, Tooltip("予測線を表示するオブジェクト")] private GameObject AimLineObject;
@@ -122,6 +128,9 @@ public class PlayerClass : TankEventHandler
     {
         //操作権限の初期化
         isControl = false;
+
+        //その他の初期化
+        isRecoveryBomb = false;
 
         //キー入力取得用スクリプト確認・追加
         CheckPlayerInputScript();
@@ -207,7 +216,10 @@ public class PlayerClass : TankEventHandler
         //add.h
         tank.GetComponent<Rajikon>().SetEventHandler(this);
 
-        tank.GetComponent<Rajikon>().isFixedTurret = true; ;
+        tank.GetComponent<Rajikon>().isFixedTurret = true;
+
+        //タンクの地雷数を設定
+        tank.GetComponent<Rajikon>().AddBomb(MaxBombNm);
 
         RemainingBulletNm = MaxBulletNm;
 
@@ -237,6 +249,9 @@ public class PlayerClass : TankEventHandler
 
             //照準を反映
             if (AimObject != null) PredictionAim();
+
+            //地雷数を管理
+
         }
     }
 
@@ -320,6 +335,22 @@ public class PlayerClass : TankEventHandler
     {
         RemainingBulletNm = PossessionTank.GetRestBullet();
         return RemainingBulletNm;
+    }
+
+    private void BombControl()
+    {
+        if(PossessionTank.GetBomb() < MaxBombNm && !isRecoveryBomb)
+        {
+            isRecoveryBomb = true;
+            StartCoroutine(RecoveryBomb(RecoveryBombTime));
+        }
+    }
+
+    private IEnumerator RecoveryBomb(float time)
+    {
+        yield return new WaitForSeconds(time);
+        PossessionTank.AddBomb(1);
+        isRecoveryBomb = false;
     }
 
 

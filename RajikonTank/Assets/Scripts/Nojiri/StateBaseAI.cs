@@ -515,6 +515,7 @@ public class StateBaseAI : TankEventHandler
 
             if(aiName == EnemyName.BOMBER)
             {
+                rajikon.AddBomb(1);
                 cpuInput.moveveckey = KeyList.PLANT; // ’n—‹ƒ{ƒ^ƒ“‰Ÿ‰º
             }
             else
