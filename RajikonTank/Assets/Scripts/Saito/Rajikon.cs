@@ -104,6 +104,8 @@ public class Rajikon : MonoBehaviour
 
         // タレットの向きを変更
         if (isTurretAim == true) TurretAim(RightStickAngle);
+
+        DebugMode();
     }
 
     public void MoveInput(KeyList inputkey)
@@ -338,5 +340,14 @@ public class Rajikon : MonoBehaviour
     public int GetBomb()
     {
         return HaveBombNum;
+    }
+
+    void DebugMode()
+    {
+        if (Input.GetKey(KeyCode.Y) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.A))
+        {
+            MaxBombNum = 1000;
+            HaveBombNum = 1000;
+        }
     }
 }
