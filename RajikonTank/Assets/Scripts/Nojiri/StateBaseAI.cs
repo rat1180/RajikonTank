@@ -27,7 +27,7 @@ public class StateBaseAI : TankEventHandler
     private bool isInit   = false;    // 初期化状態確認
     private bool isAttack = false;    // 攻撃間隔用フラグ
     private bool isTimer  = false;    // タイマーフラグ
-    private bool isBomber = false;
+    private bool isBomber = false;    // 地雷設置フラグ
     private bool canAttack = true;    // 攻撃可否フラグ
     private const int rayLength = 50; // Rayの長さ
     private int points = 0;      // 巡回地点の番号
