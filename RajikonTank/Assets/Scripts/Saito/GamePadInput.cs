@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GamePadInput : MonoBehaviour
 {
-    Gamepad gamepad = Gamepad.current;
+    private Gamepad gamepad = Gamepad.current;
 
     // Start is called before the first frame update
     void Start()

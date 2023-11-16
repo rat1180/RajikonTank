@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tank : MonoBehaviour
 {
     [SerializeField] GameObject Rajikon;
-    string HitObjTag;
+    private string HitObjTag;
     protected TrailRenderer Trail;
 
     private void OnDisable()
@@ -36,7 +36,7 @@ public class Tank : MonoBehaviour
     }
 
     //add.h
-    void HitObj(Collision other)
+    private void HitObj(Collision other)
     {
         HitObjTag = other.gameObject.tag;
 
@@ -55,7 +55,7 @@ public class Tank : MonoBehaviour
         }
     }
 
-    void HitObj(Collider other)
+    private void HitObj(Collider other)
     {
         HitObjTag = other.gameObject.tag;
 
