@@ -30,7 +30,7 @@ public class Bom : MonoBehaviour
         MatFlg = false;
 
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
-        this.gameObject.GetComponent<SphereCollider>().enabled = true;
+        this.gameObject.GetComponent<BoxCollider>().enabled = true;
         EXPZ.SetActive(false);
     }
     private void OnDisable()
@@ -106,9 +106,9 @@ public class Bom : MonoBehaviour
             EffectManager.instance.PlayEffect(ConstList.EffectNames.Effect_Bom, transform.position);
         }
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        this.gameObject.GetComponent<SphereCollider>().enabled = false;
+        this.gameObject.GetComponent<BoxCollider>().enabled = false;
         EXPZ.SetActive(true);
-        Invoke("BomDes", 2);
+        Invoke("BomDes", 1);
     }
     /// <summary>
     /// ”š’e‚ð”ñ•\Ž¦‚É
@@ -127,4 +127,5 @@ public class Bom : MonoBehaviour
             ColFlg = true;
         }
     }
+
 }
