@@ -503,7 +503,7 @@ MonoBehaviour:
   isFirBullet: 
   FalseBullet: 0
   Bullets: []
-  MaxBombNum: 5
+  MaxBombNum: 1
   HaveBombNum: 0
   Interpolation: 0
   isFixedTurret: 0
