@@ -20,7 +20,6 @@ public class Rajikon : MonoBehaviour
     [SerializeField] List<GameObject> Bullets;
     [SerializeField] int MaxBombNum;          // ”š’e‚ÌÅ‘å”.
     [SerializeField] int HaveBombNum;         // Œ»ÝŽ‚Á‚Ä‚¢‚é”š’e‚Ì”.
-    [SerializeField] bool isBombRecovery;     // ”š’e‚ð‘‚â‚·‚©.
     private float RotationAngle;              // —ÝÏ‰ñ“]Šp“x.
     private float TankAngle;                  // ƒ^ƒ“ƒN‚ÌŠp“x.
     private float TurretAngle;                // ƒ^ƒŒƒbƒg‚ÌŠp“x.
@@ -324,7 +323,6 @@ public class Rajikon : MonoBehaviour
     // ”š’e‚ðŒ¸‚ç‚µ‚½‚è‘‚â‚µ‚½‚è‚·‚éˆ—.
     public void AddBomb(int addnum)
     {
-        isBombRecovery = true;
         HaveBombNum += addnum;
 
         if(HaveBombNum > MaxBombNum)
