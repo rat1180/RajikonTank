@@ -182,7 +182,7 @@ namespace ConstList
             if (obj != null) return obj;
             else
             {
-                Debug.LogError("リソースファイルに\"" + objectname + "\"が見つかりませんでした");
+                Debug.LogWarning ("リソースファイルに\"" + objectname + "\"が見つかりませんでした");
                 //返した先でエラーが起こらないように中身が空のオブジェクトを返す
                 return new GameObject();
             }
