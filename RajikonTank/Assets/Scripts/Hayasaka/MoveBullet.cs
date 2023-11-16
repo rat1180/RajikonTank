@@ -136,6 +136,14 @@ public class MoveBullet : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Bom")
+        {
+            BulletDestroy();
+        }
+    }
+
     protected void SetPlayTrail(bool isPlay)
     {
         Trail.emitting = isPlay;

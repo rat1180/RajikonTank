@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1925377319885737267
 Transform:
   m_ObjectHideFlags: 0
@@ -108,8 +108,8 @@ GameObject:
   - component: {fileID: 1925377320019279801}
   - component: {fileID: 1925377320019279800}
   - component: {fileID: 1925377320019279803}
-  - component: {fileID: 1925377320019279802}
   - component: {fileID: 1925377320019279797}
+  - component: {fileID: 8195471844260680597}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Bom
@@ -149,7 +149,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925377320019279796}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -183,19 +183,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1925377320019279802
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925377320019279796}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4.5
-  m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &1925377320019279797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +199,16 @@ MonoBehaviour:
   ExpObj: {fileID: 725748389856807714, guid: 7ed5f6ac8a5e66648a81b25d2f88cb14, type: 3}
   DefMat: {fileID: 2100000, guid: 5bc95a0cdd90add40984d8d9ff3c067a, type: 2}
   RedMat: {fileID: 2100000, guid: 892f8fba14af89c40b3c4f5967465728, type: 2}
+--- !u!65 &8195471844260680597
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925377320019279796}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.306919, y: 18.990631, z: 7.750628}
+  m_Center: {x: 0.057876706, y: 10.452977, z: -0.46235263}
