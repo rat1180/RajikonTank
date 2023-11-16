@@ -18,7 +18,7 @@ public class SpawnPoint : MonoBehaviour
         {
             //Debug.Log("子要素ないよ");
         }
-        else if (enemyName == EnemyName.MOVEMENT || enemyName == EnemyName.FAST_AND_MOVE)//往復する敵の場合は2点間を参照する
+        else if (enemyName == EnemyName.MOVEMENT || enemyName == EnemyName.FAST_AND_MOVE || enemyName == EnemyName.BOMBER)//往復する敵の場合は2点間を参照する
         {
             position = new List<Vector3>();
             for (int i=0;i< this.transform.childCount; i++)

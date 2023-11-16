@@ -27,6 +27,7 @@ public class StateBaseAI : TankEventHandler
     private bool isInit   = false;    // 初期化状態確認
     private bool isAttack = false;    // 攻撃間隔用フラグ
     private bool isTimer  = false;    // タイマーフラグ
+    private bool isBomber = false;
     private bool canAttack = true;    // 攻撃可否フラグ
     private const int rayLength = 50; // Rayの長さ
     private int points = 0;      // 巡回地点の番号
@@ -125,7 +126,7 @@ public class StateBaseAI : TankEventHandler
     {
         RaycastHit hit;         // Rayが衝突したオブジェクト情報
         Vector3 fireDirection;  // 発射方向  
-        bool isFacingPlayer;    //　Playerを向いているかどうか
+        bool isTurnPlayer;    //　Playerを向いているかどうか
 
         nowDistance = Vector3.Distance(playerPos, enemyPos); // プレイヤーとの距離
 
@@ -150,15 +151,34 @@ public class StateBaseAI : TankEventHandler
                 // 敵の名前によって処理を変更
                 EnemyNameTransition();
 
-                // falseの場合、攻撃遷移へ移行しない
+                // 射程圏外の場合、攻撃遷移へ移行しない
                 if (!canAttack)
                 {
                     return;
                 }
 
-                isFacingPlayer = TurretDirection(); // 砲台がPlayerに向いているかどうか
+                // 地雷敵かつクールタイム中のとき、巡回に切り替え
+                if (isBomber && aiName == EnemyName.BOMBER)
+                {
+                    StartCoroutine(BomCoolTimer()); // クールタイム後にフラグをfalse
 
-                if (isFacingPlayer) aiState = EnemyAiState.ATTACK; // true ：攻撃
+                    if (!patrolMode)
+                    {
+                        Debug.Log("地雷敵のPatrolModeがONになっていません");
+                        return;
+                    }
+                    aiState = EnemyAiState.PATROL;
+
+                    return;
+                }
+
+                isTurnPlayer = TurretDirection(); // 砲台がPlayerに向いているかどうか
+                if (isTurnPlayer)
+                {
+                    aiState = EnemyAiState.ATTACK; // true ：攻撃
+                    isBomber = true; // 地雷敵クールタイム
+
+                }
                 else aiState = EnemyAiState.TURN;             // false：旋回
             }
             else
@@ -205,7 +225,7 @@ public class StateBaseAI : TankEventHandler
                 FastAndMoveEnemy();
                 break;
             case EnemyName.BOMBER:
-                BomerEnemy();
+                BomberEnemy();
                 break;
             default:
                 break;
@@ -286,8 +306,6 @@ public class StateBaseAI : TankEventHandler
     #region チュートリアル敵遷移
     private void TutorialEnemy()
     {
-        aiName = EnemyName.TUTORIAL; // GameManagerに送るID設定
-
         aiState = EnemyAiState.WAIT; // 待機
         canAttack = false; // 攻撃不可
     }
@@ -299,8 +317,6 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void NormalEnemy()
     {
-        aiName = EnemyName.NORMAL; // GameManagerに送るID設定
-
         canAttack = true; // 攻撃可
     }
     #endregion
@@ -313,18 +329,9 @@ public class StateBaseAI : TankEventHandler
     {
         maxDistance = 10; // 攻撃可能範囲
 
-        aiName = EnemyName.MOVEMENT; // GameManagerに送るID設定
         aiState = EnemyAiState.MOVE; // 移動
 
-        // プレイヤーとの距離が一定値以上の時
-        if (nowDistance > maxDistance)
-        {
-            canAttack = false; // 攻撃不可
-        }
-        else
-        {
-            canAttack = true; // 攻撃可
-        }
+        AttackChange();   // 攻撃可能距離かどうか
     }
     #endregion
 
@@ -334,8 +341,6 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void FastBulletEnemy()
     {
-        aiName = EnemyName.FAST_BULLET; // GameManagerに送るID設定
-
         canAttack = true; // 攻撃可
     }
     #endregion
@@ -345,11 +350,32 @@ public class StateBaseAI : TankEventHandler
     /// 移動＆高速弾敵設定
     /// </summary>
     private void FastAndMoveEnemy()
-    { 
+    {
+        maxDistance = 25;  // 攻撃可能範囲
 
-        aiName = EnemyName.FAST_AND_MOVE; // GameManagerに送るID設定
         aiState = EnemyAiState.MOVE; // 移動
 
+        AttackChange();    // 攻撃可能距離かどうか
+    }
+    #endregion
+
+    /// <summary>
+    /// 地雷敵設定
+    /// 基本動作は移動敵の同じ
+    /// </summary>
+    #region 地雷敵
+    private void BomberEnemy()
+    {
+        maxDistance = 11; // 攻撃可能範囲
+
+        aiState = EnemyAiState.MOVE; // 移動
+
+        AttackChange();  // 攻撃可能距離かどうか
+    }
+
+    // 攻撃可能フラグの切り替え
+    private void AttackChange()
+    {
         // プレイヤーとの距離が一定値以上の時
         if (nowDistance > maxDistance)
         {
@@ -359,15 +385,6 @@ public class StateBaseAI : TankEventHandler
         {
             canAttack = true; // 攻撃可
         }
-    }
-    #endregion
-
-    #region 地雷敵
-    private void BomerEnemy()
-    {
-        const int maxDistance = 10; // 攻撃可能範囲
-
-        aiName = EnemyName.BOMBER; // GameManagerに送るID設定
     }
     #endregion
 
@@ -383,22 +400,34 @@ public class StateBaseAI : TankEventHandler
         isTimer = false;
     }
 
-    // 指定秒数ごとに攻撃処理を実行するタイマー
+    // 指定秒数ごとに攻撃処理を実行するタイマー（連射防止）
     private IEnumerator AttackTimer()
     {
         float second; // 発射間隔
 
-        // 早い弾を撃つ敵の場合、発射間隔を変更
+        // 敵に種類に応じて発射間隔を変更
         if (aiName == EnemyName.FAST_BULLET || aiName == EnemyName.FAST_AND_MOVE)
         {
             second = Random.Range(3, 5);
         }
+        else if(aiName == EnemyName.BOMBER)
+        {
+            second = 0;
+        }
         else
         {
-            second = Random.Range(1,3);
+            second = Random.Range(1, 3);
         }
             yield return new WaitForSeconds(second);
         isAttack = false;
+    }
+
+    private IEnumerator BomCoolTimer()
+    {
+        // 指定秒後に地雷敵クールタイムのリセット
+        yield return new WaitForSeconds(5);
+        Debug.Log("タイマー終了");
+        isBomber = false;
     }
     #endregion
 
@@ -419,8 +448,8 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Patrol()
     {
-        float minDistance = 3f;
-        int maxArray;
+        float minDistance = 3f; // 巡回地点の切替距離
+        int maxArray;           // 巡回地点数取得用
 
         // 配列に要素が入っていない時
         if (patrolPoints == null)
@@ -429,8 +458,8 @@ public class StateBaseAI : TankEventHandler
             return;
         }
 
-        // 配列の最大要素数取得
-        maxArray = patrolPoints.Count - 1;
+        // 配列の要素数取得
+        maxArray = patrolPoints.Count;
 
         // 指定の方向を向く
         cpuInput.sendtarget = patrolPoints[points];
@@ -450,8 +479,8 @@ public class StateBaseAI : TankEventHandler
             points++;
         }
 
-        // 巡回地点を回り終わった時、初めの巡回地点に戻る
-        if (points > maxArray)
+        // 最後の巡回地点に着いたとき、初めの巡回地点に戻る
+        if (points >= maxArray)
         {
             points = 0;
         }
@@ -464,10 +493,12 @@ public class StateBaseAI : TankEventHandler
     /// </summary>
     private void Move()
     {
-        Debug.Log("Move実行");
-        int enemyMovePos = VectorConversion(playerPos); // Playerまでの角度を受け取る
-
-        ConversionKey(enemyMovePos); // キーボード変換
+        // 射程圏外のとき
+        if (!canAttack)
+        {
+            int enemyMovePos = VectorConversion(playerPos); // Playerまでの角度を受け取る
+            ConversionKey(enemyMovePos); // キーボード変換
+        }
     }
 
     /// <summary>
@@ -481,7 +512,15 @@ public class StateBaseAI : TankEventHandler
         if (!isAttack)
         {
             isAttack = true; // 攻撃中
-            cpuInput.moveveckey = KeyList.FIRE; // 攻撃ボタン押下
+
+            if(aiName == EnemyName.BOMBER)
+            {
+                cpuInput.moveveckey = KeyList.PLANT; // 地雷ボタン押下
+            }
+            else
+            {
+                cpuInput.moveveckey = KeyList.FIRE;  // 攻撃ボタン押下
+            }
 
             StartCoroutine(AttackTimer()); // 指定秒数後に処理を再開
         }

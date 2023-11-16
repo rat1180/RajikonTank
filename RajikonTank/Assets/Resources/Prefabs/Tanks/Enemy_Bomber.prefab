@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b551cc260f2c6a244bde359d4aa4b98c, type: 2}
+  - {fileID: 2100000, guid: 6ceee08e68231b44e9c0e2e18af0a03f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -175,7 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b551cc260f2c6a244bde359d4aa4b98c, type: 2}
+  - {fileID: 2100000, guid: 6ceee08e68231b44e9c0e2e18af0a03f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -423,7 +423,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b551cc260f2c6a244bde359d4aa4b98c, type: 2}
+  - {fileID: 2100000, guid: 6ceee08e68231b44e9c0e2e18af0a03f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 5296739251475878321}
   - component: {fileID: -1981396441651951564}
   m_Layer: 8
-  m_Name: Enemy_Tutorial
+  m_Name: Enemy_Bomber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,14 +545,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb493dd008950f44ad20c6784bfc61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiName: 0
+  aiName: 5
   aiState: 0
   maxDistance: 0
   movePos:
   - {x: 0.00000021084412, y: 1.6838195e+22, z: 0.00017565559}
   - {x: 0.00000021437957, y: 0.000000013293448, z: 0.000010871139}
   - {x: 2.6705452e+23, y: 8.172482e+20, z: 0}
-  patrolMode: 0
+  patrolMode: 1
   patrolPoints: []
 --- !u!82 &-1981396441651951564
 AudioSource:
@@ -712,7 +712,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b551cc260f2c6a244bde359d4aa4b98c, type: 2}
+  - {fileID: 2100000, guid: 6ceee08e68231b44e9c0e2e18af0a03f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
