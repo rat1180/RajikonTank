@@ -22,7 +22,7 @@ public class BomIns : MonoBehaviour
             {
                 InsFlg = true;
                 Debug.Log("au");
-                Boms = (GameObject)Resources.Load("Prefabs/Bom");
+                Boms = (GameObject)Resources.Load("Prefabs/Others/Bom");
                 Instantiate(Boms);
             }
         }
