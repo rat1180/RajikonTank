@@ -349,7 +349,7 @@ public class Rajikon : MonoBehaviour
         }
     }
 
-    public int SetMaxBombNum(int num)
+    protected int SetMaxBombNum(int num)
     {
         return MaxBombNum = num;
     }
