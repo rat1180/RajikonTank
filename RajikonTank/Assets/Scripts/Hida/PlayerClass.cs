@@ -72,6 +72,8 @@ public class PlayerClass : TankEventHandler
     [SerializeField, Tooltip("最大弾数(デフォルト値は5)")] private int MaxBulletNm = 5;
 
     [SerializeField, Tooltip("狙っている場所を表示するオブジェクト")] private GameObject AimObject;
+
+    [SerializeField, Tooltip("予測線を表示するオブジェクト")] private GameObject AimLineObject;
     #endregion
 
     #region デバッグ用表示
