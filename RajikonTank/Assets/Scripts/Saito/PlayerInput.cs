@@ -156,7 +156,7 @@ public class PlayerInput : MonoBehaviour
     /// <returns></returns>
     public float SetRightStickAngle()
     {
-        Debug.Log(RightStickValue.magnitude);
+        // Debug.Log(RightStickValue.magnitude);
         if (RightStickValue != Vector2.zero && RightStickValue.magnitude > 0.8f)
         {
             angle = Mathf.Atan2(RightStickValue.x, RightStickValue.y) * Mathf.Rad2Deg;
@@ -164,8 +164,25 @@ public class PlayerInput : MonoBehaviour
         return angle;
         
     }
-    
-    
+
+    /// <summary>
+    /// 右スティックが入力されているか.
+    /// </summary>
+    /// <returns></returns>
+    public bool isRightStickAngle()
+    {
+        if(RightStickValue.magnitude > 0.8f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
     void KeyBode_RookieMode()
     {
         if (Space_Key)
