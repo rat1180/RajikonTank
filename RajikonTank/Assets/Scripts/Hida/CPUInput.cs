@@ -8,6 +8,17 @@ public class CPUInput : PlayerInput
     //CPU‚ª•ÏŠ·‚µ‚½ˆÚ“®•ûŒü‚ÌƒL[
     public KeyList moveveckey;
 
+
+    private void OnEnable()
+    {
+
+    }
+
+    private void OnDisable()
+    {
+
+    }
+
     private void Start()
     {
         
