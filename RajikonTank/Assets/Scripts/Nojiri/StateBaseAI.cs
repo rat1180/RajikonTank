@@ -410,15 +410,12 @@ public class StateBaseAI : TankEventHandler
         {
             second = Random.Range(3, 5);
         }
-        else if(aiName == EnemyName.BOMBER)
-        {
-            second = 0;
-        }
         else
         {
             second = Random.Range(1, 3);
         }
-            yield return new WaitForSeconds(second);
+        
+        yield return new WaitForSeconds(second);
         isAttack = false;
     }
 
@@ -517,6 +514,7 @@ public class StateBaseAI : TankEventHandler
             {
                 rajikon.AddBomb(1);
                 cpuInput.moveveckey = KeyList.PLANT; // 地雷ボタン押下
+                Debug.Log("地雷設置");
             }
             else
             {
