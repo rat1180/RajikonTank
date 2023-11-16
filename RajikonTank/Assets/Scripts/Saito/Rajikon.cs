@@ -39,7 +39,7 @@ public class Rajikon : MonoBehaviour
 
     protected AudioSource Audio;
 
-    float RightStickAngle;
+    private float RightStickAngle;
 
     /// <summary>
     /// 初期化用関数.
@@ -213,7 +213,7 @@ public class Rajikon : MonoBehaviour
     /// <summary>
     /// タンクを指定した向きに進ませる処理.
     /// </summary>
-    void ForwardMove(float angle)
+    private void ForwardMove(float angle)
     {
         TankAngle = angle;
         Tank.transform.position += Tank.transform.forward * MoveSpeed * Time.deltaTime;
@@ -222,7 +222,7 @@ public class Rajikon : MonoBehaviour
     /// <summary>
     /// ターゲットの方向にタレットを向ける処理.
     /// </summary>
-    void LookTarget()
+    private void LookTarget()
     {
         if (Target == null)
         {
@@ -255,7 +255,7 @@ public class Rajikon : MonoBehaviour
         Target = target;
     }
 
-    void Check()
+    private void Check()
     {
         for (int i = 0; i < Bullets.Count; i++)
         {
@@ -304,7 +304,7 @@ public class Rajikon : MonoBehaviour
     /// <summary>
     /// 爆弾の生成.
     /// </summary>
-    void GenerateBomb()
+    private void GenerateBomb()
     {
         if (HaveBombNum != 0)
         {

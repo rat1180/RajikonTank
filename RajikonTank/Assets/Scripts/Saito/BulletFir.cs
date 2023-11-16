@@ -35,7 +35,7 @@ public class BulletFir : MonoBehaviour
     /// <summary>
     /// íeÇÃONÅEOFF.
     /// </summary>
-    void BulletActive(bool isswitch)
+    private void BulletActive(bool isswitch)
     {
         if (isswitch)
         {

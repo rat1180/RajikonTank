@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    Vector2 LeftStickVector;
-    Vector2 RightStickVector;
+    private Vector2 LeftStickVector;
+    private Vector2 RightStickVector;
     [SerializeField] InputActionReference RightStickInput;
-    Vector2 RightStickValue;
+    private Vector2 RightStickValue;
 
     public KeyList sendkey;        // 押されたキーの情報を送る変数.
     public RightStickList RightStickSend; // 右スティックの情報を送る変数.
@@ -17,35 +17,35 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] Controller NowController;
 
-    Keyboard keyboard = Keyboard.current;
-    Gamepad gamepad = Gamepad.current;
+    private Keyboard keyboard = Keyboard.current;
+    private Gamepad gamepad = Gamepad.current;
 
-    float Threshold = 0.1f;  // 閾値の設定.
+    private float Threshold = 0.1f;  // 閾値の設定.
     protected float angle;
 
-    bool W_Key;
-    bool S_Key;
-    bool A_Key;
-    bool D_Key;
-    bool Up_Key;
-    bool Down_Key;
+    private bool W_Key;
+    private bool S_Key;
+    private bool A_Key;
+    private bool D_Key;
+    private bool Up_Key;
+    private bool Down_Key;
 
-    bool Space_Key;
+    private bool Space_Key;
 
-    bool LeftStickLeft;    // 左スティックを左に倒した時.
-    bool LeftStickRight;   // 左スティックを右に倒した時.
-    bool LeftStickUp;      // 左スティックを前に倒した時.
-    bool LeftStickDown;    // 左スティックを後ろに倒した時.
+    private bool LeftStickLeft;    // 左スティックを左に倒した時.
+    private bool LeftStickRight;   // 左スティックを右に倒した時.
+    private bool LeftStickUp;      // 左スティックを前に倒した時.
+    private bool LeftStickDown;    // 左スティックを後ろに倒した時.
 
-    bool RightStickLeft;   // 右スティックを左に倒した時.
-    bool RightStickRight;  // 右スティックを右に倒した時.
-    bool RightStickUp;     // 右スティックを前に倒した時.
-    bool RightStickDown;   // 右スティックを後ろに倒した時.
+    private bool RightStickLeft;   // 右スティックを左に倒した時.
+    private bool RightStickRight;  // 右スティックを右に倒した時.
+    private bool RightStickUp;     // 右スティックを前に倒した時.
+    private bool RightStickDown;   // 右スティックを後ろに倒した時.
 
-    bool LeftTrigger2;     // 左トリガーの下. 
-    bool RightTrigger2;    // 右トリガーの下.
-    bool ButtonEast;       // 東(○)のボタンを押した時.
-    bool ButtonSouth;      // 南(×)のボタンを押した時.
+    private bool LeftTrigger2;     // 左トリガーの下. 
+    private bool RightTrigger2;    // 右トリガーの下.
+    private bool ButtonEast;       // 東(○)のボタンを押した時.
+    private bool ButtonSouth;      // 南(×)のボタンを押した時.
 
     private void OnEnable()
     {
@@ -75,7 +75,7 @@ public class PlayerInput : MonoBehaviour
     /// <summary>
     /// スティックの倒している向き情報.
     /// </summary>
-    void InformationStick()
+    private void InformationStick()
     {
         LeftStickLeft = LeftStickVector.x <= -Threshold;   // 左スティックを左に倒した時.
         LeftStickRight = LeftStickVector.x >= Threshold;   // 左スティックを右に倒した時.
@@ -183,7 +183,7 @@ public class PlayerInput : MonoBehaviour
 
 
 
-    void KeyBode_RookieMode()
+    private void KeyBode_RookieMode()
     {
         if (Space_Key)
         {
@@ -227,7 +227,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void KeyBoad_NormalMode()
+    private void KeyBoad_NormalMode()
     {
         if (Space_Key)
         {
@@ -263,7 +263,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void Gamepad_RookieMode()
+    private void Gamepad_RookieMode()
     {
         if (RightTrigger2 || ButtonEast)
         {
@@ -332,7 +332,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void Gamepad_NormalMode()
+    private void Gamepad_NormalMode()
     {
         if (RightTrigger2 || ButtonEast)
         {
@@ -360,7 +360,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void Gamepad_RajikonMode()
+    private void Gamepad_RajikonMode()
     {
         if (RightTrigger2)
         {
