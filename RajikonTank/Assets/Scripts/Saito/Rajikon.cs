@@ -19,6 +19,7 @@ public class Rajikon : MonoBehaviour
     [SerializeField] int FalseBullet;         // Œ‚‚Ä‚é’e‚Ì”.
     [SerializeField] List<GameObject> Bullets;
     [SerializeField] int MaxBombNum;          // ”š’e‚ÌÅ‘å”.
+    [SerializeField] int HaveBombNum;         // Œ»İ‚Á‚Ä‚¢‚é”š’e‚Ì”.
     [SerializeField] bool isBombRecovery;     // ”š’e‚ğ‘‚â‚·‚©.
     private float RotationAngle;              // —İÏ‰ñ“]Šp“x.
     private float TankAngle;                  // ƒ^ƒ“ƒN‚ÌŠp“x.
@@ -103,8 +104,6 @@ public class Rajikon : MonoBehaviour
 
         // ƒ^ƒŒƒbƒg‚ÌŒü‚«‚ğ•ÏX
         if (isTurretAim == true) TurretAim(RightStickAngle);
-
-        if (isBombRecovery == false)StartCoroutine(BombRecoveryTime(3.0f));
     }
 
     public void MoveInput(KeyList inputkey)
@@ -307,7 +306,7 @@ public class Rajikon : MonoBehaviour
     /// </summary>
     void GenerateBomb()
     {
-        if (MaxBombNum != 0)
+        if (HaveBombNum != 0)
         {
             // ”š’e‚Ì¶¬.
             var bomb = ResorceManager.Instance.GetOtherResorce(OtherPrefabNames.Bomb);
@@ -324,18 +323,20 @@ public class Rajikon : MonoBehaviour
     public void AddBomb(int addnum)
     {
         isBombRecovery = true;
-        MaxBombNum += addnum;
+        HaveBombNum += addnum;
+
+        if(HaveBombNum > MaxBombNum)
+        {
+            HaveBombNum = MaxBombNum;
+        }
     }
 
     /// <summary>
-    /// ”š’e‚ªÄ‚Ñ’u‚¯‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚ÌŠÔ.
+    /// Œ»İ‚Á‚Ä‚¢‚é’e‚Ì”.
     /// </summary>
-    /// <param name="time"></param>
     /// <returns></returns>
-    IEnumerator BombRecoveryTime(float recoverytime)
+    public int GetBomb()
     {
-        AddBomb(1);
-        yield return new WaitForSeconds(recoverytime);
-        isBombRecovery = false;
+        return HaveBombNum;
     }
 }
