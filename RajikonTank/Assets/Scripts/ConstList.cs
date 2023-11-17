@@ -40,7 +40,7 @@ namespace ConstList
     }
 
     // ゲームパッドの操作モード.
-    public enum Controller
+    public enum ControllerMode
     {
         ROOKIE,
         NORMAL,

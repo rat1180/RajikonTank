@@ -64,6 +64,9 @@ public class Rajikon : MonoBehaviour
         EventHandler = eventhandler;
     }
 
+    /// <summary>
+    /// 弾の初期化用関数.
+    /// </summary>
     private void InitBullet()
     {
         GameObject Bullet;
@@ -117,6 +120,10 @@ public class Rajikon : MonoBehaviour
         Move(PlayerInput.KeyInput());
     }
 
+    /// <summary>
+    /// 受け取ったkeylistによって様々なアクションを行う処理.
+    /// </summary>
+    /// <param name="keylist"></param>
     private void Move(KeyList keylist)
     {
         // Debug.Log(keylist);
@@ -181,7 +188,7 @@ public class Rajikon : MonoBehaviour
                 ForwardMove(125f);
                 break;
             case KeyList.FIRE:
-                Check();
+                Fire();
                 break;
             case KeyList.PLANT:
                 GenerateBomb();
@@ -255,7 +262,11 @@ public class Rajikon : MonoBehaviour
         Target = target;
     }
 
-    private void Check()
+
+    /// <summary>
+    /// 弾の発射.
+    /// </summary>
+    private void Fire()
     {
         for (int i = 0; i < Bullets.Count; i++)
         {
@@ -273,6 +284,10 @@ public class Rajikon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 非アクティブの弾の数を送る関数.
+    /// </summary>
+    /// <returns></returns>
     public int GetRestBullet()
     {
         FalseBullet = 0;
@@ -331,7 +346,7 @@ public class Rajikon : MonoBehaviour
     }
 
     /// <summary>
-    /// 現在持っている弾の数.
+    /// 現在持っている爆弾の数.
     /// </summary>
     /// <returns></returns>
     public int GetBomb()
@@ -339,6 +354,10 @@ public class Rajikon : MonoBehaviour
         return HaveBombNum;
     }
 
+    /// <summary>
+    /// 爆弾の数を増やす YDAコマンド.
+    /// デバッグ用.
+    /// </summary>
     void DebugMode()
     {
         if (Input.GetKey(KeyCode.Y) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.A))
@@ -348,6 +367,11 @@ public class Rajikon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 爆弾の最大数を決めるための関数.
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
     protected int SetMaxBombNum(int num)
     {
         return MaxBombNum = num;

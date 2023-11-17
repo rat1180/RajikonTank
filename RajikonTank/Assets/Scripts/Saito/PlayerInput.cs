@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
     public RightStickList RightStickSend; // 右スティックの情報を送る変数.
     public Vector3 sendtarget;     // 狙っている場所を送る変数.
 
-    [SerializeField] Controller NowController;
+    [SerializeField] ControllerMode NowController;
 
     private Keyboard keyboard = Keyboard.current;
     private Gamepad gamepad = Gamepad.current;
@@ -120,14 +120,11 @@ public class PlayerInput : MonoBehaviour
 
             switch (NowController)
             {
-                case Controller.ROOKIE:
+                case ControllerMode.ROOKIE:
                     Gamepad_RookieMode();
                     break;
-                case Controller.NORMAL:
-                    Gamepad_NormalMode();
-                    break;
-                case Controller.RAJICON:
-                    Gamepad_RajikonMode();
+                default:
+
                     break;
             }
         }
@@ -182,7 +179,9 @@ public class PlayerInput : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// キーボードの押されたキーによって対応した値を入れる関数.
+    /// </summary>
     private void KeyBode_RookieMode()
     {
         if (Space_Key)
@@ -227,42 +226,9 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    private void KeyBoad_NormalMode()
-    {
-        if (Space_Key)
-        {
-            sendkey = KeyList.FIRE;
-        }
-        else if (W_Key && Up_Key)
-        {
-            sendkey = KeyList.ACCELE;
-        }
-        else if (S_Key && Down_Key)
-        {
-            sendkey = KeyList.BACK;
-        }
-        else if (S_Key && Up_Key)
-        {
-            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
-        }
-        else if (W_Key && Down_Key)
-        {
-            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
-        }
-        else if (S_Key || Up_Key)
-        {
-            sendkey = KeyList.LEFT_ROTATION;
-        }
-        else if (W_Key || Down_Key)
-        {
-            sendkey = KeyList.RIGHT_ROTATION;
-        }
-        else
-        {
-            sendkey = KeyList.NONE;
-        }
-    }
-
+    /// <summary>
+    /// ゲームパッドの押されたボタンによって対応した値を入れる関数.
+    /// </summary>
     private void Gamepad_RookieMode()
     {
         if (RightTrigger2 || ButtonEast)
@@ -330,70 +296,5 @@ public class PlayerInput : MonoBehaviour
         {
             RightStickSend = RightStickList.NONE;
         }
-    }
-
-    private void Gamepad_NormalMode()
-    {
-        if (RightTrigger2 || ButtonEast)
-        {
-            sendkey = KeyList.FIRE;
-        }
-        else if (LeftStickUp)
-        {
-            sendkey = KeyList.ACCELE;
-        }
-        else if (LeftStickDown)
-        {
-            sendkey = KeyList.BACK;
-        }
-        else if (LeftStickLeft)
-        {
-            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
-        }
-        else if (LeftStickRight)
-        {
-            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
-        }
-        else
-        {
-            sendkey = KeyList.NONE;
-        }
-    }
-
-    private void Gamepad_RajikonMode()
-    {
-        if (RightTrigger2)
-        {
-            sendkey = KeyList.FIRE;
-        }
-        else if (LeftStickUp && RightStickUp)
-        {
-            sendkey = KeyList.ACCELE;
-        }
-        else if (LeftStickDown && RightStickDown)
-        {
-            sendkey = KeyList.BACK;
-        }
-        else if (LeftStickDown && RightStickUp)
-        {
-            sendkey = KeyList.LEFT_HIGHSPEED_ROTATION;
-        }
-        else if (LeftStickUp && RightStickDown)
-        {
-            sendkey = KeyList.RIGHT_HIGHSPEED_ROTATION;
-        }
-        else if (LeftStickDown || RightStickUp)
-        {
-            sendkey = KeyList.LEFT_ROTATION;
-        }
-        else if (LeftStickUp || RightStickDown)
-        {
-            sendkey = KeyList.RIGHT_ROTATION;
-        }
-        else
-        {
-            sendkey = KeyList.NONE;
-        }
-
     }
 }
