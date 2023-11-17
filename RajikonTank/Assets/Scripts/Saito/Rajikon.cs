@@ -203,12 +203,11 @@ public class Rajikon : MonoBehaviour
     /// <param name="angle"></param>
     private void TurretAim(float angle)
     {
-        if(PlayerInput.isRightStickAngle() == true)
-        {
-            // タレットを右スティックの角度に向ける.
-            var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
-            Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, TurretSpeed * Time.deltaTime);
-        }
+
+        // タレットを右スティックの角度に向ける.
+        var TurretRot = Quaternion.Euler(Turret.transform.rotation.x, angle, Turret.transform.rotation.z);
+        Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, TurretRot, TurretSpeed * Time.deltaTime);
+
     }
 
     /// <summary>
